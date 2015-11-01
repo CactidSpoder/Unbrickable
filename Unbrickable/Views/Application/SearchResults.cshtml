@@ -1,0 +1,64 @@
+@using PagedList
+@using PagedList.Mvc
+@using Newtonsoft.Json;
+
+@model Unbrickable.ViewModels.BoardsViewModel
+
+@section Headers{
+    <script type='text/javascript' src='@Url.Content("~/Scripts/jquery.form.min.js")'></script>
+    <link rel='stylesheet' type='text/css' href='@Url.Content("~/Content/css/PagedList.css")'>
+    <script type='text/javascript' src='~/Scripts/modalEffects.js'></script>
+    <script type='text/javascript' src='~/Scripts/classie.js'></script>
+}
+
+<center><h1 style="top:50px;">Search Results</h1>
+
+    <a href="/Application/Boards">Back to Boards</a>
+    </center>
+<div class='edit-paper-container edit-paper-cont'>
+    <!-- End of pop up div -->
+    <div class='paper-container'>
+        <div class='board-container'>
+            <div class='boards'>
+                @if (Model.Posts.Count() > 0)
+                {
+                    <ul class='timeline left-side'>
+                        @{
+                    var i = 0;
+                        }
+                        @foreach (Unbrickable.ViewModels.BoardPostViewModel bpvm in Model.Posts)
+                        {
+                            if (i % 2 == 1)
+                            {
+                                @Html.Partial("BoardPost", bpvm)
+                            }
+                            i++;
+                        }
+                    </ul>
+                    <ul class='timeline right-side'>
+                        @{
+                    i = 0;
+                        }
+                        @foreach (Unbrickable.ViewModels.BoardPostViewModel bpvm in Model.Posts)
+                        {
+                            if (i % 2 == 0)
+                            {
+                                @Html.Partial("BoardPost", bpvm)
+                            }
+                            i++;
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <center><h2>Oops. No Posts found.</h2></center>
+                }
+            </div>
+        </div>
+
+        <div class='pane page-number-container'>
+            @Html.PagedListPager((IPagedList)Model.Posts, page => Url.Action("PagedSearchResults", "Application", new { json = JsonConvert.SerializeObject(new Unbrickable.ViewModels.BoardsViewModel() { page = page, search = Model.search }, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Objects}) }))
+        </div>
+
+    </div>
+</div>

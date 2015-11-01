@@ -1,0 +1,14 @@
+﻿@model Unbrickable.ViewModels.BackUpViewModel
+
+
+<li onclick="selectedFile = @Model.id;">
+    <div class='file rounded cd-popup-trigger'>
+        <h1>@Model.num_posts</h1>
+        <h2>Posts</h2>
+        <h3>@Model.date</h3>
+    </div>
+    @using (Html.BeginForm("DownloadBackUp/"+Model.id, "Application", null, FormMethod.Post, new { @id = "file_"+Model.id, @enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+    }
+</li>

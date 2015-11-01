@@ -1,0 +1,667 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="UnbrickableModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AccessLevels">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="value" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Accounts">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="first_name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="last_name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="gender_id" Type="int" Nullable="false" />
+          <Property Name="salutation_id" Type="int" Nullable="false" />
+          <Property Name="birthdate" Type="date" Nullable="false" />
+          <Property Name="username" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="password" Type="binary" MaxLength="60" Nullable="false" />
+          <Property Name="about_me" Type="text" Nullable="false" />
+          <Property Name="access_level_id" Type="int" Nullable="false" />
+          <Property Name="date_joined" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="donation_total" Type="decimal" Precision="19" Scale="4" />
+        </EntityType>
+        <EntityType Name="BackUps">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="file_location" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="num_posts" Type="int" Nullable="false" />
+          <Property Name="date_uploaded" Type="datetime2" Precision="7" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Genders">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="value" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Items">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="description" Type="text" />
+          <Property Name="image" Type="varbinary(max)" />
+          <Property Name="price" Type="decimal" Precision="19" Scale="4" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Posts">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="account_id" Type="int" Nullable="false" />
+          <Property Name="date_posted" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="date_edited" Type="datetime2" Precision="7" />
+          <Property Name="editor_id" Type="int" />
+          <Property Name="entry" Type="text" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Salutations">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="gender_id" Type="int" Nullable="false" />
+          <Property Name="value" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TransactionItems">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="transaction_id" Type="int" Nullable="false" />
+          <Property Name="item_name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="item_price" Type="decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="quantity" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Transactions">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="account_id" Type="int" Nullable="false" />
+          <Property Name="transaction_status_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TransactionStatus">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="value" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Accounts__access__0F6D37F0">
+          <End Role="AccessLevels" Type="Self.AccessLevels" Multiplicity="1" />
+          <End Role="Accounts" Type="Self.Accounts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AccessLevels">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Accounts">
+              <PropertyRef Name="access_level_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Accounts__gender__0D84EF7E">
+          <End Role="Genders" Type="Self.Genders" Multiplicity="1" />
+          <End Role="Accounts" Type="Self.Accounts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Genders">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Accounts">
+              <PropertyRef Name="gender_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Accounts__saluta__0E7913B7">
+          <End Role="Salutations" Type="Self.Salutations" Multiplicity="1" />
+          <End Role="Accounts" Type="Self.Accounts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Salutations">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Accounts">
+              <PropertyRef Name="salutation_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Posts__account_i__1431ED0D">
+          <End Role="Accounts" Type="Self.Accounts" Multiplicity="1" />
+          <End Role="Posts" Type="Self.Posts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Accounts">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Posts">
+              <PropertyRef Name="account_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Posts__editor_id__15261146">
+          <End Role="Accounts" Type="Self.Accounts" Multiplicity="0..1" />
+          <End Role="Posts" Type="Self.Posts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Accounts">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Posts">
+              <PropertyRef Name="editor_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Salutatio__gende__0307610B">
+          <End Role="Genders" Type="Self.Genders" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Salutations" Type="Self.Salutations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Genders">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Salutations">
+              <PropertyRef Name="gender_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Transacti__accou__1DBB5747">
+          <End Role="Accounts" Type="Self.Accounts" Multiplicity="1" />
+          <End Role="Transactions" Type="Self.Transactions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Accounts">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Transactions">
+              <PropertyRef Name="account_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Transacti__trans__1EAF7B80">
+          <End Role="TransactionStatus" Type="Self.TransactionStatus" Multiplicity="1" />
+          <End Role="Transactions" Type="Self.Transactions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TransactionStatus">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Transactions">
+              <PropertyRef Name="transaction_status_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Transacti__trans__218BE82B">
+          <End Role="Transactions" Type="Self.Transactions" Multiplicity="1" />
+          <End Role="TransactionItems" Type="Self.TransactionItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Transactions">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TransactionItems">
+              <PropertyRef Name="transaction_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="UnbrickableModelStoreContainer">
+          <EntitySet Name="AccessLevels" EntityType="Self.AccessLevels" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Accounts" EntityType="Self.Accounts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BackUps" EntityType="Self.BackUps" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Genders" EntityType="Self.Genders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Items" EntityType="Self.Items" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Posts" EntityType="Self.Posts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Salutations" EntityType="Self.Salutations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TransactionItems" EntityType="Self.TransactionItems" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Transactions" EntityType="Self.Transactions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TransactionStatus" EntityType="Self.TransactionStatus" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Accounts__access__0F6D37F0" Association="Self.FK__Accounts__access__0F6D37F0">
+            <End Role="AccessLevels" EntitySet="AccessLevels" />
+            <End Role="Accounts" EntitySet="Accounts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Accounts__gender__0D84EF7E" Association="Self.FK__Accounts__gender__0D84EF7E">
+            <End Role="Genders" EntitySet="Genders" />
+            <End Role="Accounts" EntitySet="Accounts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Accounts__saluta__0E7913B7" Association="Self.FK__Accounts__saluta__0E7913B7">
+            <End Role="Salutations" EntitySet="Salutations" />
+            <End Role="Accounts" EntitySet="Accounts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Posts__account_i__1431ED0D" Association="Self.FK__Posts__account_i__1431ED0D">
+            <End Role="Accounts" EntitySet="Accounts" />
+            <End Role="Posts" EntitySet="Posts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Posts__editor_id__15261146" Association="Self.FK__Posts__editor_id__15261146">
+            <End Role="Accounts" EntitySet="Accounts" />
+            <End Role="Posts" EntitySet="Posts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Salutatio__gende__0307610B" Association="Self.FK__Salutatio__gende__0307610B">
+            <End Role="Genders" EntitySet="Genders" />
+            <End Role="Salutations" EntitySet="Salutations" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Transacti__accou__1DBB5747" Association="Self.FK__Transacti__accou__1DBB5747">
+            <End Role="Accounts" EntitySet="Accounts" />
+            <End Role="Transactions" EntitySet="Transactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Transacti__trans__1EAF7B80" Association="Self.FK__Transacti__trans__1EAF7B80">
+            <End Role="TransactionStatus" EntitySet="TransactionStatus" />
+            <End Role="Transactions" EntitySet="Transactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Transacti__trans__218BE82B" Association="Self.FK__Transacti__trans__218BE82B">
+            <End Role="Transactions" EntitySet="Transactions" />
+            <End Role="TransactionItems" EntitySet="TransactionItems" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="UnbrickableModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AccessLevel">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="value" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Accounts" Relationship="Self.FK__Accounts__access__345EC57D" FromRole="AccessLevels" ToRole="Accounts" />
+        </EntityType>
+        <EntityType Name="Account">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="first_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="last_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="gender_id" Type="Int32" Nullable="false" />
+          <Property Name="salutation_id" Type="Int32" Nullable="false" />
+          <Property Name="birthdate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="password" Type="Binary" MaxLength="60" FixedLength="true" Nullable="false" />
+          <Property Name="about_me" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="access_level_id" Type="Int32" Nullable="false" />
+          <Property Name="date_joined" Type="DateTime" Nullable="false" Precision="7" />
+          <NavigationProperty Name="AccessLevel" Relationship="Self.FK__Accounts__access__345EC57D" FromRole="Accounts" ToRole="AccessLevels" />
+          <NavigationProperty Name="Gender" Relationship="Self.FK__Accounts__gender__32767D0B" FromRole="Accounts" ToRole="Genders" />
+          <NavigationProperty Name="Salutation" Relationship="Self.FK__Accounts__saluta__336AA144" FromRole="Accounts" ToRole="Salutations" />
+          <NavigationProperty Name="Posts" Relationship="Self.FK__Posts__account_i__382F5661" FromRole="Accounts" ToRole="Posts" />
+          <NavigationProperty Name="EditedPosts" Relationship="Self.FK__Posts__editor_id__39237A9A" FromRole="Accounts" ToRole="Posts" />
+          <Property Name="donation_total" Type="Decimal" Precision="19" Scale="4" />
+          <NavigationProperty Name="Transactions" Relationship="UnbrickableModel.FK__Transacti__accou__53584DE9" FromRole="Account" ToRole="Transaction" />
+        </EntityType>
+        <EntityType Name="BackUp">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="file_location" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="num_posts" Type="Int32" Nullable="false" />
+          <Property Name="date_uploaded" Type="DateTime" Nullable="false" Precision="7" />
+        </EntityType>
+        <EntityType Name="Gender">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="value" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Accounts" Relationship="Self.FK__Accounts__gender__32767D0B" FromRole="Genders" ToRole="Accounts" />
+          <NavigationProperty Name="Salutations" Relationship="Self.FK__Salutatio__gende__2AD55B43" FromRole="Genders" ToRole="Salutations" />
+        </EntityType>
+        <EntityType Name="Post">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="account_id" Type="Int32" Nullable="false" />
+          <Property Name="date_posted" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="date_edited" Type="DateTime" Precision="7" />
+          <Property Name="editor_id" Type="Int32" />
+          <Property Name="entry" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Account" Relationship="Self.FK__Posts__account_i__382F5661" FromRole="Posts" ToRole="Accounts" />
+          <NavigationProperty Name="Editor" Relationship="Self.FK__Posts__editor_id__39237A9A" FromRole="Posts" ToRole="Accounts" />
+        </EntityType>
+        <EntityType Name="Salutation">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="gender_id" Type="Int32" Nullable="false" />
+          <Property Name="value" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Accounts" Relationship="Self.FK__Accounts__saluta__336AA144" FromRole="Salutations" ToRole="Accounts" />
+          <NavigationProperty Name="Gender" Relationship="Self.FK__Salutatio__gende__2AD55B43" FromRole="Salutations" ToRole="Genders" />
+        </EntityType>
+        <Association Name="FK__Accounts__access__345EC57D">
+          <End Role="AccessLevels" Type="Self.AccessLevel" Multiplicity="1" />
+          <End Role="Accounts" Type="Self.Account" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AccessLevels">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Accounts">
+              <PropertyRef Name="access_level_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Accounts__gender__32767D0B">
+          <End Role="Genders" Type="Self.Gender" Multiplicity="1" />
+          <End Role="Accounts" Type="Self.Account" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Genders">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Accounts">
+              <PropertyRef Name="gender_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Accounts__saluta__336AA144">
+          <End Role="Salutations" Type="Self.Salutation" Multiplicity="1" />
+          <End Role="Accounts" Type="Self.Account" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Salutations">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Accounts">
+              <PropertyRef Name="salutation_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Posts__account_i__382F5661">
+          <End Role="Accounts" Type="Self.Account" Multiplicity="1" />
+          <End Role="Posts" Type="Self.Post" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Accounts">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Posts">
+              <PropertyRef Name="account_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Posts__editor_id__39237A9A">
+          <End Role="Accounts" Type="Self.Account" Multiplicity="0..1" />
+          <End Role="Posts" Type="Self.Post" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Accounts">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Posts">
+              <PropertyRef Name="editor_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Salutatio__gende__2AD55B43">
+          <End Role="Genders" Type="Self.Gender" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Salutations" Type="Self.Salutation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Genders">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Salutations">
+              <PropertyRef Name="gender_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="UnbrickableDatabase" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AccessLevels" EntityType="Self.AccessLevel" />
+          <EntitySet Name="Accounts" EntityType="Self.Account" />
+          <EntitySet Name="BackUps" EntityType="Self.BackUp" />
+          <EntitySet Name="Genders" EntityType="Self.Gender" />
+          <EntitySet Name="Posts" EntityType="Self.Post" />
+          <EntitySet Name="Salutations" EntityType="Self.Salutation" />
+          <AssociationSet Name="FK__Accounts__access__345EC57D" Association="Self.FK__Accounts__access__345EC57D">
+            <End Role="AccessLevels" EntitySet="AccessLevels" />
+            <End Role="Accounts" EntitySet="Accounts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Accounts__gender__32767D0B" Association="Self.FK__Accounts__gender__32767D0B">
+            <End Role="Genders" EntitySet="Genders" />
+            <End Role="Accounts" EntitySet="Accounts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Accounts__saluta__336AA144" Association="Self.FK__Accounts__saluta__336AA144">
+            <End Role="Salutations" EntitySet="Salutations" />
+            <End Role="Accounts" EntitySet="Accounts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Posts__account_i__382F5661" Association="Self.FK__Posts__account_i__382F5661">
+            <End Role="Accounts" EntitySet="Accounts" />
+            <End Role="Posts" EntitySet="Posts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Posts__editor_id__39237A9A" Association="Self.FK__Posts__editor_id__39237A9A">
+            <End Role="Accounts" EntitySet="Accounts" />
+            <End Role="Posts" EntitySet="Posts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Salutatio__gende__2AD55B43" Association="Self.FK__Salutatio__gende__2AD55B43">
+            <End Role="Genders" EntitySet="Genders" />
+            <End Role="Salutations" EntitySet="Salutations" />
+          </AssociationSet>
+          <EntitySet Name="TransactionItems" EntityType="UnbrickableModel.TransactionItem" />
+          <EntitySet Name="Transactions" EntityType="UnbrickableModel.Transaction" />
+          <EntitySet Name="TransactionStatus" EntityType="UnbrickableModel.TransactionStatus" />
+          <AssociationSet Name="FK__Transacti__accou__53584DE9" Association="UnbrickableModel.FK__Transacti__accou__53584DE9">
+            <End Role="Account" EntitySet="Accounts" />
+            <End Role="Transaction" EntitySet="Transactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Transacti__trans__5728DECD" Association="UnbrickableModel.FK__Transacti__trans__5728DECD">
+            <End Role="Transaction" EntitySet="Transactions" />
+            <End Role="TransactionItem" EntitySet="TransactionItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Transacti__trans__544C7222" Association="UnbrickableModel.FK__Transacti__trans__544C7222">
+            <End Role="TransactionStatu" EntitySet="TransactionStatus" />
+            <End Role="Transaction" EntitySet="Transactions" />
+          </AssociationSet>
+          <EntitySet Name="Items" EntityType="UnbrickableModel.Item" />
+        </EntityContainer>
+        <EntityType Name="TransactionItem">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="transaction_id" Type="Int32" Nullable="false" />
+          <Property Name="item_name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="item_price" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="quantity" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Transaction" Relationship="UnbrickableModel.FK__Transacti__trans__5728DECD" FromRole="TransactionItem" ToRole="Transaction" />
+        </EntityType>
+        <EntityType Name="Transaction">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="account_id" Type="Int32" Nullable="false" />
+          <Property Name="transaction_status_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Account" Relationship="UnbrickableModel.FK__Transacti__accou__53584DE9" FromRole="Transaction" ToRole="Account" />
+          <NavigationProperty Name="TransactionItems" Relationship="UnbrickableModel.FK__Transacti__trans__5728DECD" FromRole="Transaction" ToRole="TransactionItem" />
+          <NavigationProperty Name="TransactionStatus" Relationship="UnbrickableModel.FK__Transacti__trans__544C7222" FromRole="Transaction" ToRole="TransactionStatu" />
+        </EntityType>
+        <EntityType Name="TransactionStatus">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="value" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Transactions" Relationship="UnbrickableModel.FK__Transacti__trans__544C7222" FromRole="TransactionStatu" ToRole="Transaction" />
+        </EntityType>
+        <Association Name="FK__Transacti__accou__53584DE9">
+          <End Type="UnbrickableModel.Account" Role="Account" Multiplicity="1" />
+          <End Type="UnbrickableModel.Transaction" Role="Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Transaction">
+              <PropertyRef Name="account_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Transacti__trans__5728DECD">
+          <End Type="UnbrickableModel.Transaction" Role="Transaction" Multiplicity="1" />
+          <End Type="UnbrickableModel.TransactionItem" Role="TransactionItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Transaction">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TransactionItem">
+              <PropertyRef Name="transaction_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Transacti__trans__544C7222">
+          <End Type="UnbrickableModel.TransactionStatus" Role="TransactionStatu" Multiplicity="1" />
+          <End Type="UnbrickableModel.Transaction" Role="Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TransactionStatu">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Transaction">
+              <PropertyRef Name="transaction_status_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Item">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="image" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="price" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="UnbrickableModelStoreContainer" CdmEntityContainer="UnbrickableDatabase">
+          <EntitySetMapping Name="AccessLevels">
+            <EntityTypeMapping TypeName="UnbrickableModel.AccessLevel">
+              <MappingFragment StoreEntitySet="AccessLevels">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="value" ColumnName="value" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Accounts">
+            <EntityTypeMapping TypeName="UnbrickableModel.Account">
+              <MappingFragment StoreEntitySet="Accounts">
+                <ScalarProperty Name="donation_total" ColumnName="donation_total" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="first_name" ColumnName="first_name" />
+                <ScalarProperty Name="last_name" ColumnName="last_name" />
+                <ScalarProperty Name="gender_id" ColumnName="gender_id" />
+                <ScalarProperty Name="salutation_id" ColumnName="salutation_id" />
+                <ScalarProperty Name="birthdate" ColumnName="birthdate" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="about_me" ColumnName="about_me" />
+                <ScalarProperty Name="access_level_id" ColumnName="access_level_id" />
+                <ScalarProperty Name="date_joined" ColumnName="date_joined" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BackUps">
+            <EntityTypeMapping TypeName="UnbrickableModel.BackUp">
+              <MappingFragment StoreEntitySet="BackUps">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="file_location" ColumnName="file_location" />
+                <ScalarProperty Name="num_posts" ColumnName="num_posts" />
+                <ScalarProperty Name="date_uploaded" ColumnName="date_uploaded" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Genders">
+            <EntityTypeMapping TypeName="UnbrickableModel.Gender">
+              <MappingFragment StoreEntitySet="Genders">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="value" ColumnName="value" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Posts">
+            <EntityTypeMapping TypeName="UnbrickableModel.Post">
+              <MappingFragment StoreEntitySet="Posts">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="account_id" ColumnName="account_id" />
+                <ScalarProperty Name="date_posted" ColumnName="date_posted" />
+                <ScalarProperty Name="date_edited" ColumnName="date_edited" />
+                <ScalarProperty Name="editor_id" ColumnName="editor_id" />
+                <ScalarProperty Name="entry" ColumnName="entry" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Salutations">
+            <EntityTypeMapping TypeName="UnbrickableModel.Salutation">
+              <MappingFragment StoreEntitySet="Salutations">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="gender_id" ColumnName="gender_id" />
+                <ScalarProperty Name="value" ColumnName="value" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TransactionItems">
+            <EntityTypeMapping TypeName="UnbrickableModel.TransactionItem">
+              <MappingFragment StoreEntitySet="TransactionItems">
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+                <ScalarProperty Name="item_price" ColumnName="item_price" />
+                <ScalarProperty Name="item_name" ColumnName="item_name" />
+                <ScalarProperty Name="transaction_id" ColumnName="transaction_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Transactions">
+            <EntityTypeMapping TypeName="UnbrickableModel.Transaction">
+              <MappingFragment StoreEntitySet="Transactions">
+                <ScalarProperty Name="transaction_status_id" ColumnName="transaction_status_id" />
+                <ScalarProperty Name="account_id" ColumnName="account_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TransactionStatus">
+            <EntityTypeMapping TypeName="UnbrickableModel.TransactionStatus">
+              <MappingFragment StoreEntitySet="TransactionStatus">
+                <ScalarProperty Name="value" ColumnName="value" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Items">
+            <EntityTypeMapping TypeName="UnbrickableModel.Item">
+              <MappingFragment StoreEntitySet="Items">
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="image" ColumnName="image" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

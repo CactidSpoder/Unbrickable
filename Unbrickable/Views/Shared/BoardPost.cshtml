@@ -1,0 +1,32 @@
+﻿@model Unbrickable.ViewModels.BoardPostViewModel
+
+<li>
+    <div class='entry'>
+        @if (Session["User"] != null && Session["Elevation"] != null && (Convert.ToInt32(Session["User"]) == Model.account_id || Session["Elevation"].Equals("Administrator")))
+        {
+            <div class='entry-icons'>
+                <div class='general-logo'>
+                    <label id='edit-entry' class='icon-edit'></label>
+                    <label id='edit-confirm' class='icon-add hide edit-Post-btn' data-value="@Model.id" data-value2="@Model.account_id"></label>
+                </div>
+                <div class='general-logo delete-Post-btn' data-value ="@Model.id" data-value2="@Model.account_id"><label class='icon-delete'></label></div>
+            </div>
+        }
+
+        <div class='username-side'>
+            <div class='profile-photo'></div>
+            <div class='username-details'>
+                <h2 onclick='window.location="/Application/UserPage/"+@Model.account_id'>@Model.name</h2>
+                <br>
+                <label>@Model.joined_date_text</label>
+            </div>
+        </div>
+
+        <div class='comment-side'>
+            <h1 onclick='window.location="/Application/UserPage/"+@Model.account_id'>@Model.username</h1>
+            <h2>@Model.date_posted_text</h2>
+                <div class='entry-comment' id="entry_@Model.id">@Html.Raw(HttpUtility.HtmlDecode(Model.entry))</div>
+            <div class='timestamp'>@Model.date_edited_text</div>
+        </div>
+    </div>
+</li>

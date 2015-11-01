@@ -1,0 +1,64 @@
+
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- clipping mask for style "Urpi" -->
+<svg class="hidden" viewBox="0 0 610 160">
+	<defs>
+		<clippath id="cp_up">
+			<polygon id="cp_poly_up" points="0,0 610,0 610,160" />
+		</clippath>
+		<clippath id="cp_down">
+			<polygon id="cp_poly_down" points="0,0 0,160 610,160" />
+		</clippath>
+	</defs>
+</svg>
+
+<div class = 'cover'>
+	<div class = 'vertical-align welcome-container'>
+		<div class = 'logo-des-container'>
+			<div class = 'vertical-align line'></div>
+			<div class = 'site-logo'></div>
+		</div>
+	
+		<div class = 'logo-label'>
+			<a class="link link--urpi" href="#" data-letters="Unbrickable">Unbrickable</a>
+		</div>
+		<div class = 'desc-logo-label'>
+			Te saluto, augustus sum imperator et pontifex maximus roma. Si tu es Romae amicus, es gratus.
+		</div>
+		
+		<div class = 'home-nav-container'>
+            <div class='reg-btn'>
+                <ul class='home-nav-controls home-btn'>
+                    <li onclick="window.location = '/Application/LoginPage';">
+                        <div class='vertical-align control-label-container'>
+                            <div class='control-label'><nav>Sign In</nav></div>
+                        </div>
+                    </li>
+
+                    <li onclick="window.location = '/Application/RegisterPage';">
+                        <div class='vertical-align control-label-container'>
+                            <div class='control-label'><nav>Sign Up</nav></div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+	</div>
+</div>		
+
+<style> 
+	/* Firefox seems to have issues loading the clip path from inside the CSS */
+	.link--urpi::before {
+		-webkit-clip-path: url(#cp_up); 
+		clip-path: url(#cp_up);
+	}
+
+	.link--urpi::after {
+		-webkit-clip-path: url(#cp_down); 
+		clip-path: url(#cp_down);
+	}
+</style>

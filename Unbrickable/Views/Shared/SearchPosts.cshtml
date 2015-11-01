@@ -1,0 +1,101 @@
+﻿@model List<Unbrickable.ViewModels.SearchCriteria>
+<div class='md-header'>
+    <label class='element-label'>Search for a Post</label>
+</div>
+
+<div class='pane component-container'>
+    <div class='pane add-session-pane'>
+        <ul class='advanced-filters'>
+            <li id="add_Post_filter">
+                <label class='filter-label icon-Post'>Filter by Posts</label>
+            </li>
+
+            <li id="add_user_filter">
+                <label class='filter-label icon-user-entry'>Filter by Users</label>
+            </li>
+
+            <li id="add_date_range_filter">
+                <label class='filter-label icon-archive'>Filter by Date Range</label>
+            </li>
+
+            <li id="add_date_filter">
+                <label class='filter-label icon-date'>Filter by Date</label>
+            </li>
+        </ul>
+        <div class='search-filter-container'>
+            @using (Html.BeginForm("SearchResults", "Application", null, FormMethod.Get, new { @id = "search_form", @enctype = "multipart/form-data" }))
+            {
+            <ul class='search-filter-list' id="list_filters">
+               @for (int i = 0; i < Model.Count; i++)
+               {
+                    @Html.EditorFor(model => model[i])
+               }
+            </ul>
+            }
+        </div>
+    </div>
+</div>
+<div class='close-trigger-container'>
+    <div class='reg-btn modal-btn-set'>
+        <ul class='home-nav-controls'>
+            <li>
+                <div class='vertical-align control-label-container'>
+                    <div class='control-label' onclick=" $('#search_form').submit();"><nav>Go</nav></div>
+                </div>
+            </li>
+
+            <li>
+                <div class='vertical-align control-label-container'>
+                    <div class='control-label md-close'><nav>Cancel</nav></div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<script>
+    $('#add_Post_filter').click(function () {
+        $.ajax({
+            url: '@Url.Action("AddPostSearchFilter", "AJAX")',
+            data: { "num": $('#list_filters').children().length },
+            type: "GET",
+            cache: false,
+            success: function (html) {
+                $('#list_filters').append(html);
+            }
+        });
+    });
+    $('#add_user_filter').click(function () {
+        $.ajax({
+            url: '@Url.Action("AddUsernameSearchFilter", "AJAX")',
+            data: { "num": $('#list_filters').children().length },
+            type: "GET",
+            cache: false,
+            success: function (html) {
+                $('#list_filters').append(html);
+            }
+        });
+    });
+    $('#add_date_filter').click(function () {
+        $.ajax({
+            url: '@Url.Action("AddDateSearchFilter", "AJAX")',
+            data: { "num": $('#list_filters').children().length },
+            type: "GET",
+            cache: false,
+            success: function (html) {
+                $('#list_filters').append(html);
+            }
+        });
+    });
+    $('#add_date_range_filter').click(function () {
+        $.ajax({
+            url: '@Url.Action("AddDateRangeSearchFilter", "AJAX")',
+            data: { "num": $('#list_filters').children().length },
+            type: "GET",
+            cache: false,
+            success: function (html) {
+                $('#list_filters').append(html);
+            }
+        });
+    });
+</script>

@@ -1,0 +1,19 @@
+﻿@model Unbrickable.ViewModels.PostSearchFilter
+
+<div>
+    @Html.Hidden("Index", Model.num, new { Name = "search.Index" })
+    @Html.Hidden("ModelType", Model.GetType(), new { Name = "search[" + Model.num + "].ModelType" })
+    @Html.CheckBoxFor(model => model.isOr, new { @class = "detailToggle", Name = "search[" + Model.num + "].isOr", @id = "toggle" + Model.num, @checked = "checked" })
+    <li class='include-search'>
+        <div class='entry-icons search-icons'>
+            <div class='general-logo'>
+                <label class='icon-add icon-add-filter' for="@String.Format("toggle{0}", Model.num)"></label><label class='icon-delete'></label>
+            </div>
+        </div>
+        <h3>Filter by Posts</h3>
+        <div class='search-container'>
+            <label class='search-label'>Entry includes</label>
+            @Html.EditorFor(model => model.search_contents, new { htmlAttributes = new { Name = "search[" + Model.num + "].search_contents", @class = "text-area search-field" } })
+        </div>
+    </li>
+</div>

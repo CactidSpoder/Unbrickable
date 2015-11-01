@@ -1,0 +1,137 @@
+@model Unbrickable.ViewModels.RegisterViewModel
+
+@section Headers{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#uname').inputmask('Regex', { regex: "^[a-zA-Z0-9_]{5,50}$" });
+            $('#pword').inputmask('Regex', { regex: "^(?=.*[0-9])(?=.*[!&#64#$%^&*])[a-zA-Z0-9!&#64#$%^&*]{6,50}" });
+            $('#confirm_pword').inputmask('Regex', { regex: "^(?=.*[0-9])(?=.*[!&#64#$%^&*])[a-zA-Z0-9!&#64#$%^&*]{6,50}" });
+            $('#fname').inputmask('Regex', { regex: "^[a-zA-Z\\s]{5,50}$" });
+            $('#lname').inputmask('Regex', { regex: "^[a-zA-Z\\s]{5,50}$" });
+            $(".Gender-radio").change(function () {
+                var id = $(".Gender-radio:checked").val();
+                $.ajax({
+                    cache: false,
+                    type: "GET",
+                    dataType: "json",
+                    url: "/AJAX/GetSalutationList",
+                    data: { "id": id }
+                }).done(function (data) {
+                    var items = [];
+                    items.push("<option value>Salutation</option>");
+                    $.each(data, function () {
+                        items.push("<option value=" + this.Value + ">" + this.Text + "</option>")
+                    });
+                    $("#Salutation-drop-down").html(items.join(' '));
+                });
+            });
+            $(".birth-drop-down").change(function () {
+                var month = $("#birth-month-drop-down").val();
+                var year = $("#birth-year-drop-down").val();
+                var selected_day = $("#birth-day-drop-down").prop('selectedIndex');
+                $.ajax({
+                    cache: false,
+                    type: "GET",
+                    dataType: "json",
+                    url: "/AJAX/GenerateDayList",
+                    data: { "month": month, "year": year }
+                }).done(function (data) {
+                    var items = [];
+                    $.each(data, function () {
+                        items.push("<option value=" + this.Value + ">" + this.Text + "</option>")
+                    });
+                    $("#birth-day-drop-down").html(items.join(' '));
+                    if ($("#birth-day-drop-down option").length - 1 >= selected_day)
+                    {
+                        $("#birth-day-drop-down").prop('selectedIndex', selected_day);
+                    }
+                });
+            });
+        });        
+    </script>
+
+}
+
+<div class='paper-container max-paper'>
+		<center style="color:red;"> @Html.ValidationMessage("GeneralError") </center>
+	<div class='reg-paper'>
+		@using (Html.BeginForm("RegisterPage", "Application", null, FormMethod.Post, new { @id = "register_form", @enctype = "multipart/form-data" }))
+		{
+			@Html.AntiForgeryToken()
+			<h1>Create an Account.</h1>
+			<div class='register-pane'>
+				<ul class='detail-grid'>
+					<li>
+						<label>Username*</label>
+						@Html.EditorFor(model => model.username, new { htmlAttributes = new { @class = "text-area full-entries", @id = "uname"} })
+					</li>
+
+					<li>
+						<label>Password*</label>
+						@Html.EditorFor(model => model.password, new { htmlAttributes = new { @class = "text-area full-entries", @type = "password", @id = "pword" } })
+					</li>
+
+					<li>
+						<label>Confirm Password*</label>
+						@Html.EditorFor(model => model.confirm_password, new { htmlAttributes = new { @class = "text-area full-entries", @type = "password", @id = "confirm_pword" } })
+					</li>
+
+					<li>
+						<label>Full Name (First Name, Last Name)*</label>                       
+						@Html.EditorFor(model => model.first_name, new { htmlAttributes = new { @class = "text-area name", @id = "fname" } })
+						@Html.EditorFor(model => model.last_name, new { htmlAttributes = new { @class = "text-area name", @id = "lname" } })
+					</li>
+
+					<li>
+						<label>Gender*</label>
+						<div class='dd-selector'>
+							@Html.RadioButtonFor(model => model.gender_id, "1", new { @id = "man", @style="display:none;", @value="upvote", @class="Gender-radio"})
+							<label class='drinkcard-dd man-icon' for='man'></label>                            
+							@Html.RadioButtonFor(model => model.gender_id, "2", new { @id = "woman", @style = "display:none;", @value = "downvote", @class = "Gender-radio" })
+							<label class='drinkcard-dd woman-icon' for='woman'></label>
+						</div>
+					</li>
+
+					<li>
+						<label>Salutation*</label>
+						@Html.DropDownListFor(model => model.salutation_id, Model.Salutations, "Salutation", new { @class = "sal-drop-down", @id = "Salutation-drop-down" })
+					</li>       
+				</ul>
+			</div>
+
+			<div class='register-pane'>
+				<ul class='detail-grid'>
+					<li>
+						<label>Birthdate*</label>                        
+						@Html.DropDownListFor(model => model.birth_day, Model.days, null, new { @class = "bday-drop-down", @id = "birth-day-drop-down"})
+						@Html.DropDownListFor(model => model.birth_month, Model.months, null, new { @class = "bday-drop-down birth-drop-down", @id = "birth-month-drop-down"})
+						@Html.DropDownListFor(model => model.birth_year, Model.years, null, new { @class = "bday-drop-down birth-drop-down", @id = "birth-year-drop-down"})
+					</li>
+
+					<li>
+						<label>About Me*</label>
+						@Html.TextAreaFor(model => model.about_me, new { @class = "text-area desc-area"})
+					</li>
+				</ul>
+		</div>   
+		}
+        <div class='home-nav-container'>
+            <div class='reg-btn'>
+                <ul class='home-nav-controls'>
+                    <li onclick="window.location = '/Application/Index';">
+                        <div class='vertical-align control-label-container'>
+                            <div class='control-label'><nav>Cancel</nav></div>
+                        </div>
+                    </li>
+
+                    <li onclick="$('#register_form').submit();">
+                        <div class='vertical-align control-label-container'>
+                            <div class='control-label'><nav>Sign up</nav></div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+		
+	</div>
+</div>

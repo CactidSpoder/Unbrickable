@@ -1,0 +1,115 @@
+﻿@model IEnumerable<Unbrickable.ViewModels.ItemViewModel>
+@using PagedList
+@using PagedList.Mvc
+
+@section Headers{
+<link rel='stylesheet' type='text/css' href='@Url.Content("~/Content/css/PagedList.css")'>
+    }
+
+
+<div class='paper-container'>
+    <div id="cbp-vm" class="cbp-vm-switcher cbp-vm-view-grid">
+        <div class="cbp-vm-options">
+            <a href="#" class="cbp-vm-icon cbp-vm-grid cbp-vm-selected" data-view="cbp-vm-view-grid">Grid View</a>
+            <a href="#" class="cbp-vm-icon cbp-vm-list" data-view="cbp-vm-view-list">List View</a>
+        </div>
+        <ul>
+            @foreach (Unbrickable.ViewModels.ItemViewModel ivm in Model)
+            {
+                <li>
+                    @if (ivm.image_src != "")
+                    {
+                        <a class="cbp-vm-image" href="#"><img src="@ivm.image_src"></a>
+                    }
+                    else
+                    {
+                        <a class="cbp-vm-image" href="#"><img src="~/Content/img/brick-icon1.png"></a>
+                    }
+                    <h3 class="cbp-vm-title">@ivm.name</h3>
+                    <div class="cbp-vm-price">@String.Format("${0}", Math.Round(ivm.price,2))</div>
+                    <div class="cbp-vm-details">
+                        @ivm.description
+                    </div>
+                    <a class="cbp-vm-icon cbp-vm-add" onclick="window.location = '/Application/ViewItem?id=' + @ivm.id">View</a>
+                </li>
+            }                     
+        </ul>
+    </div>
+</div>
+<div class='pane page-number-container'>
+    @Html.PagedListPager((IPagedList)Model, page => Url.Action("Store", new { page = page }))
+</div>
+<script src="~/Scripts/classie.js"></script>
+<script>
+				var loader = document.getElementById('la-anim-6-loader')
+					, border = document.getElementById('la-anim-6-border')
+					, α = 0
+					, π = Math.PI
+					, t = 15
+
+					, tdraw;
+
+				function PieDraw() {
+					α++;
+					α %= 360;
+					var r = ( α * π / 180 )
+					, x = Math.sin( r ) * 250
+					, y = Math.cos( r ) * - 250
+					, mid = ( α > 180 ) ? 1 : 0
+					, anim = 'M 0 0 v -250 A 250 250 1 '
+						   + mid + ' 1 '
+						   +  x  + ' '
+						   +  y  + ' z';
+
+					loader.setAttribute( 'd', anim );
+					border.setAttribute( 'd', anim );
+					if( α != 0 )
+					tdraw = setTimeout(PieDraw, t); // Redraw
+				}
+
+				function PieReset() {
+					clearTimeout(tdraw);
+					var anim = 'M 0 0 v -250 A 250 250 1 0 1 0 -250 z';
+					loader.setAttribute( 'd', anim );
+					border.setAttribute( 'd', anim );
+				}
+
+				var inProgress = false;
+
+				Array.prototype.slice.call( document.querySelectorAll( '#la-buttons > button' ) ).forEach( function( el, i ) {
+					var anim = el.getAttribute( 'data-anim' ),
+						animEl = document.querySelector( '.' + anim );
+
+					el.addEventListener( 'click', function() {
+						if( inProgress ) return false;
+						inProgress = true;
+						classie.add( animEl, 'la-animate' );
+
+						if( anim === 'la-anim-6' ) {
+							PieDraw();
+						}
+
+						setTimeout( function() {
+							classie.remove( animEl, 'la-animate' );
+
+							if( anim === 'la-anim-6' ) {
+								PieReset();
+							}
+
+							inProgress = false;
+						}, 6000 );
+					} );
+				} );
+</script>
+
+<script src="~/Scripts/cbpFWTabs.js"></script>
+<script>
+				(function() {
+
+					[].slice.call( document.querySelectorAll( '.tabs' ) ).forEach( function( el ) {
+						new CBPFWTabs( el );
+					});
+
+				})();
+</script>
+<script src="~/Scripts/cbpViewModeSwitch.js"></script>

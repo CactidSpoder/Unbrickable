@@ -1,0 +1,47 @@
+@model Unbrickable.ViewModels.LoginViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class = 'cover'>
+	<div class = 'vertical-align welcome-container login-page-container'>
+        <div class='login-pane-container'>
+            <div class='vertical-align login-pane'>
+                <div class='vertical-align login-details-container'>
+                    <div class='vertical-align' style="width:230px;">
+                        @using (Html.BeginForm("LoginPage", "Application", null, FormMethod.Post, new { @id = "login_form", @enctype = "multipart/form-data" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <div class='login-container'>
+                                <h1>Login</h1>
+                            </div>
+                            <label>Username</label>
+                            @Html.EditorFor(model => model.username, new { htmlAttributes = new { @class = "text-area full-entries" } })
+
+                            <label>Password</label>
+                            @Html.EditorFor(model => model.password, new { htmlAttributes = new { @class = "text-area full-entries", @type = "password" } })
+                        }
+
+                        <div class='sign-in-btn'>
+                            <ul class='home-nav-controls'>
+                                <li onclick="$('#login_form').submit();">
+                                    <div class='vertical-align control-label-container'>
+                                        <div class='control-label'><nav>Login</nav></div>
+                                    </div>
+                                </li>
+
+                                <li onclick="window.location = '/Application/Index';">
+                                    <div class='vertical-align control-label-container'>
+                                        <div class='control-label'><nav>Cancel</nav></div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class='login-pane-logo'></div>
+        </div>
+    </div>
+</div>						

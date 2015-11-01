@@ -1,0 +1,133 @@
+@model Unbrickable.ViewModels.EditAccountViewModel
+
+@section Headers{
+<script type="text/javascript">
+    $(document).ready(function () {        
+        $('#fname').inputmask('Regex', { regex: "^[a-zA-Z\\s]{5,50}$" });
+        $('#lname').inputmask('Regex', { regex: "^[a-zA-Z\\s]{5,50}$" });
+        $(".Gender-radio").change(function () {
+            var id = $(".Gender-radio:checked").val();
+            $.ajax({
+                cache: false,
+                type: "GET",
+                dataType: "json",
+                url: "/AJAX/GetSalutationList",
+                data: { "id": id }
+            }).done(function (data) {
+                var items = [];
+                items.push("<option value>Salutation</option>");
+                $.each(data, function () {
+                    items.push("<option value=" + this.Value + ">" + this.Text + "</option>")
+                });
+                $("#Salutation-drop-down").html(items.join(' '));
+            });
+        });
+        $(".birth-drop-down").change(function () {
+            var month = $("#birth-month-drop-down").val();
+            var year = $("#birth-year-drop-down").val();
+            var selected_day = $("#birth-day-drop-down").prop('selectedIndex');
+            $.ajax({
+                cache: false,
+                type: "GET",
+                dataType: "json",
+                url: "/AJAX/GenerateDayList",
+                data: { "month": month, "year": year }
+            }).done(function (data) {
+                var items = [];
+                $.each(data, function () {
+                    items.push("<option value=" + this.Value + ">" + this.Text + "</option>")
+                });
+                $("#birth-day-drop-down").html(items.join(' '));
+                if ($("#birth-day-drop-down option").length - 1 >= selected_day) {
+                    $("#birth-day-drop-down").prop('selectedIndex', selected_day);
+                }
+            });
+        });
+    });
+</script>
+
+
+
+}
+
+<div class='header edit-header'>
+    <div class='edit-profile-photo'>
+        <div class='profile-photo'></div>
+    </div>
+</div>
+
+<div class='paper-container edit-paper-container'>
+    <div class='center-paper'>
+        <div class='reg-paper edit-pass-page'>
+            <h1>Edit your profile.</h1>
+        @using (Html.BeginForm("EditPage", "Application", null, FormMethod.Post, new { @id = "edit_form", @enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.id)
+            <div class='register-pane edit-detail-pane'>
+                <ul class='detail-grid'>
+                    <li>
+                        <label>Full Name (First Name, Last Name)*</label>
+                        @Html.EditorFor(model => model.first_name, new { htmlAttributes = new { @class = "text-area name", @id = "fname" } })
+                        @Html.EditorFor(model => model.last_name, new { htmlAttributes = new { @class = "text-area name", @id = "lname" } })
+                    </li>
+
+                    <li>
+                        <label>Gender*</label>
+                        <div class='dd-selector'>
+                            @Html.RadioButtonFor(model => model.gender_id, "1", new { @id = "man", @style = "display:none;", @value = "upvote", @class = "Gender-radio" })
+                            <label class='drinkcard-dd man-icon' for='man'></label>
+                            @Html.RadioButtonFor(model => model.gender_id, "2", new { @id = "woman", @style = "display:none;", @value = "downvote", @class = "Gender-radio" })
+                            <label class='drinkcard-dd woman-icon' for='woman'></label>
+                        </div>
+                    </li>
+
+                    <li>
+                        <label>Salutation*</label>
+                        @Html.DropDownListFor(model => model.salutation_id, Model.Salutations, "Salutation", new { @class = "sal-drop-down", @id = "Salutation-drop-down" })
+                    </li>   
+                    <li>
+                        <label>Birthdate*</label>
+                        @Html.DropDownListFor(model => model.birth_day, Model.days, null, new { @class = "bday-drop-down", @id = "birth-day-drop-down" })
+                        @Html.DropDownListFor(model => model.birth_month, Model.months, null, new { @class = "bday-drop-down birth-drop-down", @id = "birth-month-drop-down" })
+                        @Html.DropDownListFor(model => model.birth_year, Model.years, null, new { @class = "bday-drop-down birth-drop-down", @id = "birth-year-drop-down" })
+                    </li>
+                </ul>
+            </div>
+
+            <div class='register-pane edit-detail-pane'>
+                <ul class='detail-grid'>
+
+                    <li>
+                        <label>About Me*</label>
+                        @Html.TextAreaFor(model => model.about_me, new { @class = "text-area desc-area" })
+                    </li>
+
+                    @if (Session["User"] != null && Session["Elevation"] != null && Session["Elevation"].Equals("Administrator"))
+                    {
+                        <li>
+                            <label>User Type (Changes to this will occur on logout)*</label>
+                            @Html.DropDownListFor(model => model.access_level_id, Model.access_levels, null, new { @class = "sal-drop-down" })
+                        </li>
+                    }
+                </ul>
+            </div>
+        }
+            <div class='reg-btn'>
+                <ul class='home-nav-controls'>
+                    <li onclick="window.location = '/Application/LoggedInProfile';">
+                        <div class='vertical-align control-label-container'>
+                            <div class='control-label'><nav>Cancel</nav></div>
+                        </div>
+                    </li>
+
+                    <li onclick="$('#edit_form').submit();">
+                        <div class='vertical-align control-label-container'>
+                            <div class='control-label'><nav>Confirm</nav></div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

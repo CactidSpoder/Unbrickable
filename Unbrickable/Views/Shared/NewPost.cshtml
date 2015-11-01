@@ -1,0 +1,35 @@
+﻿@model Unbrickable.ViewModels.NewPostViewModel
+
+<div class='md-header'>
+    <h3 class='element-label'>Add a Message</h3>
+</div>
+
+<div class='pane component-container'>
+    <div class='pane add-session-pane'>
+        @using (Html.BeginForm("Post", "Application", null, FormMethod.Post, new { @id = "Post_form", @enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.id)
+            @Html.TextAreaFor(model => model.entry, new { @class = "text-area message-field" })
+        }        
+    </div>
+</div>
+
+<div class='close-trigger-container'>
+    <div class='reg-btn modal-btn-set'>
+        <ul class='home-nav-controls'>
+            <li onclick="$('#Post_form').submit();">
+                <div class='vertical-align control-label-container'>
+                    <div class='control-label'><nav>Add</nav></div>
+                </div>
+            </li>
+
+            <li>
+                <div class='vertical-align control-label-container'>
+                    <div class='control-label md-close'><nav>Cancel</nav></div>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+</div>

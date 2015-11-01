@@ -1,0 +1,20 @@
+﻿@model Unbrickable.ViewModels.DateSearchFilter
+
+<div>
+    @Html.Hidden("Index", Model.num, new { Name = "search.Index" })
+    @Html.Hidden("ModelType", Model.GetType(), new { Name = "search[" + Model.num + "].ModelType" })
+    @Html.CheckBoxFor(model => model.isOr, new { Name = "search[" + Model.num + "].isOr", @class = "detailToggle", @id = "toggle" + Model.num, @checked = "checked" })
+    <li class='include-search'>
+        <div class='entry-icons search-icons'>
+            <div class='general-logo'>
+                <label class='icon-add icon-add-filter' for="@String.Format("toggle{0}", Model.num)"></label><label class='icon-delete'></label>
+            </div>
+        </div>
+        <h3>Filter by Date</h3>
+        <div class='search-container'>
+            <label class='search-label'>Made</label>
+            @Html.DropDownListFor(model => model.operation, Model.operations, null, new { Name = "search[" + Model.num + "].operation", @class = "text-area search-field date-range date-range-dropdown date-range-filters" })
+            @Html.EditorFor(model => model.date, new { htmlAttributes = new { Name = "search[" + Model.num + "].date", @class = "text-area search-field date-range date-range-filters" } })
+        </div>
+    </li>
+</div>

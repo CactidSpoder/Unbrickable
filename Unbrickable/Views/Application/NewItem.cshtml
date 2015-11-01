@@ -1,0 +1,50 @@
+﻿@model Unbrickable.ViewModels.NewItemViewModel
+
+<div class='prof-container'>
+    <div class='vertical-align welcome-container profile-container  listing-container'>
+
+        <h1>Add a product.</h1>
+        <div class='profile-photo-side'>
+            <div class='profile-photo item-photo'></div>
+        </div>
+@using (Html.BeginForm("NewItem", "Application", null, FormMethod.Post, new { @id = "new_item_form", @enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+        <div class='description-side'>
+            <ul class='detail-grid'>
+                <li>
+                    <label>Product Name</label>
+                    @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "text-area full-entries" } })
+                </li>
+
+                <li>
+                    <label>Price</label>
+                    @Html.EditorFor(model => model.price, new { htmlAttributes = new { @class = "text-area full-entries" } })
+                </li>
+
+                <li>
+                    <label>Description</label>
+                    @Html.TextAreaFor(model => model.description, new { @class = "text-area desc-area" })
+                </li>
+            </ul>
+        </div>
+}
+        <div class='home-nav-container store-buttons'>
+            <div class='reg-btn'>
+                <ul class='home-nav-controls'>
+                    <li>
+                        <div class='vertical-align control-label-container'>
+                            <div class='control-label'><nav>Cancel</nav></div>
+                        </div>
+                    </li>
+
+                    <li onclick="$('#new_item_form').submit();">
+                        <div class='vertical-align control-label-container'>
+                            <div class='control-label'><nav>Confirm</nav></div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

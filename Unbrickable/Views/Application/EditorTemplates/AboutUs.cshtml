@@ -1,0 +1,198 @@
+﻿<html>
+<head>
+    <link rel='stylesheet' type='text/css' href='css/tabstyles.css'>
+    <link rel='stylesheet' type='text/css' href='css/tabs.css'>
+    <link rel='stylesheet' type='text/css' href='css/component.css'>
+    <link rel='stylesheet' type='text/css' href='css/confirmation-box.css'>
+    <link rel='stylesheet' type='text/css' href='css/layout.css'>
+
+</head>
+<meta charset="UTF-8" />
+
+
+<script type='text/javascript' src='js/jquery-1.11.1.min.js'></script>
+<script type='text/javascript' src='js/jquery-ui.js'></script>
+<script src="js/confirmation-box.js"></script>
+
+<body>
+
+    <div class="la-anim-6">
+        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="500" height="500" viewbox="0 0 500 500">
+            <path id="la-anim-6-border" transform="translate(250, 250)" />
+            <path id="la-anim-6-loader" transform="translate(250, 250) scale(0.9)" />
+        </svg>
+    </div>
+
+    <!-- clipping mask for style "Urpi" -->
+    <svg class="hidden" viewBox="0 0 610 160">
+        <defs>
+            <clippath id="cp_up">
+                <polygon id="cp_poly_up" points="0,0 610,0 610,160" />
+            </clippath>
+            <clippath id="cp_down">
+                <polygon id="cp_poly_down" points="0,0 0,160 610,160" />
+            </clippath>
+        </defs>
+    </svg>
+
+    <div class='container'>
+        <div class='header'>
+            <div class='logo-pane'>
+                <div class='logo-des-container'>
+                    <div class='site-logo'></div>
+                </div>
+
+                <div class='logo-label'>
+                    <a class="link link--urpi" href="#" data-letters="Unbrickable">Unbrickable</a>
+                </div>
+            </div>
+            <div class='control-header'>
+                <section class='nav-top'>
+                    <nav class='nav-top-effect'>
+                        <a class='lower-nav' href='#'>Home</a>
+                        <a class='lower-nav' href='#'>Store</a>
+                        <a class='lower-nav' href='#'>Profile</a>
+                        <a class='lower-nav' href='#'>Settings</a>
+                        <a class='lower-nav' href='#'>Logout</a>
+                    </nav>
+                </section>
+            </div>
+
+            <div class='cart-container'>
+                <div class='general-logo'>
+                    <label class='user-cart'></label>
+                </div>
+                <div class='cart-count'>
+                    <label class=''>1</label>
+                </div>
+            </div>
+        </div>
+
+        <div class='dummy-header'></div>
+
+        <div class='paper-container'>
+            <div class='about-us-container'>
+
+                <h1 class='info-header'>About Us</h1>
+                <p class='site-info'>
+                    "Приветствую тебя, незнакомец! Если твой ум и такт сравнимы с твоей привлекательностью - мы замечательно поладим."
+                </p>
+
+                <h1 class='info-header'>Donate to Us!</h1>
+                <div id="cbp-vm" class="cbp-vm-switcher cbp-vm-view-grid donation-packs">
+                    <ul>
+                        <li>
+                            <h3 class="cbp-vm-title">Pack A</h3>
+                            <div class="cbp-vm-price">$5.00</div>
+                            <a class="cbp-vm-icon cbp-vm-add" href="#">Buy</a>
+                        </li>
+                        <li>
+                            <h3 class="cbp-vm-title">Pack B</h3>
+                            <div class="cbp-vm-price">$10.00</div>
+                            <a class="cbp-vm-icon cbp-vm-add" href="#">Buy</a>
+                        </li>
+                        <li>
+                            <h3 class="cbp-vm-title">Pack C</h3>
+                            <div class="cbp-vm-price">$20.00</div>
+                            <a class="cbp-vm-icon cbp-vm-add" href="#">Buy</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class='separator'></div>
+
+                <div class='fixed-donation-container'>
+                    <label>Amount</label>
+                    <input class='text-area full-entries' type='text' name='donation-amt' value='Donation Amount'>
+                    <a class="cbp-vm-icon cbp-vm-add" href="#">Donate</a>
+                </div>
+
+                <div class="cd-popup" role="alert">
+                    <div class="cd-popup-container">
+                        <p>Are you sure you want to download this backup? </p>
+                        <ul class="cd-buttons">
+                            <li><a href="#0">Yes</a></li>
+                            <li><a href="#0">No</a></li>
+                        </ul>
+                        <a href="#0" class="cd-popup-close img-replace"></a>
+                    </div> <!-- cd-popup-container -->
+                </div> <!-- cd-popup -->
+            </div>
+        </div>
+        <script src="js/classie.js"></script>
+        <script>
+				var loader = document.getElementById('la-anim-6-loader')
+					, border = document.getElementById('la-anim-6-border')
+					, α = 0
+					, π = Math.PI
+					, t = 15
+
+					, tdraw;
+
+				function PieDraw() {
+					α++;
+					α %= 360;
+					var r = ( α * π / 180 )
+					, x = Math.sin( r ) * 250
+					, y = Math.cos( r ) * - 250
+					, mid = ( α > 180 ) ? 1 : 0
+					, anim = 'M 0 0 v -250 A 250 250 1 '
+						   + mid + ' 1 '
+						   +  x  + ' '
+						   +  y  + ' z';
+
+					loader.setAttribute( 'd', anim );
+					border.setAttribute( 'd', anim );
+					if( α != 0 )
+					tdraw = setTimeout(PieDraw, t); // Redraw
+				}
+
+				function PieReset() {
+					clearTimeout(tdraw);
+					var anim = 'M 0 0 v -250 A 250 250 1 0 1 0 -250 z';
+					loader.setAttribute( 'd', anim );
+					border.setAttribute( 'd', anim );
+				}
+
+				var inProgress = false;
+
+				Array.prototype.slice.call( document.querySelectorAll( '#la-buttons > button' ) ).forEach( function( el, i ) {
+					var anim = el.getAttribute( 'data-anim' ),
+						animEl = document.querySelector( '.' + anim );
+
+					el.addEventListener( 'click', function() {
+						if( inProgress ) return false;
+						inProgress = true;
+						classie.add( animEl, 'la-animate' );
+
+						if( anim === 'la-anim-6' ) {
+							PieDraw();
+						}
+
+						setTimeout( function() {
+							classie.remove( animEl, 'la-animate' );
+
+							if( anim === 'la-anim-6' ) {
+								PieReset();
+							}
+
+							inProgress = false;
+						}, 6000 );
+					} );
+				} );
+        </script>
+
+        <script src="js/cbpFWTabs.js"></script>
+        <script>
+				(function() {
+
+					[].slice.call( document.querySelectorAll( '.tabs' ) ).forEach( function( el ) {
+						new CBPFWTabs( el );
+					});
+
+				})();
+        </script>
+        <script src="js/cbpViewModeSwitch.js"></script>
+    </div>
+</body>
+</html>

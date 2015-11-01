@@ -1,0 +1,131 @@
+@using PagedList
+@using PagedList.Mvc
+
+@model IEnumerable<Unbrickable.ViewModels.BoardPostViewModel>
+
+@section Headers{
+    <script type='text/javascript' src='@Url.Content("~/Scripts/jquery.form.min.js")'></script>
+    <link rel='stylesheet' type='text/css' href='@Url.Content("~/Content/css/PagedList.css")'>
+    <script type='text/javascript' src='~/Scripts/modalEffects.js'></script>
+    <script type='text/javascript' src='~/Scripts/classie.js'></script>
+    <script type ="text/javascript">
+		$(document).ready(function(){
+			$('.icon-edit').click(function() {
+				$(this).addClass('hide');
+				$editParent = $(this).parents('.entry-icons');
+				var $editChild = ($editParent).children('.general-logo');
+				var $editGrandchild = ($editChild).children('#edit-confirm');
+				($editGrandchild).removeClass('hide');
+
+				$editParent1 = $(this).parents('.entry');
+				var $editChild1 = ($editParent1).children('.comment-side');
+				var $editGrandchild1 = ($editChild1).children('.entry-comment');
+				($editGrandchild1).prop('contenteditable', true);
+			});
+
+			$('.edit-Post-btn').click(function () {
+			    $(this).addClass('hide');
+			    $editParent = $(this).parents('.entry-icons');
+			    var $editChild = ($editParent).children('.general-logo');
+			    var $editGrandchild = ($editChild).children('#edit-entry');
+			    ($editGrandchild).removeClass('hide');
+
+			    $editParent1 = $(this).parents('.entry');
+			    var $editChild1 = ($editParent1).children('.comment-side');
+			    var $editGrandchild1 = ($editChild1).children('.entry-comment');
+			    ($editGrandchild1).removeAttr('contenteditable');
+
+			    var id = $(this).data("value");
+			    var account_id = $(this).data("value2");
+			    var val = $("#entry_" + id).text();
+			    $.ajax({
+			        cache: false,
+			        type: "Post",
+			        url: "/AJAX/EditPost",
+			        data: { "id": id , "account_id": account_id, "val": val}
+			    }).done(function (data) {
+			        location.reload();
+			    });
+			});
+
+			$('.delete-Post-btn').click(function () {
+			    var id = $(this).data("value");
+			    var account_id = $(this).data("value2");
+			    $.ajax({
+			        cache: false,
+			        type: "Post",
+			        url: "/AJAX/DeletePost",
+			        data: { "id": id, "account_id": account_id}
+			    }).done(function (data) {
+			        window.location = "/Application/Boards";
+			    });
+			});
+
+		});
+	</script>
+}
+
+<div class='edit-paper-container edit-paper-cont'>
+    <!-- Pop up div -->
+    @if (Session["User"] != null)
+    {
+        <div class='md-modal md-add-cat md-effect-1 vertical-align' id='modal-2'>
+            <div class='md-content md-add-cat-content'>
+                @Html.Partial("NewPost", Unbrickable.Controllers.ApplicationController.GetNewPostViewModel(Session["User"]))
+            </div>
+        </div>
+    }
+	<div class = 'md-modal md-add-cat md-search md-effect-1 vertical-align' id = 'modal-1'>
+		<div class = 'md-content md-search-content'>
+			@Html.Partial("SearchPosts", new  List<Unbrickable.ViewModels.SearchCriteria>())
+		</div>
+	</div>
+    <div class="md-overlay"></div><!-- the overlay element -->
+    <!-- End of pop up div -->
+    <div class='paper-container'>
+        <div class='board-container'>
+            <div class='boards'>
+                <ul class='timeline left-side'>
+                    @{
+                        var i = 0;
+                    }
+                    @foreach (Unbrickable.ViewModels.BoardPostViewModel bpvm in Model)
+                    {
+                        if (i % 2 == 1)
+                        {                            
+                            @Html.Partial("BoardPost", bpvm)
+                        }
+                        i++;
+                    }                    
+                </ul>
+                <ul class='timeline right-side'>     
+                    @{
+                        i = 0;
+                    }               
+                    @foreach (Unbrickable.ViewModels.BoardPostViewModel bpvm in Model)
+                    {
+                        if (i % 2 == 0)
+                        {
+                            @Html.Partial("BoardPost", bpvm)
+                        }
+                        i++;
+                    }               
+                </ul>
+            </div>
+        </div>
+
+        <div class='pane page-number-container'>
+            @Html.PagedListPager((IPagedList)Model, page => Url.Action("Boards", new { page = page }))
+        </div>
+        @if (Session["User"] != null)
+        {
+            <div class='add-cat-btn'>
+                <button class='md-trigger' data-modal='modal-2'></button>
+            </div>
+        }
+		<div class = 'add-cat-btn search-btn'>
+			<button class = 'md-trigger' data-modal = 'modal-1'></button>
+		</div>
+    </div>
+</div>
+<script src="~/Scripts/modalEffects.js"></script>

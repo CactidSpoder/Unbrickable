@@ -1,0 +1,65 @@
+@model Unbrickable.ViewModels.UserPageViewModel
+
+<div class='body profile-body'>
+    <div class='prof-container'>
+        
+            @if(Session["User"] != null){
+                if (Convert.ToInt32(Session["User"]) == Model.id)
+                {
+                    <div class='admin-btn'>
+                        <ul class='home-nav-controls'>
+                            <li onclick="window.location = '/Application/ChangePassword';">
+                                <div class='vertical-align control-label-container'>
+                                    <div class='control-label'><nav>Edit Password</nav></div>
+                                </div>
+                            </li>
+                            <li onclick="window.location = '/Application/EditPage';">
+                                <div class='vertical-align control-label-container'>
+                                    <div class='control-label'><nav>Edit Profile</nav></div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                }
+            }     
+		<div class='vertical-align welcome-container profile-container'>
+			<div class='profile-photo-side'>
+				<div class='profile-photo'></div>
+				<p>
+					<ul class='extra-profile-detail'>
+						<li>
+							<div class = 'profile-logo-container'>
+								<div class = 'general-logo'><label class = 'icon-Gender'></label></div>
+							</div>
+							<div class='vertical-align profile-label-container'>
+								<div class='profile-label'><nav>@Model.Gender</nav></div>
+							</div>
+						</li>
+
+						<li>
+							<div class = 'profile-logo-container'>
+								<div class = 'general-logo'><label class = 'icon-bday'></label></div>
+							</div>
+							<div class='vertical-align profile-label-container'>
+								<div class='profile-label'><nav>@Model.birthday.ToString("MMMM d, yyyy")</nav></div>
+							</div>
+						</li>
+					</ul>
+				</p>
+			</div>
+
+			<div class='description-side'>
+				<div class='name-details'>
+					<h1 class='name-color'>@Model.username</h1>
+					<h2 class='name-color'>[@Model.Salutation] @Model.last_name, @Model.first_name</h2>
+				</div>
+
+				<div class='profile-details'>
+					<p>
+						@Model.about_me
+				   </p>
+				</div>
+			</div>	   
+		</div>
+    </div>
+</div>						

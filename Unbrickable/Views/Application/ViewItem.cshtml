@@ -1,0 +1,65 @@
+﻿@model Unbrickable.ViewModels.ItemViewModel 
+
+@section Headers{
+    <script>
+        $(document).ready(function () {
+            $('#quantity').change(function () {
+                var num = $('#quantity').val() * @Model.price;
+                $('#total_val').html(num.toFixed(2));
+            });
+        });
+         
+    </script>
+    
+    }
+
+<div class='prof-container'>
+
+    <div class='vertical-align welcome-container profile-container  listing-container'>
+        <div class='profile-photo-side'>
+            <div class='profile-photo item-photo'></div>
+        </div>
+
+        <div class='description-side'>
+            @if (Session["Elevation"].Equals("Administrator"))
+            {
+                <div class='entry-icons'>
+                    <div class='general-logo' onclick="window.location='/Application/EditItem?id='+@Model.id">
+                        <label id='edit-entry' class='pink icon-edit'></label>
+                    </div>
+                    <div class='general-logo'><label class='pink icon-delete'></label></div>
+                </div>
+            }            
+            <div class='name-details'>
+                <h1 class='name-color'>@Model.name</h1>
+                <label class='item-price grey'>@String.Format("${0}", Math.Round(Model.price, 2))</label><text class='name-color grey'>/pc</text>
+                <div class='quantity-side'>
+                    <div class='quantity-price'>= $
+                    <a id="total_val">@Math.Round(Model.price, 2)</a>
+                    </div>
+                    <input class='text-area quantity-number' type='text' name='quan' value='1' id="quantity">
+                    <label class='quantity-symbol'>x</label>
+                </div>
+            </div>
+
+            <div class='profile-details'>
+                <p>
+                   @Model.description
+                </p>
+            </div>
+
+        </div>
+
+        <div class='home-nav-container store-buttons'>
+            <div class='reg-btn'>
+                <ul class='home-nav-controls'>
+                    <li>
+                        <div class='vertical-align control-label-container'>
+                            <div class='control-label'><nav>Add to Cart</nav></div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>	

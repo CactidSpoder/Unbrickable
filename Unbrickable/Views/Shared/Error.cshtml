@@ -1,0 +1,27 @@
+﻿@{
+    Layout = null;
+    Response.StatusCode = 500;
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Error</title>
+    <link rel='stylesheet' type='text/css' href="@Url.Content("~/Content/css/layout.css")">
+</head>
+<body>
+    <div class='cover'>
+        <div class='welcome-container error-box'>
+            <div class='logo-des-container'>
+                <div class='site-logo error-logo'></div>
+            </div>
+
+            <div class='logo-label'>
+                <div class='error-message'>Error!</div>
+                <div class='error-message error-details'>Invalid Request</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
