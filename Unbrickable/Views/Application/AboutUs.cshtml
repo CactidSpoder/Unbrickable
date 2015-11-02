@@ -1,0 +1,181 @@
+﻿
+    <link rel='stylesheet' type='text/css' href='@Url.Content("~/Content/css/tabstyles.css")'>
+    <link rel='stylesheet' type='text/css' href='@Url.Content("~/Content/css/tabs.css")'>
+    <link rel='stylesheet' type='text/css' href='@Url.Content("~/Content/css/component.css")'>
+    <link rel='stylesheet' type='text/css' href='@Url.Content("~/Content/css/confirmation-box.css")'>
+    <link rel='stylesheet' type='text/css' href='@Url.Content("~/Content/css/layout.css")'>
+
+<meta charset="UTF-8" />
+
+<script type='text/javascript' src='@Url.Content("~/Scripts/jquery-1.11.1.min.js")'></script>
+<script type='text/javascript' src='@Url.Content("~/Scripts/jquery-ui.js")'></script>
+<script type='text/javascript' src='@Url.Content("~/Scripts/confirmation-box.js")'></script>	
+
+
+<div class="la-anim-6">
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="500" height="500" viewbox="0 0 500 500">
+        <path id="la-anim-6-border" transform="translate(250, 250)" />
+        <path id="la-anim-6-loader" transform="translate(250, 250) scale(0.9)" />
+    </svg>
+</div>
+
+<div class='container'>
+
+    <div class='dummy-header'></div>
+
+    <div class='paper-container'>
+        <div class='about-us-container'>
+
+            <h1 class='info-header'>About Us</h1>
+            <p class='site-info'>
+                "Приветствую тебя, незнакомец! Если твой ум и такт сравнимы с твоей привлекательностью - мы замечательно поладим."
+            </p>
+
+            <h1 class='info-header'>Donate to Us!</h1>
+            <div id="cbp-vm" class="cbp-vm-switcher cbp-vm-view-grid donation-packs">
+                <ul>
+                    <li>
+                        <h3 class="cbp-vm-title">Pack A</h3>
+                        <div class="cbp-vm-price">$5.00</div>
+
+                        <form target="paypal" action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
+                            <input type="hidden" name="cmd" value="_s-xclick">
+                            <input type="hidden" name="hosted_button_id" value="H2RP84J54TXU8">
+                            <input type="submit" class="cbp-vm-icon cbp-vm-add" name="Submit" value="Add to Cart" alt="More money for bricks <3">
+                            <img alt="" border="0" src="https://www.sandbox.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
+                        </form>
+
+
+
+                    </li>
+                    <li>
+                        <h3 class="cbp-vm-title">Pack B</h3>
+                        <div class="cbp-vm-price">$10.00</div>
+
+                        <form target="paypal" action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
+                            <input type="hidden" name="cmd" value="_s-xclick">
+                            <input type="hidden" name="hosted_button_id" value="G25SUBH6ZT8ML">
+                            <input type="submit" class="cbp-vm-icon cbp-vm-add" name="Submit" value="Add to Cart" alt="More money for bricks <3">
+                            <img alt="" border="0" src="https://www.sandbox.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
+                        </form>
+                    </li>
+                    <li>
+                        <h3 class="cbp-vm-title">Pack C</h3>
+                        <div class="cbp-vm-price">$20.00</div>
+
+                        <form target="paypal" action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
+                            <input type="hidden" name="cmd" value="_s-xclick">
+                            <input type="hidden" name="hosted_button_id" value="WUW45FZ74V7G4">
+                            <input type="submit" class="cbp-vm-icon cbp-vm-add" name="Submit" value="Add to Cart" alt="More money for bricks <3">
+                            <img alt="" border="0" src="https://www.sandbox.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
+                        </form>
+
+                    </li>
+                </ul>
+            </div>
+
+            <div class='separator'></div>
+
+            <div class='fixed-donation-container'>
+                <h2>Or specify an amount you want to donate:</h2>
+                <!--input class = 'text-area full-entries' type = 'text' name = 'donation-amt' value = 'Donation Amount'-->
+                <!--a class="cbp-vm-icon cbp-vm-add" href="#">Donate</a-->
+
+                <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                    <input type="hidden" name="cmd" value="_s-xclick">
+                    <input type="hidden" name="hosted_button_id" value="BBKUKTQ8W27WL">
+                    <input type="submit" class="cbp-vm-icon cbp-vm-add" style="background-color: #6bccb4; font-size: 1em;" name="Submit" value="Set your price" alt="More money for bricks <3">
+                    <img alt="" border="0" src="https://www.sandbox.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
+                </form>
+
+
+
+            </div>
+
+            <div class="cd-popup" role="alert">
+                <div class="cd-popup-container">
+                    <p>Are you sure you want to download this backup? </p>
+                    <ul class="cd-buttons">
+                        <li><a href="#0">Yes</a></li>
+                        <li><a href="#0">No</a></li>
+                    </ul>
+                    <a href="#0" class="cd-popup-close img-replace"></a>
+                </div> <!-- cd-popup-container -->
+            </div> <!-- cd-popup -->
+        </div>
+    </div>
+    <script src="js/classie.js"></script>
+    <script>
+				var loader = document.getElementById('la-anim-6-loader')
+					, border = document.getElementById('la-anim-6-border')
+					, α = 0
+					, π = Math.PI
+					, t = 15
+
+					, tdraw;
+
+				function PieDraw() {
+					α++;
+					α %= 360;
+					var r = ( α * π / 180 )
+					, x = Math.sin( r ) * 250
+					, y = Math.cos( r ) * - 250
+					, mid = ( α > 180 ) ? 1 : 0
+					, anim = 'M 0 0 v -250 A 250 250 1 '
+						   + mid + ' 1 '
+						   +  x  + ' '
+						   +  y  + ' z';
+
+					loader.setAttribute( 'd', anim );
+					border.setAttribute( 'd', anim );
+					if( α != 0 )
+					tdraw = setTimeout(PieDraw, t); // Redraw
+				}
+
+				function PieReset() {
+					clearTimeout(tdraw);
+					var anim = 'M 0 0 v -250 A 250 250 1 0 1 0 -250 z';
+					loader.setAttribute( 'd', anim );
+					border.setAttribute( 'd', anim );
+				}
+
+				var inProgress = false;
+
+				Array.prototype.slice.call( document.querySelectorAll( '#la-buttons > button' ) ).forEach( function( el, i ) {
+					var anim = el.getAttribute( 'data-anim' ),
+						animEl = document.querySelector( '.' + anim );
+
+					el.addEventListener( 'click', function() {
+						if( inProgress ) return false;
+						inProgress = true;
+						classie.add( animEl, 'la-animate' );
+
+						if( anim === 'la-anim-6' ) {
+							PieDraw();
+						}
+
+						setTimeout( function() {
+							classie.remove( animEl, 'la-animate' );
+
+							if( anim === 'la-anim-6' ) {
+								PieReset();
+							}
+
+							inProgress = false;
+						}, 6000 );
+					} );
+				} );
+    </script>
+
+    <script src="js/cbpFWTabs.js"></script>
+    <script>
+				(function() {
+
+					[].slice.call( document.querySelectorAll( '.tabs' ) ).forEach( function( el ) {
+						new CBPFWTabs( el );
+					});
+
+				})();
+    </script>
+    <script src="js/cbpViewModeSwitch.js"></script>
+</div>

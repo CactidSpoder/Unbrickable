@@ -440,7 +440,7 @@
     <Content Include="Views\Application\ViewItem.cshtml" />
     <Content Include="Views\Application\NewItem.cshtml" />
     <Content Include="Views\Application\EditItem.cshtml" />
-    <Content Include="Views\Application\EditorTemplates\AboutUs.cshtml" />
+    <Content Include="Views\Application\AboutUs.cshtml" />
     <Content Include="Views\Paypal\Index.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
