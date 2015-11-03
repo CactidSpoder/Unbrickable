@@ -45,5 +45,6 @@ namespace Unbrickable.ViewModels
         public IEnumerable<SelectListItem> days { get; set; }
         public IEnumerable<SelectListItem> months { get; set; }
         public IEnumerable<SelectListItem> years { get; set; }
+        public List<TransactionViewModel> transactions { get; set; }
     }
 }

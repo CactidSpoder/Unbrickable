@@ -2119,3 +2119,76 @@ div input:checked + li .icon-add-filter:before {
 	text-transform: uppercase;
 	margin: 25px;
 }
+
+
+.transactions-table {
+	border-collapse: collapse;
+	margin: 10px auto;
+	width: 90%;
+	font-size: 18px;
+}
+
+.transactions-table th {
+	color: #5f6362;
+	padding: 10px;
+}
+
+.transactions-table-header {
+	border-bottom: 2px solid #6bccb4;
+	font-size: 20px;
+}
+
+.mid {
+	border-left: 2px solid #6bccb4;
+	border-right: 2px solid #6bccb4;
+}
+
+.between {
+	border-right: 2px solid #6bccb4;
+}
+
+.modalDialog {
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background: rgba(0,0,0,0.8);
+	z-index: 99999;
+	opacity:0;
+	pointer-events: none;
+}
+
+.modalDialog:target {
+	opacity:1;
+	pointer-events: auto;
+}
+
+.modalDialog > div {
+	width: 400px;
+	position: relative;
+	margin: 10% auto;
+	padding: 5px 20px 13px 20px;
+	background: #fff;
+}
+
+.close {
+	background: #606061;
+	color: #FFFFFF;
+	line-height: 25px;
+	position: absolute;
+	right: -12px;
+	text-align: center;
+	top: -10px;
+	width: 24px;
+	text-decoration: none;
+	font-weight: bold;
+	-webkit-border-radius: 12px;
+	-moz-border-radius: 12px;
+	border-radius: 12px;
+	-moz-box-shadow: 1px 1px 3px #000;
+	-webkit-box-shadow: 1px 1px 3px #000;
+	box-shadow: 1px 1px 3px #000;
+}
+
+.close:hover { background: #00d9ff; }

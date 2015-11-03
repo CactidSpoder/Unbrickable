@@ -734,6 +734,21 @@ namespace Unbrickable.Controllers
             return l_buvm;
         }
 
+        private List<TransactionViewModel> GetAllTransactions()
+        {
+            List<TransactionViewModel> l_tvm = new List<TransactionViewModel>();
+            TransactionViewModel tvm = new TransactionViewModel();
+
+            foreach(Transaction t in db.Transactions)
+            {
+                tvm.account_id = t.account_id;
+                tvm.paypal_transaction_id = t.paypal_transaction_id;
+                tvm.transaction_status_id = t.transaction_status_id;
+            }
+
+            return l_tvm;
+        }
+
         private AdminPageViewModel GenerateAdminPageViewModel()
         {
             AdminPageViewModel apvm = new AdminPageViewModel();
@@ -747,6 +762,7 @@ namespace Unbrickable.Controllers
             apvm.years = GenerateYearList();
             apvm.access_levels = new SelectList(db.AccessLevels, "id", "value");
             apvm.BackUps = GetAllBackUps();
+            apvm.transactions = GetAllTransactions();
             return apvm;
         }
 

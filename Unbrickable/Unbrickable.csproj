@@ -278,6 +278,7 @@
     <Compile Include="ViewModels\SearchCriteria.cs" />
     <Compile Include="ViewModels\ServerSideValidations.cs" />
     <Compile Include="ViewModels\PostSearchFilter.cs" />
+    <Compile Include="ViewModels\TransactionViewModel.cs" />
     <Compile Include="ViewModels\UsernameSearchFilter.cs" />
     <Compile Include="ViewModels\UserPageViewModel.cs" />
   </ItemGroup>
