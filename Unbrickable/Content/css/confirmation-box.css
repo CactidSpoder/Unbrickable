@@ -12,7 +12,7 @@ Terms (http://codyhouse.co/terms/)! !
 	top: 0;
 	height: 100%;
 	width: 100%;
-	z-index: 1000;
+	z-index: 4000;
 	background-color: rgba(255, 255, 255, 0.75);
 	opacity: 0;
 	visibility: hidden;

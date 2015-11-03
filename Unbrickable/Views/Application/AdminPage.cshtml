@@ -1,12 +1,6 @@
 @model Unbrickable.ViewModels.AdminPageViewModel
 
 @section Headers{
-
-    <link rel='stylesheet' type='text/css' href='@Url.Content("~/Content/css/tabstyles.css")'>
-    <link rel='stylesheet' type='text/css' href='@Url.Content("~/Content/css/tabs.css")'>
-    <link rel='stylesheet' type='text/css' href='@Url.Content("~/Content/css/component.css")'>
-    <link rel='stylesheet' type='text/css' href='@Url.Content("~/Content/css/confirmation-box.css")'>
-	<script type='text/javascript' src='@Url.Content("~/Scripts/confirmation-box.js")'></script>
     <script>
         $(document).ready(function () {
             $('#uname').inputmask('Regex', { regex: "^[a-zA-Z0-9_]{5,50}$" });
@@ -75,8 +69,9 @@
 		<div class="tabs tabs-style-iconbox">
 			<nav>
 				<ul>
-					<li><a href="#section-fillup-1" class="icon icon-BackUps"><span>Manage Post BackUps</span></a></li>
-					<li><a href="#section-fillup-2" class="icon icon-users"><span>Create a User</span></a></li>
+					<li><a href="#section-fillup-1" class="tab-icon icon-backups"><span>Manage Post BackUps</span></a></li>
+					<li><a href="#section-fillup-2" class="tab-icon icon-users"><span>Create a User</span></a></li>
+                    <li><a href="#section-fillup-2" class="tab-icon icon-sales"><span>View Transactions</span></a></li>
 				</ul>
 			</nav>
 			<div class="content-wrap">
@@ -178,7 +173,7 @@
 
                                         <li onclick="$('#admin_register_form').submit();">
                                             <div class='vertical-align control-label-container'>
-                                                <div class='control-label'><nav>Sign up</nav></div>
+                                                <div class='control-label'><nav>Add User</nav></div>
                                             </div>
                                         </li>
                                     </ul>
@@ -187,6 +182,8 @@
 						</div>
 					</div>
 				</section>
+                <section id="section-fillup-3">
+                </section>
 			</div><!-- /content -->
 		</div><!-- /tabs -->
 	</section>

@@ -181,8 +181,6 @@ namespace Unbrickable.Controllers
                             }
                         }                        
                     }
-
-                    //NOTICE PLEBEIAN
                 }
                 else
                 {
