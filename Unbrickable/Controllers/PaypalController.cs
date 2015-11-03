@@ -107,6 +107,9 @@ namespace Unbrickable.Controllers
                         string baseURI = Request.Url.Scheme + "://" + Request.Url.Authority +
                                     "/Paypal/PaymentWithPayPal?";
 
+                        string cancelURI = Request.Url.Scheme + "://" + Request.Url.Authority +
+                                    "/Paypal/CancelPaymentWithPayPal?";
+
                         //guid we are generating for storing the paymentID received in session
                         //after calling the create function and it is used in the payment execution
 
@@ -120,13 +123,12 @@ namespace Unbrickable.Controllers
                         t.account_id = Convert.ToInt32(Session["User"]);
                         t.transaction_status_id = 1;
 
-                        var createdPayment = this.CreatePayment(apiContext, baseURI + "guid=" + guid, baseURI + "guid=" + guid, t);
+                        var createdPayment = this.CreatePayment(apiContext, baseURI + "guid=" + guid, cancelURI + "guid=" + guid, t);
                         t.paypal_transaction_id = createdPayment.id;
 
                         db.Transactions.Add(t);
 
                         db.SaveChanges();
-                        Debug.WriteLine("i am past this line");
                         //get links returned from paypal in response to Create function call
 
                         var links = createdPayment.links.GetEnumerator();
@@ -142,12 +144,9 @@ namespace Unbrickable.Controllers
                                 paypalRedirectUrl = lnk.href;
                             }
                         }
-                        Debug.WriteLine("paypalredir: " + paypalRedirectUrl);
                         // saving the paymentID in the key guid
-                        Session.Add(guid, createdPayment.id);
+                        Session.Add(guid, createdPayment.id);                        
                         
-                        Debug.WriteLine(createdPayment.id + " pendejos");
-
                         return Redirect(paypalRedirectUrl);
                     }
                     else
@@ -161,7 +160,6 @@ namespace Unbrickable.Controllers
                         var guid = Request.Params["guid"];
 
                         var executedPayment = ExecutePayment(apiContext, payerId, Session[guid] as string);
-                        Debug.WriteLine(executedPayment.ConvertToJson());
                         string trans_id = executedPayment.id;
                         Models.Transaction t = db.Transactions.Where(x => x.paypal_transaction_id == trans_id).FirstOrDefault();
                         if(t == null)
@@ -197,6 +195,23 @@ namespace Unbrickable.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             
+        }
+
+        public ActionResult CancelPaymentWithPaypal()
+        {
+            var guid = Request.Params["guid"];
+            string payment_id = Session[guid] as string;
+            Models.Transaction t = db.Transactions.Where(x => x.paypal_transaction_id == payment_id).FirstOrDefault();
+            if(t != null)
+            {
+                t.transaction_status_id = 3;
+                db.SaveChanges();
+                return RedirectToAction("Index", "Paypal");
+            }
+            else
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
         }
 
         private PayPal.Api.Payment payment;
