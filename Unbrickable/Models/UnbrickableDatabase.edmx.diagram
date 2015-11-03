@@ -7,7 +7,6 @@
       <Diagram DiagramId="7c9d7f259fb647ec8d7a8c3ad3e9c089" Name="Diagram1">
         <EntityTypeShape EntityType="UnbrickableModel.AccessLevel" Width="1.5" PointX="3" PointY="5.25" IsExpanded="true" />
         <EntityTypeShape EntityType="UnbrickableModel.Account" Width="1.5" PointX="5.25" PointY="5" IsExpanded="true" />
-        <EntityTypeShape EntityType="UnbrickableModel.BackUp" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="UnbrickableModel.Gender" Width="1.5" PointX="0.75" PointY="3.625" IsExpanded="true" />
         <EntityTypeShape EntityType="UnbrickableModel.Post" Width="1.5" PointX="7.5" PointY="5.75" IsExpanded="true" />
         <EntityTypeShape EntityType="UnbrickableModel.Salutation" Width="1.5" PointX="3" PointY="8.375" IsExpanded="true" />
@@ -17,14 +16,15 @@
         <AssociationConnector Association="UnbrickableModel.FK__Posts__account_i__382F5661" ManuallyRouted="false" />
         <AssociationConnector Association="UnbrickableModel.FK__Posts__editor_id__39237A9A" ManuallyRouted="false" />
         <AssociationConnector Association="UnbrickableModel.FK__Salutatio__gende__2AD55B43" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="UnbrickableModel.TransactionItem" Width="1.5" PointX="9.75" PointY="9.125" />
-        <EntityTypeShape EntityType="UnbrickableModel.Transaction" Width="1.5" PointX="7.5" PointY="9.125" />
-        <EntityTypeShape EntityType="UnbrickableModel.TransactionStatus" Width="1.5" PointX="5" PointY="10.5" />
-        <AssociationConnector Association="UnbrickableModel.FK__Transacti__accou__53584DE9" />
-        <AssociationConnector Association="UnbrickableModel.FK__Transacti__trans__5728DECD" />
-        <AssociationConnector Association="UnbrickableModel.FK__Transacti__trans__544C7222" />
         <EntityTypeShape EntityType="UnbrickableModel.Item" Width="1.5" PointX="3.375" PointY="0.75" />
-      </Diagram>
+        <EntityTypeShape EntityType="UnbrickableModel.BackUp" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="UnbrickableModel.TransactionItem" Width="1.5" PointX="9.75" PointY="9.125" />
+        <EntityTypeShape EntityType="UnbrickableModel.TransactionStatus" Width="1.5" PointX="5.125" PointY="10.625" />
+        <EntityTypeShape EntityType="UnbrickableModel.Transaction" Width="1.5" PointX="7.5" PointY="9.375" />
+        <AssociationConnector Association="UnbrickableModel.FK__Transacti__accou__3489AE06" />
+        <AssociationConnector Association="UnbrickableModel.FK__Transacti__trans__385A3EEA" />
+        <AssociationConnector Association="UnbrickableModel.FK__Transacti__trans__357DD23F" />
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

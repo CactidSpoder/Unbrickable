@@ -13,7 +13,11 @@ using PagedList;
 using Ganss.XSS;
 using LinqKit;
 using System.IO;
+using System.Configuration;
 using Newtonsoft.Json;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Blob;
+using System.Data;
 
 namespace Unbrickable.Controllers
 {
@@ -25,6 +29,7 @@ namespace Unbrickable.Controllers
 
         public static Boolean verifyDate(int year, int month, int day)
         {
+            
             String datestring = month + "/" + day + "/" + year;
             DateTime dt = new DateTime();
             return DateTime.TryParseExact(datestring, "M/d/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out dt);
@@ -42,8 +47,6 @@ namespace Unbrickable.Controllers
             }
         }
         
-        
-
         public ActionResult LoginPage()
         {
             if (Session["User"] != null)
@@ -66,13 +69,11 @@ namespace Unbrickable.Controllers
                 if (BCrypt.Net.BCrypt.Verify(lvm.password, Encoding.UTF8.GetString(a.password)))
                 {
                     List<CartItemViewModel> civm_list = new List<CartItemViewModel>();
-                    List<TransactionStatusViewModel> tsvm_list = new List<TransactionStatusViewModel>();
                     
                     Session["User"] = a.id;
                     Session["Elevation"] = a.AccessLevel.value;
                     Session["Name"] = a.username;
                     Session["Cart"] = civm_list;
-                    Session["Transactions"] = tsvm_list;
                     
                     return RedirectToAction("LoggedInProfile", "Application");
                 }
@@ -590,7 +591,6 @@ namespace Unbrickable.Controllers
             }
         }
 
-
         public ActionResult PagedSearchResults(string json)
         {
             if (json == null)
@@ -868,13 +868,18 @@ namespace Unbrickable.Controllers
             {
                 DateTime currDate = DateTime.Now;
                 string fileName = currDate.ToString("yyyy-MM-dd hh-mm-ss-tt") + ".csv";
-                string virtualPath = "~/Uploads/" + fileName;
-                string fileLocation = Path.Combine(System.Web.HttpContext.Current.Server.MapPath("~/Uploads/"), fileName);
+                CloudStorageAccount csa = CloudStorageAccount.Parse(ConfigurationManager.ConnectionStrings["UnbrickableStorage"].ConnectionString);
+                CloudBlobClient cbcl = csa.CreateCloudBlobClient();
+                CloudBlobContainer cbcon = cbcl.GetContainerReference("backups");
+                cbcon.CreateIfNotExists();
+                CloudBlockBlob cbb = cbcon.GetBlockBlobReference(fileName);
+
+                string fileLocation = Path.Combine(System.Web.Hosting.HostingEnvironment.MapPath("~/"), fileName);
+
                 if (System.IO.File.Exists(fileLocation))
                 {
                     System.IO.File.Delete(fileLocation);
                 }
-                /*/ Write sample data to CSV file
                 using (CSVFileWriter writer = new CSVFileWriter(fileLocation))
                 {
                     CSVRowModel row = new CSVRowModel();
@@ -893,14 +898,22 @@ namespace Unbrickable.Controllers
                     }
 
                     BackUp bu = new BackUp();
-                    bu.file_location = virtualPath;
+                    bu.filename = fileName;
                     bu.date_uploaded = currDate;
                     bu.num_posts = db.Posts.Count();
                     db.BackUps.Add(bu);
                     db.SaveChanges();
-                }*/
-                
+                    
+                }
 
+                using (var fileStream = System.IO.File.OpenRead(fileLocation))
+                {
+                    cbb.UploadFromStream(fileStream);
+                }
+                if (System.IO.File.Exists(fileLocation))
+                {
+                    System.IO.File.Delete(fileLocation);
+                }
                 return RedirectToAction("AdminPage", "Application");
             }
         }
@@ -929,7 +942,23 @@ namespace Unbrickable.Controllers
                     return HttpNotFound();
                 }
 
-                return File(bu.file_location, System.Net.Mime.MediaTypeNames.Application.Octet, Path.GetFileName(bu.file_location));
+                DateTime currDate = DateTime.Now;
+                string fileName = bu.filename;
+                CloudStorageAccount csa = CloudStorageAccount.Parse(ConfigurationManager.ConnectionStrings["UnbrickableStorage"].ConnectionString);
+                CloudBlobClient cbcl = csa.CreateCloudBlobClient();
+                CloudBlobContainer cbcon = cbcl.GetContainerReference("backups");
+                cbcon.CreateIfNotExists();
+                CloudBlockBlob cbb = cbcon.GetBlockBlobReference(fileName);
+                if (cbb.Exists())
+                {
+                    Response.AddHeader("Content-Disposition", "attachment; filename=" + fileName);
+                    cbb.DownloadToStream(Response.OutputStream);
+                    return new HttpStatusCodeResult(HttpStatusCode.OK);
+                }
+                else
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
             }
         }
 
@@ -941,6 +970,7 @@ namespace Unbrickable.Controllers
             ivm.name = i.name;
             ivm.price = i.price;
             ivm.description = i.description;
+            ivm.quantity = 1;
             return ivm;
         }
 
@@ -1108,5 +1138,64 @@ namespace Unbrickable.Controllers
                 }
             }
         }
+
+        private int GetIndexOfItem(List<CartItemViewModel> l_civm, int id)
+        {
+            for(int i=0;i<l_civm.Count; i++)
+            {
+                if(l_civm[i].id == id)
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddItemToCart(AddCartItemViewModel acivm)
+        {
+            if (Session["User"] == null)
+            {
+                return RedirectToAction("LoginPage", "Application");
+            }
+            else if (acivm.quantity <= 0)
+            {
+                return RedirectToAction("ViewItem", "Application", new { id = acivm.id});
+            }
+            else
+            {
+                List<CartItemViewModel> l_civm = (List<CartItemViewModel>)Session["Cart"];
+                if(l_civm == null)
+                {
+                    l_civm = new List<CartItemViewModel>();
+                }
+                Item i = db.Items.Find(acivm.id);
+                if (i == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                else
+                {
+                    int index = GetIndexOfItem(l_civm, i.id);
+                    if (index == -1)
+                    {
+                        CartItemViewModel civm = new CartItemViewModel();
+                        civm.id = acivm.id;
+                        civm.name = i.name;
+                        civm.price = i.price;
+                        civm.quantity = acivm.quantity;
+                        l_civm.Add(civm);
+                        Session["Cart"] = l_civm;
+                    }
+                    else
+                    {
+                        l_civm[index].quantity += acivm.quantity;
+                    }
+                    return RedirectToAction("Store", "Application");
+                }
+            }            
+        }
+
     }
 }

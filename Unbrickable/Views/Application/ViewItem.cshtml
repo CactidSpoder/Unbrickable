@@ -8,9 +8,7 @@
                 $('#total_val').html(num.toFixed(2));
             });
         });
-         
     </script>
-    
     }
 
 <div class='prof-container'>
@@ -21,7 +19,7 @@
         </div>
 
         <div class='description-side'>
-            @if (Session["Elevation"].Equals("Administrator"))
+            @if (Session["User"] != null && Session["Elevation"].Equals("Administrator"))
             {
                 <div class='entry-icons'>
                     <div class='general-logo' onclick="window.location='/Application/EditItem?id='+@Model.id">
@@ -37,7 +35,12 @@
                     <div class='quantity-price'>= $
                     <a id="total_val">@Math.Round(Model.price, 2)</a>
                     </div>
-                    <input class='text-area quantity-number' type='text' name='quan' value='1' id="quantity">
+                    @using (Html.BeginForm("AddItemToCart", "Application", null, FormMethod.Post, new { @id = "add_item_to_cart_form", @enctype = "multipart/form-data" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(model => model.id)
+                        @Html.EditorFor(model => model.quantity, new { htmlAttributes = new { @class = "text-area quantity-number", @id = "quantity" } })
+                    }                    
                     <label class='quantity-symbol'>x</label>
                 </div>
             </div>
@@ -53,7 +56,7 @@
         <div class='home-nav-container store-buttons'>
             <div class='reg-btn'>
                 <ul class='home-nav-controls'>
-                    <li>
+                    <li onclick="$('#add_item_to_cart_form').submit();">
                         <div class='vertical-align control-label-container'>
                             <div class='control-label'><nav>Add to Cart</nav></div>
                         </div>

@@ -7,13 +7,19 @@ using System.Web.Mvc;
 namespace Unbrickable.Controllers
 {
     using PayPal.Api;
+    using System.Diagnostics;
+    using System.Net;
+    using Models;
+    using ViewModels;
 
     public class PaypalController : Controller
     {
+        private UnbrickableDatabase db = new UnbrickableDatabase();
+
         // GET: Paypal
         public ActionResult Index()
         {
-            return View();
+            return View(Session["Cart"]);
         }
 
         public static class Configuration
@@ -57,83 +63,140 @@ namespace Unbrickable.Controllers
             }
         }
 
-        public ActionResult PaymentWithPaypal()
+        private bool IsCartEmpty()
         {
-            //getting the apiContext as earlier
-            APIContext apiContext = Configuration.GetAPIContext();
-
-            try
+            if(Session["Cart"] == null)
             {
-                string payerId = Request.Params["PayerID"];
-
-                if (string.IsNullOrEmpty(payerId))
+                return true;
+            }
+            else
+            {
+                List<CartItemViewModel> l_civm = (List<CartItemViewModel>)Session["Cart"];
+                if (l_civm.Count > 0)
                 {
-                    //this section will be executed first because PayerID doesn't exist
-                    //it is returned by the create function call of the payment class
-
-                    // Creating a payment
-                    // baseURL is the url on which paypal sendsback the data.
-                    // So we have provided URL of this controller only
-                    string baseURI = Request.Url.Scheme + "://" + Request.Url.Authority +
-                                "/Paypal/PaymentWithPayPal?";
-
-                    //guid we are generating for storing the paymentID received in session
-                    //after calling the create function and it is used in the payment execution
-
-                    var guid = Convert.ToString((new Random()).Next(100000));
-
-                    //CreatePayment function gives us the payment approval url
-                    //on which payer is redirected for paypal account payment
-
-                    var createdPayment = this.CreatePayment(apiContext, baseURI + "guid=" + guid);
-
-                    //get links returned from paypal in response to Create function call
-
-                    var links = createdPayment.links.GetEnumerator();
-
-                    string paypalRedirectUrl = null;
-
-                    while (links.MoveNext())
-                    {
-                        Links lnk = links.Current;
-
-                        if (lnk.rel.ToLower().Trim().Equals("approval_url"))
-                        {
-                            //saving the payapalredirect URL to which user will be redirected for payment
-                            paypalRedirectUrl = lnk.href;
-                        }
-                    }
-
-                    // saving the paymentID in the key guid
-                    Session.Add(guid, createdPayment.id);
-
-                    return Redirect(paypalRedirectUrl);
+                    return false;
                 }
                 else
                 {
-                    // This section is executed when we have received all the payments parameters
-
-                    // from the previous call to the function Create
-
-                    // Executing a payment
-
-                    var guid = Request.Params["guid"];
-
-                    var executedPayment = ExecutePayment(apiContext, payerId, Session[guid] as string);
-
-                    if (executedPayment.state.ToLower() != "approved")
-                    {
-                        return View("FailureView");
-                    }
+                    return true;
                 }
             }
-            catch (Exception ex)
+            
+        }
+        
+        public ActionResult PaymentWithPaypal()
+        {
+
+            if (Session["User"] != null)
             {
-                //Logger.log("Error" + ex.Message);
-                return View("FailureView");
+                if (!IsCartEmpty())
+                {
+                    //getting the apiContext as earlier
+                    APIContext apiContext = Configuration.GetAPIContext();
+
+                    string payerId = Request.Params["PayerID"];
+
+                    if (string.IsNullOrEmpty(payerId))
+                    {
+                        //this section will be executed first because PayerID doesn't exist
+                        //it is returned by the create function call of the payment class
+
+                        // Creating a payment
+                        // baseURL is the url on which paypal sendsback the data.
+                        // So we have provided URL of this controller only
+                        string baseURI = Request.Url.Scheme + "://" + Request.Url.Authority +
+                                    "/Paypal/PaymentWithPayPal?";
+
+                        //guid we are generating for storing the paymentID received in session
+                        //after calling the create function and it is used in the payment execution
+
+                        var guid = Convert.ToString((new Random()).Next(100000));
+
+                        //CreatePayment function gives us the payment approval url
+                        //on which payer is redirected for paypal account payment
+
+
+                        Models.Transaction t = new Models.Transaction();
+                        t.account_id = Convert.ToInt32(Session["User"]);
+                        t.transaction_status_id = 1;
+
+                        var createdPayment = this.CreatePayment(apiContext, baseURI + "guid=" + guid, baseURI + "guid=" + guid, t);
+                        t.paypal_transaction_id = createdPayment.id;
+
+                        db.Transactions.Add(t);
+
+                        db.SaveChanges();
+                        Debug.WriteLine("i am past this line");
+                        //get links returned from paypal in response to Create function call
+
+                        var links = createdPayment.links.GetEnumerator();
+                        string paypalRedirectUrl = null;
+
+                        while (links.MoveNext())
+                        {
+                            Links lnk = links.Current;
+
+                            if (lnk.rel.ToLower().Trim().Equals("approval_url"))
+                            {
+                                //saving the payapalredirect URL to which user will be redirected for payment
+                                paypalRedirectUrl = lnk.href;
+                            }
+                        }
+                        Debug.WriteLine("paypalredir: " + paypalRedirectUrl);
+                        // saving the paymentID in the key guid
+                        Session.Add(guid, createdPayment.id);
+                        
+                        Debug.WriteLine(createdPayment.id + " pendejos");
+
+                        return Redirect(paypalRedirectUrl);
+                    }
+                    else
+                    {
+                        // This section is executed when we have received all the payments parameters
+
+                        // from the previous call to the function Create
+
+                        // Executing a payment
+
+                        var guid = Request.Params["guid"];
+
+                        var executedPayment = ExecutePayment(apiContext, payerId, Session[guid] as string);
+                        Debug.WriteLine(executedPayment.ConvertToJson());
+                        string trans_id = executedPayment.id;
+                        Models.Transaction t = db.Transactions.Where(x => x.paypal_transaction_id == trans_id).FirstOrDefault();
+                        if(t == null)
+                        {
+                            return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                        }
+                        else
+                        {
+                            if (executedPayment.state.ToLower() == "approved")
+                            {
+                                t.transaction_status_id = 2;
+                                Session["Cart"] = new List<CartItemViewModel>();
+                                db.SaveChanges();
+                                return RedirectToAction("Index", "Paypal");
+                            }
+                            else
+                            {
+                                return RedirectToAction("Index", "Paypal");
+                            }
+                        }                        
+                    }
+
+                    //NOTICE PLEBEIAN
+                }
+                else
+                {
+                    return RedirectToAction("Store", "Application");
+                }
+                
             }
-            //NOTICE PLEBEIAN
-            return View("SuccessView");
+            else
+            { 
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            
         }
 
         private PayPal.Api.Payment payment;
@@ -142,55 +205,77 @@ namespace Unbrickable.Controllers
         {
             var paymentExecution = new PaymentExecution() { payer_id = payerId };
             this.payment = new Payment() { id = paymentId };
+            
+            Session["Cart"] = new List<CartItemViewModel>();
             return this.payment.Execute(apiContext, paymentExecution);
         }
 
-        private Payment CreatePayment(APIContext apiContext, string redirectUrl)
+        private Payment CreatePayment(APIContext apiContext, string returnUrl, string cancelUrl, Models.Transaction t)
         {
-
             //similar to credit card create itemlist and add item objects to it
-            var itemList = new ItemList() { items = new List<Item>() };
+            var itemList = new ItemList() { items = new List<PayPal.Api.Item>() };
+            decimal tax = 0, shipping = 0;
+            decimal t_subtotes = 0;
+            List<CartItemViewModel> l_civm = (List<CartItemViewModel>)Session["Cart"];
 
-            itemList.items.Add(new Item()
+            /*
+                Insert Transaction To Database; Set Status to 1 (NotPaid)
+                Make sure to create TransactionItems
+            */
+
+            foreach (CartItemViewModel civm in l_civm)
             {
-                name = "Item Name",
-                currency = "USD",
-                price = "5",
-                quantity = "1",
-                sku = "sku"
-            });
+                TransactionItem ti = new TransactionItem();
+                ti.transaction_id = t.id;
+                ti.item_name = civm.name;
+                ti.item_price = civm.price;
+                ti.quantity = civm.quantity;
+                db.TransactionItems.Add(ti);
+                itemList.items.Add(new PayPal.Api.Item()
+                {
+                    name = civm.name,
+                    currency = "USD",
+                    price = Math.Round(civm.price, 2).ToString(),
+                    quantity = civm.quantity.ToString(),
+                    sku = civm.id.ToString()
+                });
+
+                t_subtotes += civm.price * civm.quantity;
+                // similar as we did for credit card, do here and create details object
+            }
+            var totes = tax + shipping + t_subtotes;
 
             var payer = new Payer() { payment_method = "paypal" };
 
             // Configure Redirect Urls here with RedirectUrls object
             var redirUrls = new RedirectUrls()
             {
-                cancel_url = redirectUrl,
-                return_url = redirectUrl
+                cancel_url = cancelUrl,
+                return_url = returnUrl
             };
 
-            // similar as we did for credit card, do here and create details object
             var details = new Details()
             {
-                tax = "1",
-                shipping = "1",
-                subtotal = "5"
-            };
+                tax = Math.Round(tax, 2).ToString(),
+                shipping = Math.Round(shipping, 2).ToString(),
+                subtotal = Math.Round(t_subtotes, 2).ToString()
+            };            
 
             // similar as we did for credit card, do here and create amount object
             var amount = new Amount()
             {
                 currency = "USD",
-                total = "7", // Total must be equal to sum of shipping, tax and subtotal.
+                total = Math.Round(totes, 2).ToString(), // Total must be equal to sum of shipping, tax and subtotal.
                 details = details
             };
+            
 
-            var transactionList = new List<Transaction>();
+            var transactionList = new List<PayPal.Api.Transaction>();
 
-            transactionList.Add(new Transaction()
+            transactionList.Add(new PayPal.Api.Transaction()
             {
                 description = "Transaction description.",
-                invoice_number = "your invoice number",
+                invoice_number = Session["User"].ToString() + "-" + DateTime.Now.ToString("yyyyMMddHHmmss"),
                 amount = amount,
                 item_list = itemList
             });
@@ -202,7 +287,7 @@ namespace Unbrickable.Controllers
                 transactions = transactionList,
                 redirect_urls = redirUrls
             };
-
+            
             // Create a payment using a APIContext
             return this.payment.Create(apiContext);
         }

@@ -1,4 +1,6 @@
-﻿
+﻿@model IEnumerable<Unbrickable.ViewModels.CartItemViewModel>
+
+
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_HeaderLayout.cshtml";
@@ -7,3 +9,36 @@
 <h2>Index</h2>
 
 @Html.ActionLink("Pay with Paypal Account", "PaymentWithPaypal", "Paypal")
+
+
+@using (Html.BeginForm("PaymentWithPaypal", "Paypal", null, FormMethod.Get, new { @id = "checkout_form", @enctype = "multipart/form-data" }))
+{
+}
+<div class='home-nav-container'>
+    <div class='reg-btn'>
+        <ul class='home-nav-controls'>
+            <li onclick="$('#checkout_form').submit();">
+                <div class='vertical-align control-label-container'>
+                    <div class='control-label'><nav>Swag Up</nav></div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+@if (Model != null)
+{
+    <table>
+        @foreach (Unbrickable.ViewModels.CartItemViewModel civm in Model)
+        {
+            <tr>
+                <td>@civm.name</td>
+                <td>@civm.price</td>
+                <td>@civm.quantity</td>
+                <td>@(civm.price * @civm.quantity)</td>
+            </tr>
+
+        }
+    </table>
+}
+

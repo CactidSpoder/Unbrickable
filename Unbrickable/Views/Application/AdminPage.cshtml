@@ -81,7 +81,7 @@
 			</nav>
 			<div class="content-wrap">
 				<section id="section-fillup-1">
-					<ul class = 'BackUp-list'>
+					<ul class = 'backup-list'>
                         @foreach (Unbrickable.ViewModels.BackUpViewModel buvm in Model.BackUps)
                         {
                             @Html.Partial("BackUp", buvm)
@@ -204,6 +204,7 @@
 </div>
 
 <script type='text/javascript' src='@Url.Content("~/Scripts/classie.js")'></script>
+<!--
 <script>
 	var loader = document.getElementById('la-anim-6-loader')
 		, border = document.getElementById('la-anim-6-border')
@@ -266,6 +267,7 @@
 	} );
 		
 </script>	
+-->
 <script type='text/javascript' src='@Url.Content("~/Scripts/cbpFWTabs.js")'></script>
 <script>
     (function () {
