@@ -1,0 +1,92 @@
+﻿
+<div class="checkout">
+    <div class="checkout-grid">
+        <div class="checkout-grid__item">
+            <img src='@Url.Content("~/Content/img/brick-icon1.png")' alt="Shirt" />
+            <h4>T-Shirt</h4><span class="price">$19.90</span>
+            <h4>Quantity</h4><input class='text-area full-entries checkout-quantity' type='text' name='quan' value='Quantity'>
+            <button class="checkout-grid__item-remove"><i class="icon fa fa-close"></i></button>
+        </div>
+        <div class="checkout-grid__item">
+            <img src='@Url.Content("~/Content/img/brick-icon1.png")' alt="Shirt" />
+            <h4>T-Shirt</h4><span class="price">$19.90</span>
+            <h4>Quantity</h4><input class='text-area full-entries checkout-quantity' type='text' name='quan' value='Quantity'>
+            <button class="checkout-grid__item-remove"><i class="icon fa fa-close"></i></button>
+        </div>
+        <div class="checkout-grid__item">
+            <img src='@Url.Content("~/Content/img/brick-icon1.png")' alt="Shirt" />
+            <h4>T-Shirt</h4><span class="price">$19.90</span>
+            <h4>Quantity</h4><input class='text-area full-entries checkout-quantity' type='text' name='quan' value='Quantity'>
+            <button class="checkout-grid__item-remove"><i class="icon fa fa-close"></i></button>
+        </div>
+        <div class="checkout-grid__item sizing-thingy" id="checkout-grid__item--summary">
+            <button class="checkout__close checkout__cancel"><i class="icon fa fa-close"></i></button>
+            <div class="checkout__total">$219.30</div>
+            <button class="checkout__option checkout__option--loud">Buy</button>
+            <button class="checkout__option checkout__option--silent checkout__cancel">or continue shopping <i class="fa fa-angle-right"></i></button>
+            <a class="checkout__button" href="#">
+                <!-- Fallback location -->
+                <span class="checkout__text">
+                    <svg class="checkout__icon" width="60px" height="60px" viewBox="0 0 35 35">
+                        <path d="m26.818,19.037l3.607,-10.796c0.181,-0.519 0.044,-0.831 -0.102,-1.037c-0.374,-0.527 -1.143,-0.532 -1.292,-0.532l-20.385,-0.004l-0.544,-2.581c-0.147,-0.609 -0.581,-1.19 -1.456,-1.19h-5.729c-0.594,0 -0.917,0.278 -0.917,0.833v1.49c0,0.537 0.322,0.677 0.938,0.677h4.837l3.702,15.717c-0.588,0.623 -0.908,1.531 -0.908,2.378c0,1.864 1.484,3.582 3.38,3.582c1.79,0 3.132,-1.677 3.35,-2.677h7.21c0.218,1 1.305,2.717 3.349,2.717c1.863,0 3.378,-1.614 3.378,-3.475c0,-1.851 -1.125,-3.492 -3.359,-3.492c-0.929,0 -2.031,0.5 -2.543,1.25h-8.859c-0.643,-1 -1.521,-1.31 -2.409,-1.345l-0.123,-0.655h13.479c1.016,0 1.216,-0.37 1.396,-0.86zm-0.935,3.791c0.701,0 1.27,0.569 1.27,1.27s-0.569,1.27 -1.27,1.27s-1.271,-0.568 -1.271,-1.27c0.001,-0.701 0.57,-1.27 1.271,-1.27zm-12.678,1.27c0,0.709 -0.576,1.286 -1.283,1.286c-0.709,-0.002 -1.286,-0.577 -1.286,-1.286s0.577,-1.286 1.286,-1.286c0.707,0 1.283,0.577 1.283,1.286z" />
+                    </svg>
+                </span>
+                <div id='cart-count'>
+                    <label>1</label>
+                </div>
+            </a>
+        </div>
+        <div class="checkout-grid__item">
+            <img src='@Url.Content("~/Content/img/brick-icon1.png")' alt="Shirt" />
+            <h4>T-Shirt</h4><span class="price">$19.90</span>
+            <h4>Quantity</h4><input class='text-area full-entries checkout-quantity' type='text' name='quan' value='Quantity'>
+            <button class="checkout-grid__item-remove"><i class="icon fa fa-close"></i></button>
+        </div>
+        <div class="checkout-grid__item">
+            <img src='@Url.Content("~/Content/img/brick-icon1.png")' alt="Shirt" />
+            <h4>T-Shirt</h4><span class="price">$19.90</span>
+            <h4>Quantity</h4><input class='text-area full-entries checkout-quantity' type='text' name='quan' value='Quantity'>
+            <button class="checkout-grid__item-remove"><i class="icon fa fa-close"></i></button>
+        </div>
+        <div class="checkout-grid__item">
+            <img src='@Url.Content("~/Content/img/brick-icon1.png")' alt="Shirt" />
+            <h4>T-Shirt</h4><span class="price">$19.90</span>
+            <h4>Quantity</h4><input class='text-area full-entries checkout-quantity' type='text' name='quan' value='Quantity'>
+            <button class="checkout-grid__item-remove"><i class="icon fa fa-close"></i></button>
+        </div>
+        <div class="checkout-grid__item">
+            <img src='@Url.Content("~/Content/img/brick-icon1.png")' alt="Shirt" />
+            <h4>T-Shirt</h4><span class="price">$19.90</span>
+            <h4>Quantity</h4><input class='text-area full-entries checkout-quantity' type='text' name='quan' value='Quantity'>
+            <button class="checkout-grid__item-remove"><i class="icon fa fa-close"></i></button>
+        </div>
+
+    </div>
+</div><!-- /checkout -->
+<script>
+    (function () {
+        [].slice.call(document.querySelectorAll('.checkout')).forEach(function (el) {
+            var openCtrl = el.querySelector('.checkout__button'),
+                closeCtrls = el.querySelectorAll('.checkout__cancel');
+            specialBox = document.getElementById('checkout-grid__item--summary');
+            cartCount = document.getElementById('cart-count');
+
+            openCtrl.addEventListener('click', function (ev) {
+                ev.preventDefault();
+                classie.add(el, 'checkout--active');
+                classie.remove(specialBox, 'sizing-thingy')
+                classie.add(specialBox, 'color-thingy')
+                classie.add(cartCount, 'invisible')
+            });
+
+            [].slice.call(closeCtrls).forEach(function (ctrl) {
+                ctrl.addEventListener('click', function () {
+                    classie.remove(el, 'checkout--active');
+                    classie.remove(specialBox, 'color-thingy')
+                    classie.add(specialBox, 'sizing-thingy')
+                    classie.remove(cartCount, 'invisible')
+                });
+            });
+        });
+    })();
+</script>

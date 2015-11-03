@@ -300,8 +300,7 @@
     <Content Include="bin\Unbrickable.dll.config" />
     <Content Include="bin\Unbrickable.pdb" />
     <Content Include="bin\WebGrease.dll" />
-    <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\css\checkout-boxes.css" />
     <Content Include="Content\css\component.css" />
     <Content Include="Content\css\confirmation-box.css" />
     <Content Include="Content\css\error.css" />
@@ -310,17 +309,38 @@
     <Content Include="Content\css\PagedList.css" />
     <Content Include="Content\css\tabs.css" />
     <Content Include="Content\css\tabstyles.css" />
+    <Content Include="Content\fonts\font-awesome-4.2.0\css\font-awesome.min.css" />
+    <Content Include="Content\fonts\font-awesome-4.2.0\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\fonts\stroke7pixeden\stroke7pixeden.eot" />
     <Content Include="Content\fonts\stroke7pixeden\stroke7pixeden.svg" />
+    <Content Include="Content\fonts\stroke7pixeden\stroke7pixeden.ttf" />
+    <Content Include="Content\fonts\stroke7pixeden\stroke7pixeden.woff" />
+    <Content Include="Content\fonts\unbrickable\unbrickable.eot" />
     <Content Include="Content\fonts\unbrickable\unbrickable.svg" />
+    <Content Include="Content\fonts\unbrickable\unbrickable.ttf" />
+    <Content Include="Content\fonts\unbrickable\unbrickable.woff" />
+    <Content Include="Content\img\backer.png" />
     <Content Include="Content\img\brick-icon.png" />
     <Content Include="Content\img\brick-icon1.png" />
     <Content Include="Content\img\brick-icon2.png" />
+    <Content Include="Content\img\broken-brick.png" />
+    <Content Include="Content\img\chatter.png" />
+    <Content Include="Content\img\contributor.png" />
     <Content Include="Content\img\dude.png" />
+    <Content Include="Content\img\elite.png" />
+    <Content Include="Content\img\evangelist.png" />
+    <Content Include="Content\img\explorer.png" />
     <Content Include="Content\img\man.png" />
+    <Content Include="Content\img\participant.png" />
+    <Content Include="Content\img\pillar.png" />
+    <Content Include="Content\img\promoter.png" />
+    <Content Include="Content\img\reg-user.png" />
+    <Content Include="Content\img\shopper.png" />
+    <Content Include="Content\img\socialite.png" />
+    <Content Include="Content\img\supporter.png" />
+    <Content Include="Content\img\upload_photo.png" />
     <Content Include="Content\img\woman.png" />
-    <Content Include="Content\PagedList.css" />
     <Content Include="favicon.ico" />
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="LICENSE.txt" />
     <Content Include="Models\UnbrickableDatabase.Context.tt">
@@ -333,30 +353,22 @@
       <DependentUpon>UnbrickableDatabase.edmx</DependentUpon>
       <LastGenOutput>UnbrickableDatabase.cs</LastGenOutput>
     </Content>
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Content\fonts\font-awesome-4.2.0\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\fonts\font-awesome-4.2.0\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\fonts\font-awesome-4.2.0\fonts\fontawesome-webfont.woff" />
+    <None Include="Properties\PublishProfiles\theunbrickable.pubxml" />
     <Content Include="Scripts\cbpFWTabs.js" />
+    <Content Include="Scripts\cbpViewModeSwitch.js" />
     <Content Include="Scripts\classie.js" />
     <Content Include="Scripts\confirmation-box.js" />
     <Content Include="Scripts\inputmask.js" />
     <Content Include="Scripts\inputmask.regex.extensions.js" />
-    <None Include="Properties\PublishProfiles\theunbrickable.pubxml" />
-    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\jquery-1.10.2.js" />
-    <Content Include="Scripts\jquery-1.10.2.min.js" />
     <Content Include="Scripts\jquery-1.11.1.min.js" />
     <Content Include="Scripts\jquery-ui.js" />
-    <Content Include="Scripts\jquery.form.min.js" />
     <Content Include="Scripts\jquery.inputmask.js" />
-    <None Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.min.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modalEffects.js" />
-    <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Scripts\respond.js" />
-    <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\modernizr.custom.js" />
+    <Content Include="Scripts\si.files.js" />
     <Content Include="Views\Application\Index.cshtml" />
     <Content Include="Views\Application\LoginPage.cshtml" />
     <Content Include="Views\Application\RegisterPage.cshtml" />
@@ -381,6 +393,7 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
+    <Content Include="Views\Shared\Cart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -410,14 +423,6 @@
     <Content Include="Views\Application\EditorTemplates\PostSearchFilter.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\fonts\stroke7pixeden\stroke7pixeden.eot" />
-    <Content Include="Content\fonts\stroke7pixeden\stroke7pixeden.ttf" />
-    <Content Include="Content\fonts\stroke7pixeden\stroke7pixeden.woff" />
-    <Content Include="Content\fonts\unbrickable\unbrickable.eot" />
-    <Content Include="Content\fonts\unbrickable\unbrickable.ttf" />
-    <Content Include="Content\fonts\unbrickable\unbrickable.woff" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Views\Shared\SearchPosts.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -443,9 +448,6 @@
       <DependentUpon>UnbrickableDatabase.edmx</DependentUpon>
     </Content>
     <Content Include="packages.config" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <None Include="Properties\PublishProfiles\theunbrickable - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\theunbrickable - Web Deploy.pubxml" />
     <Content Include="Views\Application\Store.cshtml" />
@@ -454,7 +456,6 @@
     <Content Include="Views\Application\EditItem.cshtml" />
     <Content Include="Views\Application\AboutUs.cshtml" />
     <Content Include="Views\Paypal\Index.cshtml" />
-    <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

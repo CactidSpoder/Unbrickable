@@ -50,8 +50,8 @@ textarea {
 /* Handle */
 ::-webkit-scrollbar-thumb {
     -webkit-border-radius: 10px;
-    border-radius: 10px;
-    background: #eb7e7f;
+    border-radius: 0px;
+    background: #5f6362;
     height: 2px;
 }
 
@@ -71,7 +71,8 @@ body::-webkit-scrollbar {
 .file {
 	text-align: center;
 	position: relative;
-	padding: 20px 0px 20px 0px;
+	padding: 20px 0px 15px 0px;
+	height: 130px;
 	color: #FFFFFF;
 	margin-bottom: 10px;
 	background: #eb7e7f;
@@ -157,7 +158,7 @@ body::-webkit-scrollbar {
 	position: absolute;
 	height: 5px;
 	width: 450px;
-	background-color: #52555A;
+	border-top: 2px dashed #5f6362;
 	left: 50%;
 	transform: translateX(-50%);
 }
@@ -422,7 +423,7 @@ ul {
 .register-pane .text-area {
 	background-color: #FFFFFF;
 	color: #5f6362;
-	border: 3px solid #5f6362;
+	border: 2px solid #5f6362;
 }
 
 .login-pane {
@@ -512,7 +513,7 @@ ul {
 .text-area {
 	color: #5f6362;
 	background-color: #FFFFFF;
-	border: 3px solid #5f6362;
+	border: 2px solid #5f6362;
 	font-size: 1em;
 	padding: 5px 5px;
 	margin-bottom: 10px;
@@ -533,6 +534,7 @@ ul {
 	width: 100%;
 	float: left;
 	position: relative;
+	margin-top: 0px;
 }
 
 .detail-grid > li {
@@ -571,7 +573,7 @@ ul {
 
 .detail-grid select {
 	color: #5f6362;
-	border: 3px solid #5f6362;
+	border: 2px solid #5f6362;
 	background-color: #FFFFFF;
 }
 
@@ -692,9 +694,9 @@ ul {
 
 .sign-in-btn li {
 	height: 50px;
-	width: 50%;
+	width: 45%;
 	float: left;
-	margin: 10px auto;
+	margin: 10px 5px auto;
 }
 
 .sign-in-btn .control-label-container {
@@ -773,7 +775,7 @@ ul {
 	position: relative;
 	width: 200px;
 	height: 200px;
-	border: 3px solid #5f6362;
+	border: 2px solid #5f6362;
 	border-radius: 50%;
 	margin: 10px auto;
 	background-image: url(../img/dude.png);
@@ -784,6 +786,10 @@ ul {
 .item-photo {
 	background-image: url(../img/brick-icon1.png);
 	background-color: #FFF;
+	font-family: stroke7pixeden;
+	text-align: center;
+	font-size: 3em;
+	color: #FFF; 
 }
 
 .description-side {
@@ -865,7 +871,7 @@ ul {
 }
 
 .name-details {
-	height: 140px;
+	height: 120px;
 	width: 100%;
 	position:  relative;
 	float: left;
@@ -965,6 +971,8 @@ ul {
 .reg-paper h1 {
 	color: #5f6362;
 	font-size: 2em;
+	margin-top: 15px;
+	/* margin-bottom: 0px; */
 	text-align: center;
 }
 
@@ -1114,7 +1122,7 @@ ul {
 }
 
 .right-side > li {
-	border-left: 3px dashed #5f6362;
+	border-left: 2px dashed #5f6362;
 }
 
 .left-side {
@@ -1245,7 +1253,7 @@ ul {
 	height: 230px;
 	position: relative;
 	background-color: #FFFFFF;
-	border: 3px solid #5f6362;
+	/* border: 3px solid #5f6362; */
 	color: #5f6362;
 	/* box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.09); */
 }
@@ -1375,7 +1383,7 @@ ul {
 	float: left;
 	width: 100%;
 	height: 100%;
-	/* overflow: auto; */
+	overflow: auto;
 }
 
 .cover {
@@ -1384,9 +1392,9 @@ ul {
 }
 
 .backup-list li {
-	width: 110px;
+	width: 100px;
 	height: 120px;
-	margin: 2% 2.3%;
+	margin: 20px 23px;
 	position: relative;
 	float: left;
 }
@@ -1394,16 +1402,19 @@ ul {
 .file > h1 {
 	font-size: 2em;
 	font-weight: 700;
+	/* margin-top: 18px; */
+	/* margin-bottom: 5px; */
 }
 
 .file > h2 {
-	margin-top: -10px;
+	margin-top: -5px;
 }
 
 .file > h3 {
 	font-size: 1em;
 	font-weight: 100;
-	padding-top: 10px;
+	/* padding-top: 10px; */
+	margin: 5px;
 }
 
 .file:hover {
@@ -1828,7 +1839,7 @@ div input:checked + li .icon-add-filter:before {
 }
 
 .error-box {
-	border: 4px solid #5f6362;
+	border: 2px solid #5f6362;
 	color: #5f6362;
 	height: 270px;
 	width: 300px;
@@ -1851,15 +1862,15 @@ div input:checked + li .icon-add-filter:before {
 	content: 'g';
 }
 
-.cart-count {
+#cart-count {
 	position: absolute;
-	top: -10px;
-	right: -10px;
-	width: 30px;
-	height: 30px;
+	top: 5px;
+	right: 5px;
+	width: 25px;
+	height: 25px;
 	background-color: #eb7e7f;
 	color: #FFFFFF;
-	font-size: 0.9em;
+	font-size: 1em;
 	text-align: center;
 	border-radius: 2px;
 	box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.1);
@@ -1897,7 +1908,7 @@ div input:checked + li .icon-add-filter:before {
 
 .listing-container {
 	width: 800px;
-	color: #52555a;
+	color: #5f6362;
 }
 
 .quantity-side {
@@ -1910,11 +1921,11 @@ div input:checked + li .icon-add-filter:before {
 .quantity-number {
 	width: 20%;
 	font-size: 1em;
-	color: #52555a;
+	color: #5f6362;
 	position: relative;
 	float: right;
 	padding: 10px;
-	border: 3px solid #52555a;
+	border: 2px solid #5f6362;
 }
 
 .quantity-price {
@@ -1942,4 +1953,169 @@ div input:checked + li .icon-add-filter:before {
 
 .description-side .general-logo {
 	margin: 10px;
+}
+
+.listing-btn {
+	width: 165px;
+	float: right;
+}
+
+.listing-btn .home-nav-controls {
+	width: 300px;
+}
+
+.about-us-container {
+	text-align: center;
+	color: #868686;
+}
+
+.site-info {
+	width: 70%;
+	margin: 30px auto;
+	font-size: 1.2em;
+	color: #868686;
+}
+
+.info-header {
+	color: #868686;
+}
+
+.donation-packs ul li {
+	min-height: 210px;
+}
+
+.separator {
+	margin: auto;
+	height: 3px;
+	width: 70%;
+	margin: 20px auto;
+	border: 2px dashed #868686;
+}
+
+.admin-btn .home-nav-controls li:hover {
+	background-color: #6BCCB4;
+	border-color: #6BCCB4;
+}
+
+.fixed-donation-container {
+	margin: auto;
+	width: 70%;
+	height: 100px;
+}
+
+.fixed-donation-container > label {
+	display: inline-block;
+}
+
+.fixed-donation-container > input {
+	width: 200px;
+	margin: 0 5px;
+}
+
+.fixed-donation-container > .cbp-vm-add {
+	color: #FFFFFF;
+	background-color: #6bccb4;
+	margin-left: 60px;
+	font-size: 1.2em;
+	margin: auto;
+	margin-bottom: 20px;
+	margin-top: -5px;
+}
+
+.fixed-donation-container > .cbp-vm-add:hover {
+	background-color: #3DB193;
+}
+
+.upload-photo-icon:before {
+	content: '\e623';
+}
+
+.upload-photo-icon {
+	position: absolute;
+	transform: translate(-50%, -50%);
+	margin-top: 50%;
+	margin-left: 50%;
+}
+
+.SI-FILES-STYLIZED label.cabinet
+{
+	height: 75px;
+	display: block;
+	cursor: pointer;
+	margin-top: 50%;
+	margin-left: 50%;
+	transform: translate(-50%, -50%);
+	position: absolute;
+	font-size: 1.5em;
+	text-align: center;
+	font-family: unbrickable;
+	visibility: hidden;
+	opacity: 0;
+}
+
+.cabinet:before {
+	content: 'h';
+}
+
+.SI-FILES-STYLIZED label.cabinet input.fileBtn
+{
+	position: relative;
+	height: 100%;
+	width: auto;
+	opacity: 0;
+	-moz-opacity: 0;
+	filter:progid:DXImageTransform.Microsoft.Alpha(opacity=0);
+}
+
+.badge-list {
+	position: relative;
+	float: left;
+	width: 600px;
+	color: #5f6362;
+}
+
+.badge-container {
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: -moz-flex;
+	display: -ms-flex;
+	display: flex;
+	-ms-box-orient: horizontal;
+	-ms-box-pack: center;
+	-webkit-flex-flow: row wrap;
+	-moz-flex-flow: row wrap;
+	-ms-flex-flow: row wrap;
+	flex-flow: row wrap;
+	-webkit-justify-content: center;
+	-moz-justify-content: center;
+	-ms-justify-content: center;
+	margin-top: 20px;
+}
+
+.badge-item {
+	-webkit-flex: 1;
+	-moz-flex: 1;
+	-ms-flex: 1;
+	flex: 1;
+	height: 200px;
+}
+
+.badge-photo {
+	width: 150px;
+	height: 135px;
+	margin: auto;
+}
+
+.badge-photo > img {
+	width: 150px;
+	height: 150px;
+	border-radius: 50%;
+	border: 2px solid #5f6362;
+}
+
+.badge-item > h4 {
+	font-size: 1.05em;
+	text-align: center;
+	text-transform: uppercase;
+	margin: 25px;
 }

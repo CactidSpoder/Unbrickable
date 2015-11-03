@@ -6,14 +6,17 @@
         <link rel='stylesheet' type='text/css' href='@Url.Content("~/Content/css/component.css")'>
         <link rel='stylesheet' type='text/css' href='@Url.Content("~/Content/css/confirmation-box.css")'>
         <link rel='stylesheet' type='text/css' href='@Url.Content("~/Content/css/layout.css")'>
+        <link rel='stylesheet' type='text/css' href='@Url.Content("~/Content/css/checkout-boxes.css")'>
+        <link rel="stylesheet" type="text/css" href='@Url.Content("~/Content/fonts/font-awesome-4.2.0/css/font-awesome.min.css")'>
 		<script type = 'text/javascript' src = '@Url.Content("~/Scripts/jquery-1.11.1.min.js")'></script>
 		<script type='text/javascript' src='@Url.Content("~/Scripts/jquery-ui.js")'></script>
 		<script type='text/javascript' src='@Url.Content("~/Scripts/inputmask.js")'></script>
 		<script type='text/javascript' src='@Url.Content("~/Scripts/jquery.inputmask.js")'></script>
 		<script type='text/javascript' src='@Url.Content("~/Scripts/inputmask.regex.extensions.js")'></script>	
         <script type='text/javascript' src='@Url.Content("~/Scripts/jquery.form.min.js")'></script>	
+        <script type='text/javascript' src="@Url.Content("~/Scripts/classie.js")"></script>        
 		@RenderSection("Headers", false)
-        <title></title>
+        <title>The Unbrickable</title>
 	</head>
 	<body>
         <svg class="hidden" viewBox="0 0 610 160">
@@ -55,11 +58,8 @@
                             <a class='lower-nav' href='#' onclick="$('#logout_form').submit();">Logout</a>
                         </nav>
                     </section>
-                    @if (Session["User"] != null)
-                    {
-                        
-                    }
                 </div>
+                //insert cart
             }
             @if (Session["User"] == null)
             {

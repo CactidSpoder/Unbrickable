@@ -35,6 +35,11 @@
             }                     
         </ul>
     </div>
+    @if (Session["User"] != null && Session["Elevation"].Equals("Administrator"))
+    {
+        <div class='add-cat-btn' onclick="window.location='/Application/NewItem'">
+        </div>
+    }
 </div>
 <div class='pane page-number-container'>
     @Html.PagedListPager((IPagedList)Model, page => Url.Action("Store", new { page = page }))

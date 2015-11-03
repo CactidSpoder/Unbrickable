@@ -512,8 +512,9 @@ namespace Unbrickable.Controllers
             bpvm.entry = p.entry;
             bpvm.id = p.id;
             bpvm.account_id = p.account_id;
-            bpvm.joined_date_text = "Member since " + p.Account.birthdate.ToString("MMMM d, yyyy") + ".";
+            bpvm.joined_date_text = "Member since " + p.Account.birthdate.ToString("MMMM d, yyyy");
             bpvm.username = p.Account.username;
+            bpvm.name = p.Account.first_name + " " + p.Account.last_name;
             return bpvm;
         }
 

@@ -502,7 +502,7 @@
 .cbp-vm-options {
 	text-align: right;
 	padding-bottom: 10px;
-	border-bottom: 3px dashed #575757;
+	border-bottom: 2px dashed #575757;
 }
 
 .cbp-vm-options a {
@@ -567,7 +567,7 @@
 	width: 150px;
 	height: 150px;
 	border-radius: 50%;
-	border: 3px solid #575757;
+	border: 2px solid #575757;
 	background-color: #FFF;
 }
 
@@ -630,15 +630,16 @@
 }
 
 .cbp-vm-view-grid ul li {
-	width: 28%;
+	width: 25%;
 	text-align: center;
 	padding: 25px;
 	margin: 20px 20px 0;
 	display: inline-block;
 	min-height: 400px;
 	vertical-align: top;
-	border: 3px solid #575757;
-	background-color: #FFF;
+	/* border: 3px solid #575757; */
+	/* box-shadow: 3px 3px 3px #C4C4C4; */
+	background-color: #FFFFFF;
 }
 
 .cbp-vm-view-grid .cbp-vm-title {
