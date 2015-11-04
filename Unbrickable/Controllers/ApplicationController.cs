@@ -47,6 +47,11 @@ namespace Unbrickable.Controllers
             }
         }
         
+        public ActionResult AboutUs()
+        {
+            return View();
+        }
+
         public ActionResult LoginPage()
         {
             if (Session["User"] != null)
@@ -736,14 +741,22 @@ namespace Unbrickable.Controllers
 
         private List<TransactionViewModel> GetAllTransactions()
         {
-            List<TransactionViewModel> l_tvm = new List<TransactionViewModel>();
-            TransactionViewModel tvm = new TransactionViewModel();
+            List<TransactionViewModel> l_tvm = new List<TransactionViewModel>();           
 
             foreach(Transaction t in db.Transactions)
             {
-                tvm.account_id = t.account_id;
-                tvm.paypal_transaction_id = t.paypal_transaction_id;
-                tvm.transaction_status_id = t.transaction_status_id;
+                TransactionViewModel tvm = new TransactionViewModel();
+                tvm.username = t.Account.username;
+                tvm.name = t.Account.first_name + " " + t.Account.last_name;
+                decimal total = 0;
+                foreach(TransactionItem ti in t.TransactionItems)
+                {
+                    total += (ti.item_price * ti.quantity);
+                }
+                tvm.total = total;
+                tvm.id = t.id;
+                tvm.transaction_status = t.TransactionStatus.value;
+                l_tvm.Add(tvm);
             }
 
             return l_tvm;

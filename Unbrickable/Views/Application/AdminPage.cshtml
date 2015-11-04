@@ -44,6 +44,19 @@
                     if ($("#birth-day-drop-down option").length - 1 >= selected_day) {
                         $("#birth-day-drop-down").prop('selectedIndex', selected_day);
                     }
+                });                
+               
+            });
+            $('.transaction_modal').click(function () {
+                var tr_id = $(this).data("value");
+                $.ajax({
+                    url: '@Url.Action("GetTransactionDetails", "AJAX")',
+                    data: { "id": tr_id },
+                    type: "GET",
+                    cache: false,
+                    success: function (html) {
+                        $('#detail_loc').html(html);
+                    }
                 });
             });
             $("#download_yes").on('click', function () {
@@ -192,67 +205,26 @@
                                 <th class='transactions-table-header'>Items</th>
                                 <th class='transactions-table-header'>Status</th>
                             </tr>
-                            <tr>
-                                <th>Swaggot1</th>
-                                <th class='mid'>Lane, Mich</th>
-                                <th class='mid'>$260.00</th>
-                                <th class='mid'><a href="#detailsModal">Details...</a></th>
-                                <th>Not paid</th>
-                            </tr>
-                            <tr>
-                                <th>Fake_ADC</th>
-                                <th class='mid'>Kaiser, Morde</th>
-                                <th class='mid'>$10.25</th>
-                                <th class='mid'><a href="#detailsModal">Details...</a></th>
-                                <th>Cancelled</th>
-                            </tr>
-                            <tr>
-                                <th>Ayy</th>
-                                <th class='mid'>Ao, Lm</th>
-                                <th class='mid'>$2600.00</th>
-                                <th class='mid'><a href="#detailsModal">Details...</a></th>
-                                <th>Paid</th>
-                            </tr>
-                            <tr>
-                                <th>Real_admin</th>
-                                <th class='mid'>Not A, Fake User</th>
-                                <th class='mid'>$0.00</th>
-                                <th class='mid'><a href="#detailsModal">Details...</a></th>
-                                <th>Paid</th>
-                            </tr>
+                            @foreach (Unbrickable.ViewModels.TransactionViewModel tvm in Model.transactions)
+                            {
+                                <tr>
+                                    <th>@tvm.username</th>
+                                    <th class='mid'>@tvm.name</th>
+                                    <th class='mid'>@String.Format("${0}",Math.Round(tvm.total, 2))</th>
+                                    <th class='mid'><a href="#detailsModal" class="transaction_modal" data-value="@tvm.id">Details...</a></th>
+                                    <th>@tvm.transaction_status</th>
+                                </tr>
+                            }
+                            
                         </tbody>
                     </table>
 
                     <div id="detailsModal" class="modalDialog">
                         <div>
                             <a href="#close" title="Close" class="close">X</a>
-
-                            <h3>Swaggot1</h3>
-
-                            <table class='transactions-table'>
-                                <tbody>
-                                    <tr>
-                                        <th class='transactions-table-header'>Items</th>
-                                        <th class='transactions-table-header'>Quantity</th>
-                                    </tr>
-                                    <tr>
-                                        <th class='between'>Plebeians</th>
-                                        <th>20</th>
-                                    </tr>
-                                    <tr>
-                                        <th class='between'>Salty TSM Tears</th>
-                                        <th>4</th>
-                                    </tr>
-                                    <tr>
-                                        <th class='between'>Ayy</th>
-                                        <th>29</th>
-                                    </tr>
-                                    <tr>
-                                        <th class='between'>Absurd Purchases</th>
-                                        <th>2000</th>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <a id="detail_loc">
+                                If you are seeing this for too long, there might have been an error. Please close this dialog.
+                            </a>
                         </div>
                     </div>
                 </section>

@@ -2192,3 +2192,8 @@ div input:checked + li .icon-add-filter:before {
 }
 
 .close:hover { background: #00d9ff; }
+
+.modal-container {
+    overflow: scroll;
+    max-height: 400px
+}

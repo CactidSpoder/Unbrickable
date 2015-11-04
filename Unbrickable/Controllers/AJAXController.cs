@@ -267,62 +267,32 @@ namespace Unbrickable.Controllers
             return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
 
-        [HttpPost]
-        public ActionResult AddTransaction(int? id)
+        public ActionResult GetTransactionDetails(int? id)
         {
-            if (id == null || Session["User"] == null)
+            if(id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            else
+            Transaction t = db.Transactions.Find(id);
+            if(t == null)
             {
-                Transaction t = db.Transactions.Find(id);
-                if (t == null)
-                {
-                    t = new Transaction();
-                    t.id = (int)id;
-                    t.account_id = (int)Session["User"];
-                    t.transaction_status_id = 0;
-
-                    db.Transactions.Add(t);
-                    db.SaveChanges();
-                }
-
-                return new HttpStatusCodeResult(HttpStatusCode.OK);
+                return HttpNotFound();
             }
+            TransactionDetailViewModel tdvm = new TransactionDetailViewModel();
+            List<TransactionItemDetailViewModel> l_tidvm = new List<TransactionItemDetailViewModel>();
+            foreach(TransactionItem ti in t.TransactionItems)
+            {
+                TransactionItemDetailViewModel tidvm = new TransactionItemDetailViewModel();
+                tidvm.item_name = ti.item_name;
+                tidvm.item_quantity = ti.quantity; ;
+                tidvm.item_price = ti.item_price;
+                tidvm.total_price = ti.item_price * ti.quantity;
+                l_tidvm.Add(tidvm);
+            }
+            tdvm.username = t.Account.username;
+            tdvm.transaction_items = l_tidvm;
+            return PartialView("TransactionDetails", tdvm);
         }
 
-        [HttpPost]
-        public ActionResult EditTransactionStatus(int? id, int? stat)
-        {
-
-            if (id == null || Session["User"] == null || stat == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            else
-            {
-                Transaction t = db.Transactions.Find(id);
-                if (t == null)
-                {
-                    return HttpNotFound();
-                }
-                else
-                {
-                    if ((int)stat == 1)
-                    {
-                        t.transaction_status_id = 1;
-                    }
-                    else if ((int)stat == 2)
-                    {
-                        db.Transactions.Remove(t);
-                    }
-
-                    db.SaveChanges();
-                }
-            }
-            
-            return new HttpStatusCodeResult(HttpStatusCode.OK);
-        }
     }
 }

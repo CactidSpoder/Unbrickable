@@ -65,7 +65,7 @@ namespace Unbrickable.Controllers
 
         private bool IsCartEmpty()
         {
-            if(Session["Cart"] == null)
+            if (Session["Cart"] == null)
             {
                 return true;
             }
@@ -81,9 +81,9 @@ namespace Unbrickable.Controllers
                     return true;
                 }
             }
-            
+
         }
-        
+
         public ActionResult PaymentWithPaypal()
         {
 
@@ -145,8 +145,8 @@ namespace Unbrickable.Controllers
                             }
                         }
                         // saving the paymentID in the key guid
-                        Session.Add(guid, createdPayment.id);                        
-                        
+                        Session.Add(guid, createdPayment.id);
+
                         return Redirect(paypalRedirectUrl);
                     }
                     else
@@ -162,7 +162,11 @@ namespace Unbrickable.Controllers
                         var executedPayment = ExecutePayment(apiContext, payerId, Session[guid] as string);
                         string trans_id = executedPayment.id;
                         Models.Transaction t = db.Transactions.Where(x => x.paypal_transaction_id == trans_id).FirstOrDefault();
-                        if(t == null)
+                        if (t == null)
+                        {
+                            return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                        }
+                        else if (t.account_id != Convert.ToInt32(Session["User"].ToString()))
                         {
                             return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                         }
@@ -179,20 +183,20 @@ namespace Unbrickable.Controllers
                             {
                                 return RedirectToAction("Index", "Paypal");
                             }
-                        }                        
+                        }
                     }
                 }
                 else
                 {
                     return RedirectToAction("Store", "Application");
                 }
-                
+
             }
             else
-            { 
+            {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            
+
         }
 
         public ActionResult CancelPaymentWithPaypal()
@@ -200,15 +204,21 @@ namespace Unbrickable.Controllers
             var guid = Request.Params["guid"];
             string payment_id = Session[guid] as string;
             Models.Transaction t = db.Transactions.Where(x => x.paypal_transaction_id == payment_id).FirstOrDefault();
-            if(t != null)
+
+            if (t == null || Session["User"] == null)
             {
-                t.transaction_status_id = 3;
-                db.SaveChanges();
-                return RedirectToAction("Index", "Paypal");
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            else if (t.account_id != Convert.ToInt32(Session["User"].ToString()))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             else
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                t.transaction_status_id = 3;
+                Session["Cart"] = new List<CartItemViewModel>();
+                db.SaveChanges();
+                return RedirectToAction("Index", "Paypal");
             }
         }
 
