@@ -553,49 +553,7 @@ namespace Unbrickable.Controllers
             npvm.id = Convert.ToInt32(id);
             return npvm;
         }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Post(NewPostViewModel npvm)
-        {
-            if (Session["User"] == null)
-            {
-                return RedirectToAction("LoginPage", "Application");
-            }
-            else if (npvm.id != Convert.ToInt32(Session["User"]))
-            {
-                return RedirectToAction("LoggedInProfile");
-            }
-            else if (this.ModelState.IsValid)
-            {
-                Post p = new Post();
-                Account a = db.Accounts.Find(Session["User"]);
-                
-                if (a == null)
-                {
-                    return RedirectToAction("LoginPage", "Application");
-                }
-                else
-                {
-                    p.account_id = a.id;
-                    var sanitizer = new HtmlSanitizer();
-                    if (npvm.entry == null)
-                    {
-                        npvm.entry = "";
-                    }
-                    string sanitized = sanitizer.Sanitize(npvm.entry);
-                    p.entry = HttpUtility.HtmlEncode(sanitized);
-                    p.date_posted = DateTime.Now;
-                    db.Posts.Add(p);
-                    db.SaveChanges();
-                    return RedirectToAction("Boards", "Application");
-                }                
-            }
-            else
-            {
-                return RedirectToAction("Boards", "Application");
-            }
-        }
+        
 
         public ActionResult PagedSearchResults(string json)
         {
@@ -613,7 +571,7 @@ namespace Unbrickable.Controllers
                         TypeNameHandling = TypeNameHandling.Objects
                     });
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
@@ -1226,6 +1184,84 @@ namespace Unbrickable.Controllers
                 }
             }            
         }
+        
+        
+        public ActionResult DonatePackA()
+        {
+            if (Session["User"] == null)
+            {
+                return RedirectToAction("LoginPage", "Application");
+            }
+            else// if (this.ModelState.IsValid)
+            {
+                //Post p = new Post();
+                Account a = db.Accounts.Find(Session["User"]);
 
+                if (a == null)
+                {
+                    return RedirectToAction("LoginPage", "Application");
+                }
+                else
+                {
+                    Debug.WriteLine("got here pendejoz");
+                    a.donation_total += 5;
+                    db.SaveChanges();
+                    Debug.WriteLine("DONATION NOTED");
+                    return RedirectToAction("AboutUs", "Application");
+                }
+            }
+        }
+
+        public ActionResult DonatePackB()
+        {
+            if (Session["User"] == null)
+            {
+                return RedirectToAction("LoginPage", "Application");
+            }
+            else// if (this.ModelState.IsValid)
+            {
+                //Post p = new Post();
+                Account a = db.Accounts.Find(Session["User"]);
+
+                if (a == null)
+                {
+                    return RedirectToAction("LoginPage", "Application");
+                }
+                else
+                {
+                    Debug.WriteLine("got here pendejoz");
+                    a.donation_total += 10;
+                    db.SaveChanges();
+                    Debug.WriteLine("DONATION NOTED");
+                    return RedirectToAction("AboutUs", "Application");
+                }
+            }
+        }
+
+        public ActionResult DonatePackC()
+        {
+            if (Session["User"] == null)
+            {
+                return RedirectToAction("LoginPage", "Application");
+            }
+            else// if (this.ModelState.IsValid)
+            {
+                //Post p = new Post();
+                Account a = db.Accounts.Find(Session["User"]);
+
+                if (a == null)
+                {
+                    return RedirectToAction("LoginPage", "Application");
+                }
+                else
+                {
+                    Debug.WriteLine("got here pendejoz");
+                    a.donation_total += 20;
+                    db.SaveChanges();
+                    Debug.WriteLine("DONATION NOTED");
+                    return RedirectToAction("AboutUs", "Application");
+                }
+            }
+        }
     }
 }

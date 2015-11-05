@@ -13,10 +13,10 @@
                 @foreach (Unbrickable.ViewModels.TransactionItemDetailViewModel tidvm in Model.transaction_items)
                 {
                     <tr>
-                        <th class='between'>@tidvm.item_name</th>
-                        <th>@tidvm.item_quantity</th>
-                        <th>@String.Format("${0}", Math.Round(tidvm.item_price,2))</th>
-                        <th>@String.Format("${0}", Math.Round(tidvm.total_price,2))</th>
+                        <th>@tidvm.item_name</th>
+                        <th class='mid'>@tidvm.item_quantity</th>
+                        <th class='mid'>@String.Format("${0}", Math.Round(tidvm.item_price,2))</th>
+                        <th class='mid'>@String.Format("${0}", Math.Round(tidvm.total_price,2))</th>
                     </tr>
                 }           
             </tbody>

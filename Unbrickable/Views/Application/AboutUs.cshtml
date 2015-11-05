@@ -33,52 +33,76 @@
             <h1 class='info-header'>Donate to Us!</h1>
             <div id="cbp-vm" class="cbp-vm-switcher cbp-vm-view-grid donation-packs">
                 <ul>
+                    
                     <li>
                         <h3 class="cbp-vm-title">Pack A</h3>
-                        <div class="cbp-vm-price">$5.00</div>
+                        @if (Session["User"] == null)
+                        {
+                            <div class="cbp-vm-price">Please sign in to continue</div>
+                            
+                            <a class="cbp-vm-icon cbp-vm-add" onclick="window.location = '/Application/LoginPage';">Login</a>
+                        }
+                        else
+                        {
+                            <div class="cbp-vm-price">$5.00</div>
 
-                        <form target="paypal" action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
-                            <input type="hidden" name="cmd" value="_s-xclick">
-                            <input type="hidden" name="hosted_button_id" value="H2RP84J54TXU8">
-                            <input type="submit" class="cbp-vm-icon cbp-vm-add" name="Submit" value="Add to Cart" alt="More money for bricks <3">
-                            <img alt="" border="0" src="https://www.sandbox.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
-                        </form>
-
-
-
+                            <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                                <input type="hidden" name="cmd" value="_s-xclick">
+                                <input type="hidden" name="hosted_button_id" value="BPKFB8MVA84S4">
+                                <input type="submit" class="cbp-vm-icon cbp-vm-add" name="Submit" value="Donate" alt="More money for bricks <3">
+                            </form>
+                        }
                     </li>
                     <li>
                         <h3 class="cbp-vm-title">Pack B</h3>
-                        <div class="cbp-vm-price">$10.00</div>
 
-                        <form target="paypal" action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
-                            <input type="hidden" name="cmd" value="_s-xclick">
-                            <input type="hidden" name="hosted_button_id" value="G25SUBH6ZT8ML">
-                            <input type="submit" class="cbp-vm-icon cbp-vm-add" name="Submit" value="Add to Cart" alt="More money for bricks <3">
-                            <img alt="" border="0" src="https://www.sandbox.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
-                        </form>
+                            @if (Session["User"] == null)
+                            {
+                                <div class="cbp-vm-price">Please sign in to continue</div>
+
+                                <a class="cbp-vm-icon cbp-vm-add" onclick="window.location = '/Application/LoginPage';">Login</a>
+                            }
+                            else
+                            {
+                                <div class="cbp-vm-price">$10.00</div>
+
+                                <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                                    <input type="hidden" name="cmd" value="_s-xclick">
+                                    <input type="hidden" name="hosted_button_id" value="K3L26CKYUMEZ8">
+                                    <input type="submit" class="cbp-vm-icon cbp-vm-add" name="Submit" value="Donate" alt="More money for bricks <3">
+                                </form>
+                            }
                     </li>
                     <li>
                         <h3 class="cbp-vm-title">Pack C</h3>
-                        <div class="cbp-vm-price">$20.00</div>
 
-                        <form target="paypal" action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
-                            <input type="hidden" name="cmd" value="_s-xclick">
-                            <input type="hidden" name="hosted_button_id" value="WUW45FZ74V7G4">
-                            <input type="submit" class="cbp-vm-icon cbp-vm-add" name="Submit" value="Add to Cart" alt="More money for bricks <3">
-                            <img alt="" border="0" src="https://www.sandbox.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
-                        </form>
+                        @if (Session["User"] == null)
+                        {
+                            <div class="cbp-vm-price">Please sign in to continue</div>
 
+                            <a class="cbp-vm-icon cbp-vm-add" onclick="window.location = '/Application/LoginPage';">Login</a>
+                        }
+                        else
+                        {
+                            <div class="cbp-vm-price">$20.00</div>
+
+                            <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                                <input type="hidden" name="cmd" value="_s-xclick">
+                                <input type="hidden" name="hosted_button_id" value="WUW45FZ74V7G4">
+                                <input type="submit" class="cbp-vm-icon cbp-vm-add" name="Submit" value="Donate" alt="More money for bricks <3">
+                            </form>
+                        }
                     </li>
                 </ul>
             </div>
 
+            <!--
             <div class='separator'></div>
 
             <div class='fixed-donation-container'>
                 <h2>Or specify an amount you want to donate:</h2>
                 <!--input class = 'text-area full-entries' type = 'text' name = 'donation-amt' value = 'Donation Amount'-->
-                <!--a class="cbp-vm-icon cbp-vm-add" href="#">Donate</a-->
+                <!--a class="cbp-vm-icon cbp-vm-add" href="#">Donate</a--
 
                 <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_top">
                     <input type="hidden" name="cmd" value="_s-xclick">
@@ -89,7 +113,7 @@
 
 
 
-            </div>
+            </div-->
 
             <div class="cd-popup" role="alert">
                 <div class="cd-popup-container">

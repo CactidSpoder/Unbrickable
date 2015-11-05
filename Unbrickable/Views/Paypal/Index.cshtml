@@ -8,7 +8,6 @@
 
 <h2>Index</h2>
 
-@Html.ActionLink("Pay with Paypal Account", "PaymentWithPaypal", "Paypal")
 
 
 @using (Html.BeginForm("PaymentWithPaypal", "Paypal", null, FormMethod.Get, new { @id = "checkout_form", @enctype = "multipart/form-data" }))
@@ -42,3 +41,14 @@
     </table>
 }
 
+@using (Html.BeginForm("AddDonation", "Application", null, FormMethod.Post, new { @id = "donate_form", @enctype = "multipart/form-data" }))
+{}
+<div class='reg-btn'>
+    <ul class='home-nav-controls'>
+        <li onclick="$('#donate_form').submit();">
+            <div class='vertical-align control-label-container'>
+                <div class='control-label'><nav>Test Donination</nav></div>
+            </div>
+        </li>
+    </ul>
+</div>
