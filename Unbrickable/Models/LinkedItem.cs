@@ -15,31 +15,20 @@ namespace Unbrickable.Models
 using System;
     using System.Collections.Generic;
     
-public partial class Item
+public partial class LinkedItem
 {
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-    public Item()
-    {
-
-        this.LinkedItems = new HashSet<LinkedItem>();
-
-    }
-
 
     public int id { get; set; }
 
-    public string name { get; set; }
+    public int post_id { get; set; }
 
-    public string description { get; set; }
-
-    public decimal price { get; set; }
+    public int item_id { get; set; }
 
 
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+    public virtual Post Post { get; set; }
 
-    public virtual ICollection<LinkedItem> LinkedItems { get; set; }
+    public virtual Item Item { get; set; }
 
 }
 

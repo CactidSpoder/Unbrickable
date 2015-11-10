@@ -1,0 +1,33 @@
+﻿@model Unbrickable.ViewModels.CartItemViewModel
+
+<div class="checkout-grid__item">
+    @if (Model.image == "")
+    {
+        <img src="~/Content/img/brick-icon1.png" alt="Shirt" />
+    }
+    else
+    {
+        <img src="@Model.image" alt="Shirt" />
+    }
+
+    <h4>@Model.name</h4><span class="price">@String.Format("${0}", Math.Round(Model.price, 2))</span>
+    <h4>Quantity</h4>
+    @Html.EditorFor(model => model.quantity, new { htmlAttributes = new { @class="text-area full-entries checkout-quantity", @id="Cart_"+ Model.id} });
+    <button class="checkout-grid__item-remove"><i class="icon fa fa-close"></i></button>
+
+</div>
+
+<script>
+    $("#Cart_"+@Model.id).change(function(){
+        var id = @Model.id;
+        var qty = $("#Cart_"+@Model.id).val();
+        $.ajax({
+            cache: false,
+            type: "Post",
+            url: "/AJAX/EditItemQuantityInCart",
+            data: { "id": id , "qty": qty}
+        }).done(function (data) {
+            location.reload();
+        });
+    });
+</script>

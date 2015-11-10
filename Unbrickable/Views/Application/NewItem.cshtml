@@ -4,11 +4,15 @@
     <div class='vertical-align welcome-container profile-container  listing-container'>
 
         <h1>Add a product.</h1>
-        <div class='profile-photo-side'>
-            <div class='profile-photo item-photo'></div>
-        </div>
 @using (Html.BeginForm("NewItem", "Application", null, FormMethod.Post, new { @id = "new_item_form", @enctype = "multipart/form-data" }))
 {
+        <div class='profile-photo-side'>
+            <div class='profile-photo item-photo'>
+                <label class="cabinet">
+                    @Html.TextBoxFor(model => model.image, new { @class = "fileBtn", @type = "file"  })
+                </label>
+            </div>
+        </div>
     @Html.AntiForgeryToken()
         <div class='description-side'>
             <ul class='detail-grid'>
@@ -48,3 +52,16 @@
         </div>
     </div>
 </div>
+<script>
+    SI.Files.stylizeAll();
+
+    $('.item-photo').mouseenter(function () {
+        $('.cabinet').css('visibility', 'visible').css('opacity', '1');
+        $(this).css('background-color', '#83E0C9').css('border', '3px solid #83E0C9');
+        $(this).css('opacity', '.6');
+    }).mouseleave(function () {
+        $('.cabinet').css('visibility', 'hidden').css('opacity', '0');
+        $(this).css('background-color', '#FFF').css('border', '3px solid #5f6362');
+        $(this).css('opacity', '1');
+    });
+</script>

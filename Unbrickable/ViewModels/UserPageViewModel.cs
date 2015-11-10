@@ -15,5 +15,8 @@ namespace Unbrickable.ViewModels
         public DateTime birthday { get; set; }
         public string Salutation { get; set; }
         public string about_me { get; set; }
+        public int post_badge_level { get; set; }
+        public int donation_badge_level { get; set; }
+        public int purchase_badge_level { get; set; }
     }
 }

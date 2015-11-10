@@ -62,89 +62,123 @@
 
                 <div class='badge-list'>
                     <h1>Badges</h1>
-                    <div class='badge-container'>
-                        <div class='badge-item'>
-                            <div class='badge-photo'>
-                                <img src='@Url.Content("~/Content/img/participant.png")'>
+                    @if (Model.post_badge_level > 0)
+                    {                        
+                        <div class='badge-container'>
+                            <div class='badge-item'>
+                                <div class='badge-photo'>
+                                    <img src='@Url.Content("~/Content/img/participant.png")'>
+                                </div>
+                                <h4>Participant</h4>
                             </div>
-                            <h4>Participant</h4>
+                            @if (Model.post_badge_level >= 2)
+                            {
+                                <div class='badge-item'>
+                                    <div class='badge-photo'>
+                                        <img src='@Url.Content("~/Content/img/chatter.png")' />
+                                    </div>
+                                    <h4>Chatter</h4>
+                                </div>
+                                if (Model.post_badge_level >= 3)
+                                {
+                                    <div class='badge-item'>
+                                        <div class='badge-photo'>
+                                            <img src='@Url.Content("~/Content/img/socialite.png")'>
+                                        </div>
+                                        <h4>Socialite</h4>
+                                    </div>
+                                }                                
+                            }                        
+                            
                         </div>
-                        <div class='badge-item'>
-                            <div class='badge-photo'>
-                                <img src='@Url.Content("~/Content/img/chatter.png")' />
+                    }                   
+                    @if (Model.donation_badge_level > 0)
+                    {
+                        <div class='badge-container'>                            
+                            <div class='badge-item'>
+                                <div class='badge-photo'>
+                                    <img src='@Url.Content("~/Content/img/supporter.png")'>
+                                </div>
+                                <h4>Supporter</h4>
                             </div>
-                            <h4>Chatter</h4>
+                            @if (Model.donation_badge_level >= 2)
+                            {
+                                <div class='badge-item'>
+                                    <div class='badge-photo'>
+                                        <img src='@Url.Content("~/Content/img/contributor.png")'>
+                                    </div>
+                                    <h4>Contributor</h4>
+                                </div>
+                                if (Model.donation_badge_level >= 3)
+                                {
+                                    <div class='badge-item'>
+                                        <div class='badge-photo'>
+                                            <img src='@Url.Content("~/Content/img/pillar.png")'>
+                                        </div>
+                                        <h4>Pillar</h4>
+                                    </div>
+                                }                                
+                            }                            
                         </div>
-                        <div class='badge-item'>
-                            <div class='badge-photo'>
-                                <img src='@Url.Content("~/Content/img/socialite.png")'>
+                    }
+                    @if (Model.purchase_badge_level > 0)
+                    {
+                        <div class='badge-container'>
+                            <div class='badge-item'>
+                                <div class='badge-photo'>
+                                    <img src='@Url.Content("~/Content/img/shopper.png")'>
+                                </div>
+                                <h4>Shopper</h4>
                             </div>
-                            <h4>Socialite</h4>
+                            @if (Model.purchase_badge_level >= 2)
+                            {
+                                <div class='badge-item'>
+                                    <div class='badge-photo'>
+                                        <img src='@Url.Content("~/Content/img/promoter.png")'>
+                                    </div>
+                                    <h4>Promoter</h4>
+                                </div>
+                                if (Model.purchase_badge_level >= 3)
+                                {
+                                    <div class='badge-item'>
+                                        <div class='badge-photo'>
+                                            <img src='@Url.Content("~/Content/img/elite.png")'>
+                                        </div>
+                                        <h4>Elite</h4>
+                                    </div>
+                                }
+                            }                            
                         </div>
-                    </div>
-
-                    <div class='badge-container'>
-                        <div class='badge-item'>
-                            <div class='badge-photo'>
-                                <img src='@Url.Content("~/Content/img/supporter.png")'>
+                    }                   
+                    @if (Model.post_badge_level > 0 && Model.purchase_badge_level > 0 && Model.donation_badge_level > 0)
+                    {
+                        <div class='badge-container'>
+                            <div class='badge-item'>
+                                <div class='badge-photo'>
+                                    <img src='@Url.Content("~/Content/img/explorer.png")'>
+                                </div>
+                                <h4>Explorer</h4>
                             </div>
-                            <h4>Supporter</h4>
+                            @if (Model.post_badge_level >= 2 && Model.purchase_badge_level >= 2 && Model.donation_badge_level >= 2)
+                            {
+                                <div class='badge-item'>
+                                    <div class='badge-photo'>
+                                        <img src='@Url.Content("~/Content/img/backer.png")'>
+                                    </div>
+                                    <h4>Backer</h4>
+                                </div>
+                                if (Model.post_badge_level >= 3 && Model.purchase_badge_level >= 3 && Model.donation_badge_level >= 3)
+                                {
+                                <div class='badge-item'>
+                                    <div class='badge-photo'>
+                                        <img src='@Url.Content("~/Content/img/evangelist.png")'>
+                                    </div>
+                                    <h4>Evangelist</h4>
+                                </div>
+                                }
+                            }                            
                         </div>
-                        <div class='badge-item'>
-                            <div class='badge-photo'>
-                                <img src='@Url.Content("~/Content/img/contributor.png")'>
-                            </div>
-                            <h4>Contributor</h4>
-                        </div>
-                        <div class='badge-item'>
-                            <div class='badge-photo'>
-                                <img src='@Url.Content("~/Content/img/pillar.png")'>
-                            </div>
-                            <h4>Pillar</h4>
-                        </div>
-                    </div>
-
-                    <div class='badge-container'>
-                        <div class='badge-item'>
-                            <div class='badge-photo'>
-                                <img src='@Url.Content("~/Content/img/shopper.png")'>
-                            </div>
-                            <h4>Shopper</h4>
-                        </div>
-                        <div class='badge-item'>
-                            <div class='badge-photo'>
-                                <img src='@Url.Content("~/Content/img/promoter.png")'>
-                            </div>
-                            <h4>Promoter</h4>
-                        </div>
-                        <div class='badge-item'>
-                            <div class='badge-photo'>
-                                <img src='@Url.Content("~/Content/img/elite.png")'>
-                            </div>
-                            <h4>Elite</h4>
-                        </div>
-                    </div>
-
-                    <div class='badge-container'>
-                        <div class='badge-item'>
-                            <div class='badge-photo'>
-                                <img src='@Url.Content("~/Content/img/explorer.png")'>
-                            </div>
-                            <h4>Explorer</h4>
-                        </div>
-                        <div class='badge-item'>
-                            <div class='badge-photo'>
-                                <img src='@Url.Content("~/Content/img/backer.png")'>
-                            </div>
-                            <h4>Backer</h4>
-                        </div>
-                        <div class='badge-item'>
-                            <div class='badge-photo'>
-                                <img src='@Url.Content("~/Content/img/evangelist.png")'>
-                            </div>
-                            <h4>Evangelist</h4>
-                        </div>
-                    </div>
+                    }                    
                 </div>
 			</div>	   
 		</div>

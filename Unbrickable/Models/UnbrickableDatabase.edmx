@@ -27,7 +27,7 @@
           <Property Name="about_me" Type="text" Nullable="false" />
           <Property Name="access_level_id" Type="int" Nullable="false" />
           <Property Name="date_joined" Type="datetime2" Precision="7" Nullable="false" />
-          <Property Name="donation_total" Type="decimal" Precision="19" Scale="4" />
+          <Property Name="donation_total" Type="decimal" Precision="19" Scale="4" Nullable="false" />
         </EntityType>
         <EntityType Name="BackUps">
           <Key>
@@ -52,8 +52,15 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="description" Type="text" />
-          <Property Name="image" Type="varbinary(max)" />
           <Property Name="price" Type="decimal" Precision="19" Scale="4" Nullable="false" />
+        </EntityType>
+        <EntityType Name="LinkedItems">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="post_id" Type="int" Nullable="false" />
+          <Property Name="item_id" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Posts">
           <Key>
@@ -92,6 +99,7 @@
           <Property Name="account_id" Type="int" Nullable="false" />
           <Property Name="transaction_status_id" Type="int" Nullable="false" />
           <Property Name="paypal_transaction_id" Type="varchar" MaxLength="256" Nullable="false" />
+          <Property Name="date_of_transaction" Type="datetime2" Precision="7" Nullable="false" />
         </EntityType>
         <EntityType Name="TransactionStatus">
           <Key>
@@ -100,7 +108,7 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="value" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
-        <Association Name="FK__Accounts__access__25476A76">
+        <Association Name="FK__Accounts__access__4BF72343">
           <End Role="AccessLevels" Type="Self.AccessLevels" Multiplicity="1" />
           <End Role="Accounts" Type="Self.Accounts" Multiplicity="*" />
           <ReferentialConstraint>
@@ -112,7 +120,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Accounts__gender__235F2204">
+        <Association Name="FK__Accounts__gender__4A0EDAD1">
           <End Role="Genders" Type="Self.Genders" Multiplicity="1" />
           <End Role="Accounts" Type="Self.Accounts" Multiplicity="*" />
           <ReferentialConstraint>
@@ -124,7 +132,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Accounts__saluta__2453463D">
+        <Association Name="FK__Accounts__saluta__4B02FF0A">
           <End Role="Salutations" Type="Self.Salutations" Multiplicity="1" />
           <End Role="Accounts" Type="Self.Accounts" Multiplicity="*" />
           <ReferentialConstraint>
@@ -136,7 +144,31 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Posts__account_i__2A0C1F93">
+        <Association Name="FK__LinkedIte__item___5B3966D3">
+          <End Role="Items" Type="Self.Items" Multiplicity="1" />
+          <End Role="LinkedItems" Type="Self.LinkedItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Items">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="LinkedItems">
+              <PropertyRef Name="item_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__LinkedIte__post___5A45429A">
+          <End Role="Posts" Type="Self.Posts" Multiplicity="1" />
+          <End Role="LinkedItems" Type="Self.LinkedItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Posts">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="LinkedItems">
+              <PropertyRef Name="post_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Posts__account_i__50BBD860">
           <End Role="Accounts" Type="Self.Accounts" Multiplicity="1" />
           <End Role="Posts" Type="Self.Posts" Multiplicity="*" />
           <ReferentialConstraint>
@@ -148,7 +180,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Posts__editor_id__2B0043CC">
+        <Association Name="FK__Posts__editor_id__51AFFC99">
           <End Role="Accounts" Type="Self.Accounts" Multiplicity="0..1" />
           <End Role="Posts" Type="Self.Posts" Multiplicity="*" />
           <ReferentialConstraint>
@@ -160,7 +192,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Salutatio__gende__18E19391">
+        <Association Name="FK__Salutatio__gende__3E9D2825">
           <End Role="Genders" Type="Self.Genders" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
@@ -174,7 +206,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Transacti__accou__3489AE06">
+        <Association Name="FK__Transacti__accou__5FFE1BF0">
           <End Role="Accounts" Type="Self.Accounts" Multiplicity="1" />
           <End Role="Transactions" Type="Self.Transactions" Multiplicity="*" />
           <ReferentialConstraint>
@@ -186,7 +218,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Transacti__trans__357DD23F">
+        <Association Name="FK__Transacti__trans__60F24029">
           <End Role="TransactionStatus" Type="Self.TransactionStatus" Multiplicity="1" />
           <End Role="Transactions" Type="Self.Transactions" Multiplicity="*" />
           <ReferentialConstraint>
@@ -198,7 +230,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Transacti__trans__385A3EEA">
+        <Association Name="FK__Transacti__trans__63CEACD4">
           <End Role="Transactions" Type="Self.Transactions" Multiplicity="1" />
           <End Role="TransactionItems" Type="Self.TransactionItems" Multiplicity="*" />
           <ReferentialConstraint>
@@ -216,44 +248,53 @@
           <EntitySet Name="BackUps" EntityType="Self.BackUps" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Genders" EntityType="Self.Genders" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Items" EntityType="Self.Items" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LinkedItems" EntityType="Self.LinkedItems" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Posts" EntityType="Self.Posts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Salutations" EntityType="Self.Salutations" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TransactionItems" EntityType="Self.TransactionItems" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Transactions" EntityType="Self.Transactions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TransactionStatus" EntityType="Self.TransactionStatus" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__Accounts__access__25476A76" Association="Self.FK__Accounts__access__25476A76">
+          <AssociationSet Name="FK__Accounts__access__4BF72343" Association="Self.FK__Accounts__access__4BF72343">
             <End Role="AccessLevels" EntitySet="AccessLevels" />
             <End Role="Accounts" EntitySet="Accounts" />
           </AssociationSet>
-          <AssociationSet Name="FK__Accounts__gender__235F2204" Association="Self.FK__Accounts__gender__235F2204">
+          <AssociationSet Name="FK__Accounts__gender__4A0EDAD1" Association="Self.FK__Accounts__gender__4A0EDAD1">
             <End Role="Genders" EntitySet="Genders" />
             <End Role="Accounts" EntitySet="Accounts" />
           </AssociationSet>
-          <AssociationSet Name="FK__Accounts__saluta__2453463D" Association="Self.FK__Accounts__saluta__2453463D">
+          <AssociationSet Name="FK__Accounts__saluta__4B02FF0A" Association="Self.FK__Accounts__saluta__4B02FF0A">
             <End Role="Salutations" EntitySet="Salutations" />
             <End Role="Accounts" EntitySet="Accounts" />
           </AssociationSet>
-          <AssociationSet Name="FK__Posts__account_i__2A0C1F93" Association="Self.FK__Posts__account_i__2A0C1F93">
+          <AssociationSet Name="FK__LinkedIte__item___5B3966D3" Association="Self.FK__LinkedIte__item___5B3966D3">
+            <End Role="Items" EntitySet="Items" />
+            <End Role="LinkedItems" EntitySet="LinkedItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK__LinkedIte__post___5A45429A" Association="Self.FK__LinkedIte__post___5A45429A">
+            <End Role="Posts" EntitySet="Posts" />
+            <End Role="LinkedItems" EntitySet="LinkedItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Posts__account_i__50BBD860" Association="Self.FK__Posts__account_i__50BBD860">
             <End Role="Accounts" EntitySet="Accounts" />
             <End Role="Posts" EntitySet="Posts" />
           </AssociationSet>
-          <AssociationSet Name="FK__Posts__editor_id__2B0043CC" Association="Self.FK__Posts__editor_id__2B0043CC">
+          <AssociationSet Name="FK__Posts__editor_id__51AFFC99" Association="Self.FK__Posts__editor_id__51AFFC99">
             <End Role="Accounts" EntitySet="Accounts" />
             <End Role="Posts" EntitySet="Posts" />
           </AssociationSet>
-          <AssociationSet Name="FK__Salutatio__gende__18E19391" Association="Self.FK__Salutatio__gende__18E19391">
+          <AssociationSet Name="FK__Salutatio__gende__3E9D2825" Association="Self.FK__Salutatio__gende__3E9D2825">
             <End Role="Genders" EntitySet="Genders" />
             <End Role="Salutations" EntitySet="Salutations" />
           </AssociationSet>
-          <AssociationSet Name="FK__Transacti__accou__3489AE06" Association="Self.FK__Transacti__accou__3489AE06">
+          <AssociationSet Name="FK__Transacti__accou__5FFE1BF0" Association="Self.FK__Transacti__accou__5FFE1BF0">
             <End Role="Accounts" EntitySet="Accounts" />
             <End Role="Transactions" EntitySet="Transactions" />
           </AssociationSet>
-          <AssociationSet Name="FK__Transacti__trans__357DD23F" Association="Self.FK__Transacti__trans__357DD23F">
+          <AssociationSet Name="FK__Transacti__trans__60F24029" Association="Self.FK__Transacti__trans__60F24029">
             <End Role="TransactionStatus" EntitySet="TransactionStatus" />
             <End Role="Transactions" EntitySet="Transactions" />
           </AssociationSet>
-          <AssociationSet Name="FK__Transacti__trans__385A3EEA" Association="Self.FK__Transacti__trans__385A3EEA">
+          <AssociationSet Name="FK__Transacti__trans__63CEACD4" Association="Self.FK__Transacti__trans__63CEACD4">
             <End Role="Transactions" EntitySet="Transactions" />
             <End Role="TransactionItems" EntitySet="TransactionItems" />
           </AssociationSet>
@@ -290,8 +331,8 @@
           <NavigationProperty Name="Salutation" Relationship="Self.FK__Accounts__saluta__336AA144" FromRole="Accounts" ToRole="Salutations" />
           <NavigationProperty Name="Posts" Relationship="Self.FK__Posts__account_i__382F5661" FromRole="Accounts" ToRole="Posts" />
           <NavigationProperty Name="EditedPosts" Relationship="Self.FK__Posts__editor_id__39237A9A" FromRole="Accounts" ToRole="Posts" />
-          <Property Name="donation_total" Type="Decimal" Precision="19" Scale="4" />
-          <NavigationProperty Name="Transactions" Relationship="UnbrickableModel.FK__Transacti__accou__3489AE06" FromRole="Account" ToRole="Transaction" />
+          <Property Name="donation_total" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <NavigationProperty Name="Transactions" Relationship="UnbrickableModel.FK__Transacti__accou__77168B72" FromRole="Account" ToRole="Transaction" />
         </EntityType>
         <EntityType Name="Gender">
           <Key>
@@ -314,6 +355,7 @@
           <Property Name="entry" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="Account" Relationship="Self.FK__Posts__account_i__382F5661" FromRole="Posts" ToRole="Accounts" />
           <NavigationProperty Name="Editor" Relationship="Self.FK__Posts__editor_id__39237A9A" FromRole="Posts" ToRole="Accounts" />
+          <NavigationProperty Name="LinkedItems" Relationship="UnbrickableModel.FK__LinkedIte__post___5A45429A" FromRole="Post" ToRole="LinkedItem" />
         </EntityType>
         <EntityType Name="Salutation">
           <Key>
@@ -429,34 +471,33 @@
             <End Role="Genders" EntitySet="Genders" />
             <End Role="Salutations" EntitySet="Salutations" />
           </AssociationSet>
-          <EntitySet Name="Items" EntityType="UnbrickableModel.Item" />
           <EntitySet Name="BackUps" EntityType="UnbrickableModel.BackUp" />
           <EntitySet Name="TransactionItems" EntityType="UnbrickableModel.TransactionItem" />
           <EntitySet Name="TransactionStatus1" EntityType="UnbrickableModel.TransactionStatus" />
           <EntitySet Name="Transactions" EntityType="UnbrickableModel.Transaction" />
-          <AssociationSet Name="FK__Transacti__accou__3489AE06" Association="UnbrickableModel.FK__Transacti__accou__3489AE06">
+          <AssociationSet Name="FK__Transacti__accou__77168B72" Association="UnbrickableModel.FK__Transacti__accou__77168B72">
             <End Role="Account" EntitySet="Accounts" />
             <End Role="Transaction" EntitySet="Transactions" />
           </AssociationSet>
-          <AssociationSet Name="FK__Transacti__trans__385A3EEA" Association="UnbrickableModel.FK__Transacti__trans__385A3EEA">
+          <AssociationSet Name="FK__Transacti__trans__7AE71C56" Association="UnbrickableModel.FK__Transacti__trans__7AE71C56">
             <End Role="Transaction" EntitySet="Transactions" />
             <End Role="TransactionItem" EntitySet="TransactionItems" />
           </AssociationSet>
-          <AssociationSet Name="FK__Transacti__trans__357DD23F" Association="UnbrickableModel.FK__Transacti__trans__357DD23F">
+          <AssociationSet Name="FK__Transacti__trans__780AAFAB" Association="UnbrickableModel.FK__Transacti__trans__780AAFAB">
             <End Role="TransactionStatus" EntitySet="TransactionStatus1" />
             <End Role="Transaction" EntitySet="Transactions" />
           </AssociationSet>
+          <EntitySet Name="LinkedItems" EntityType="UnbrickableModel.LinkedItem" />
+          <AssociationSet Name="FK__LinkedIte__post___5A45429A" Association="UnbrickableModel.FK__LinkedIte__post___5A45429A">
+            <End Role="Post" EntitySet="Posts" />
+            <End Role="LinkedItem" EntitySet="LinkedItems" />
+          </AssociationSet>
+          <EntitySet Name="Items" EntityType="UnbrickableModel.Item" />
+          <AssociationSet Name="FK__LinkedIte__item___5B3966D3" Association="UnbrickableModel.FK__LinkedIte__item___5B3966D3">
+            <End Role="Item" EntitySet="Items" />
+            <End Role="LinkedItem" EntitySet="LinkedItems" />
+          </AssociationSet>
           </EntityContainer>
-        <EntityType Name="Item">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="image" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <Property Name="price" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
-        </EntityType>
         <EntityType Name="BackUp">
           <Key>
             <PropertyRef Name="id" />
@@ -475,7 +516,7 @@
           <Property Name="item_name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="item_price" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
           <Property Name="quantity" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Transaction" Relationship="UnbrickableModel.FK__Transacti__trans__385A3EEA" FromRole="TransactionItem" ToRole="Transaction" />
+          <NavigationProperty Name="Transaction" Relationship="UnbrickableModel.FK__Transacti__trans__7AE71C56" FromRole="TransactionItem" ToRole="Transaction" />
         </EntityType>
         <EntityType Name="TransactionStatus">
           <Key>
@@ -483,7 +524,7 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="value" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Transactions" Relationship="UnbrickableModel.FK__Transacti__trans__357DD23F" FromRole="TransactionStatus" ToRole="Transaction" />
+          <NavigationProperty Name="Transactions" Relationship="UnbrickableModel.FK__Transacti__trans__780AAFAB" FromRole="TransactionStatus" ToRole="Transaction" />
         </EntityType>
         <EntityType Name="Transaction">
           <Key>
@@ -493,11 +534,12 @@
           <Property Name="account_id" Type="Int32" Nullable="false" />
           <Property Name="transaction_status_id" Type="Int32" Nullable="false" />
           <Property Name="paypal_transaction_id" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Account" Relationship="UnbrickableModel.FK__Transacti__accou__3489AE06" FromRole="Transaction" ToRole="Account" />
-          <NavigationProperty Name="TransactionItems" Relationship="UnbrickableModel.FK__Transacti__trans__385A3EEA" FromRole="Transaction" ToRole="TransactionItem" />
-          <NavigationProperty Name="TransactionStatus" Relationship="UnbrickableModel.FK__Transacti__trans__357DD23F" FromRole="Transaction" ToRole="TransactionStatus" />
+          <Property Name="date_of_transaction" Type="DateTime" Nullable="false" Precision="7" />
+          <NavigationProperty Name="Account" Relationship="UnbrickableModel.FK__Transacti__accou__77168B72" FromRole="Transaction" ToRole="Account" />
+          <NavigationProperty Name="TransactionItems" Relationship="UnbrickableModel.FK__Transacti__trans__7AE71C56" FromRole="Transaction" ToRole="TransactionItem" />
+          <NavigationProperty Name="TransactionStatus" Relationship="UnbrickableModel.FK__Transacti__trans__780AAFAB" FromRole="Transaction" ToRole="TransactionStatus" />
         </EntityType>
-        <Association Name="FK__Transacti__accou__3489AE06">
+        <Association Name="FK__Transacti__accou__77168B72">
           <End Type="UnbrickableModel.Account" Role="Account" Multiplicity="1" />
           <End Type="UnbrickableModel.Transaction" Role="Transaction" Multiplicity="*" />
           <ReferentialConstraint>
@@ -509,7 +551,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Transacti__trans__385A3EEA">
+        <Association Name="FK__Transacti__trans__7AE71C56">
           <End Type="UnbrickableModel.Transaction" Role="Transaction" Multiplicity="1" />
           <End Type="UnbrickableModel.TransactionItem" Role="TransactionItem" Multiplicity="*" />
           <ReferentialConstraint>
@@ -521,7 +563,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Transacti__trans__357DD23F">
+        <Association Name="FK__Transacti__trans__780AAFAB">
           <End Type="UnbrickableModel.TransactionStatus" Role="TransactionStatus" Multiplicity="1" />
           <End Type="UnbrickableModel.Transaction" Role="Transaction" Multiplicity="*" />
           <ReferentialConstraint>
@@ -530,6 +572,50 @@
             </Principal>
             <Dependent Role="Transaction">
               <PropertyRef Name="transaction_status_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="LinkedItem">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="post_id" Type="Int32" Nullable="false" />
+          <Property Name="item_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Post" Relationship="UnbrickableModel.FK__LinkedIte__post___5A45429A" FromRole="LinkedItem" ToRole="Post" />
+          <NavigationProperty Name="Item" Relationship="UnbrickableModel.FK__LinkedIte__item___5B3966D3" FromRole="LinkedItem" ToRole="Item" />
+        </EntityType>
+        <Association Name="FK__LinkedIte__post___5A45429A">
+          <End Type="UnbrickableModel.Post" Role="Post" Multiplicity="1" />
+          <End Type="UnbrickableModel.LinkedItem" Role="LinkedItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Post">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="LinkedItem">
+              <PropertyRef Name="post_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Item">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="price" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <NavigationProperty Name="LinkedItems" Relationship="UnbrickableModel.FK__LinkedIte__item___5B3966D3" FromRole="Item" ToRole="LinkedItem" />
+        </EntityType>
+        <Association Name="FK__LinkedIte__item___5B3966D3">
+          <End Type="UnbrickableModel.Item" Role="Item" Multiplicity="1" />
+          <End Type="UnbrickableModel.LinkedItem" Role="LinkedItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="LinkedItem">
+              <PropertyRef Name="item_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -594,17 +680,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Items">
-            <EntityTypeMapping TypeName="UnbrickableModel.Item">
-              <MappingFragment StoreEntitySet="Items">
-                <ScalarProperty Name="price" ColumnName="price" />
-                <ScalarProperty Name="image" ColumnName="image" />
-                <ScalarProperty Name="description" ColumnName="description" />
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="BackUps">
             <EntityTypeMapping TypeName="UnbrickableModel.BackUp">
               <MappingFragment StoreEntitySet="BackUps">
@@ -637,9 +712,29 @@
           <EntitySetMapping Name="Transactions">
             <EntityTypeMapping TypeName="UnbrickableModel.Transaction">
               <MappingFragment StoreEntitySet="Transactions">
+                <ScalarProperty Name="date_of_transaction" ColumnName="date_of_transaction" />
                 <ScalarProperty Name="paypal_transaction_id" ColumnName="paypal_transaction_id" />
                 <ScalarProperty Name="transaction_status_id" ColumnName="transaction_status_id" />
                 <ScalarProperty Name="account_id" ColumnName="account_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LinkedItems">
+            <EntityTypeMapping TypeName="UnbrickableModel.LinkedItem">
+              <MappingFragment StoreEntitySet="LinkedItems">
+                <ScalarProperty Name="item_id" ColumnName="item_id" />
+                <ScalarProperty Name="post_id" ColumnName="post_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Items">
+            <EntityTypeMapping TypeName="UnbrickableModel.Item">
+              <MappingFragment StoreEntitySet="Items">
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

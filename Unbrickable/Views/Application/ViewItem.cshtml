@@ -3,13 +3,13 @@
 @section Headers{
     <script>
         $(document).ready(function () {
-            $('#quantity').change(function () {
-                var num = $('#quantity').val() * @Model.price;
+            $('#quantity_p').change(function () {
+                var num = $('#quantity_p').val() * @Model.price;
                 $('#total_val').html(num.toFixed(2));
             });
         });
     </script>
-    }
+}
 
 <div class='prof-container'>
 
@@ -39,7 +39,7 @@
                     {
                         @Html.AntiForgeryToken()
                         @Html.HiddenFor(model => model.id)
-                        @Html.EditorFor(model => model.quantity, new { htmlAttributes = new { @class = "text-area quantity-number", @id = "quantity" } })
+                        @Html.EditorFor(model => model.quantity, new { htmlAttributes = new { @class = "text-area quantity-number", @id = "quantity_p" } })
                     }                    
                     <label class='quantity-symbol'>x</label>
                 </div>

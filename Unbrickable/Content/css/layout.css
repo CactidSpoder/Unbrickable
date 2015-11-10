@@ -51,7 +51,7 @@ textarea {
 ::-webkit-scrollbar-thumb {
     -webkit-border-radius: 10px;
     border-radius: 0px;
-    background: #5f6362;
+    background: #d1d3d2;
     height: 2px;
 }
 
@@ -1032,6 +1032,7 @@ ul {
 	margin: auto;
 	margin-top: 0px;
 	margin-bottom: 0px;
+	z-index: 2001;
 }
 
 .nav-top-effect {
@@ -1205,6 +1206,7 @@ ul {
 	color: #5f6362;
 	margin-top: 3px;
 	font-size: 1.3em;
+	resize: none;
 }
 
 .entry-comment img {
@@ -1989,7 +1991,7 @@ div input:checked + li .icon-add-filter:before {
 	height: 3px;
 	width: 70%;
 	margin: 20px auto;
-	border: 2px dashed #868686;
+	border-bottom: 2px dashed #868686;
 }
 
 .admin-btn .home-nav-controls li:hover {
@@ -2018,8 +2020,7 @@ div input:checked + li .icon-add-filter:before {
 	margin-left: 60px;
 	font-size: 1.2em;
 	margin: auto;
-	margin-bottom: 20px;
-	margin-top: -5px;
+	margin: 10px;
 }
 
 .fixed-donation-container > .cbp-vm-add:hover {
@@ -2119,7 +2120,6 @@ div input:checked + li .icon-add-filter:before {
 	text-transform: uppercase;
 	margin: 25px;
 }
-
 
 .transactions-table {
 	border-collapse: collapse;

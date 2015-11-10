@@ -14,7 +14,8 @@
 		<script type='text/javascript' src='@Url.Content("~/Scripts/jquery.inputmask.js")'></script>
 		<script type='text/javascript' src='@Url.Content("~/Scripts/inputmask.regex.extensions.js")'></script>	
         <script type='text/javascript' src='@Url.Content("~/Scripts/jquery.form.min.js")'></script>	
-        <script type='text/javascript' src="@Url.Content("~/Scripts/classie.js")"></script>        
+        <script type='text/javascript' src="@Url.Content("~/Scripts/classie.js")"></script>       
+        <script type="text/javascript" src="@Url.Content("~/Scripts/si.files.js")"></script>
 		@RenderSection("Headers", false)
         <title>The Unbrickable</title>
 	</head>
@@ -59,7 +60,7 @@
                         </nav>
                     </section>
                 </div>
-                //insert cart
+                @Html.Partial("Cart", Session["Cart"])
             }
             @if (Session["User"] == null)
             {

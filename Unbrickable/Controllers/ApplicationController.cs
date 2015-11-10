@@ -274,6 +274,68 @@ namespace Unbrickable.Controllers
             upvm.last_name = a.last_name;
             upvm.Salutation = a.Salutation.value;
             upvm.username = a.username;
+            decimal donation_total = a.donation_total;
+            int post_count = a.Posts.Count();
+            var valid_transactions = a.Transactions.Where(x => x.transaction_status_id == 2);
+            decimal purchase_total = 0;
+            foreach(Transaction t in valid_transactions)
+            {
+                foreach(TransactionItem ti in t.TransactionItems)
+                {
+                    purchase_total += ti.item_price * ti.quantity;
+                }
+            }
+            if(donation_total >= 100)
+            {
+                upvm.donation_badge_level = 3;
+            }
+            else if(donation_total >= 20)
+            {
+                upvm.donation_badge_level = 2;
+            }
+            else if(donation_total >= 5)
+            {
+                upvm.donation_badge_level = 1;
+            }
+            else
+            {
+                upvm.donation_badge_level = 0;
+            }
+
+            if(post_count >= 10)
+            {
+                upvm.post_badge_level = 3;
+            }
+            else if (post_count >= 5)
+            {
+                upvm.post_badge_level = 2;
+            }
+            else if(post_count >= 3)
+            {
+                upvm.post_badge_level = 1;
+            }
+            else
+            {
+                upvm.post_badge_level = 0;
+            }
+            
+            if(purchase_total >= 100)
+            {
+                upvm.purchase_badge_level = 3;
+            }
+            else if(purchase_total >= 20)
+            {
+                upvm.purchase_badge_level = 2;
+            }
+            else if(purchase_total >= 5)
+            {
+                upvm.purchase_badge_level = 1;
+            }
+            else
+            {
+                upvm.purchase_badge_level = 0;
+            }
+
             return upvm;
         }
 
@@ -553,7 +615,49 @@ namespace Unbrickable.Controllers
             npvm.id = Convert.ToInt32(id);
             return npvm;
         }
-        
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Post(NewPostViewModel npvm)
+        {
+            if (Session["User"] == null)
+            {
+                return RedirectToAction("LoginPage", "Application");
+            }
+            else if (npvm.id != Convert.ToInt32(Session["User"]))
+            {
+                return RedirectToAction("LoggedInProfile");
+            }
+            else if (this.ModelState.IsValid)
+            {
+                Post p = new Post();
+                Account a = db.Accounts.Find(Session["User"]);
+
+                if (a == null)
+                {
+                    return RedirectToAction("LoginPage", "Application");
+                }
+                else
+                {
+                    p.account_id = a.id;
+                    var sanitizer = new HtmlSanitizer();
+                    if (npvm.entry == null)
+                    {
+                        npvm.entry = "";
+                    }
+                    string sanitized = sanitizer.Sanitize(npvm.entry);
+                    p.entry = HttpUtility.HtmlEncode(sanitized);
+                    p.date_posted = DateTime.Now;
+                    db.Posts.Add(p);
+                    db.SaveChanges();
+                    return RedirectToAction("Boards", "Application");
+                }
+            }
+            else
+            {
+                return RedirectToAction("Boards", "Application");
+            }
+        }
 
         public ActionResult PagedSearchResults(string json)
         {
@@ -686,7 +790,7 @@ namespace Unbrickable.Controllers
         private List<BackUpViewModel> GetAllBackUps()
         {
             List<BackUpViewModel> l_buvm = new List<BackUpViewModel>();
-            foreach (BackUp bu in db.BackUps)
+            foreach (BackUp bu in db.BackUps.ToList())
             {
                 BackUpViewModel buvm = new BackUpViewModel();
                 buvm.date = bu.date_uploaded.ToString("MM/dd/yyyy hh:mm:ss tt");
@@ -701,13 +805,13 @@ namespace Unbrickable.Controllers
         {
             List<TransactionViewModel> l_tvm = new List<TransactionViewModel>();           
 
-            foreach(Transaction t in db.Transactions)
+            foreach(Transaction t in db.Transactions.ToList())
             {
                 TransactionViewModel tvm = new TransactionViewModel();
                 tvm.username = t.Account.username;
                 tvm.name = t.Account.first_name + " " + t.Account.last_name;
                 decimal total = 0;
-                foreach(TransactionItem ti in t.TransactionItems)
+                foreach(TransactionItem ti in t.TransactionItems.ToList())
                 {
                     total += (ti.item_price * ti.quantity);
                 }
@@ -953,7 +1057,7 @@ namespace Unbrickable.Controllers
         private ItemViewModel GetItemViewModel(Item i)
         {
             ItemViewModel ivm = new ItemViewModel();
-            ivm.image_src = "";
+            ivm.image_src = GetImageURL(i.name + ".png");
             ivm.id = i.id;
             ivm.name = i.name;
             ivm.price = i.price;
@@ -1015,6 +1119,58 @@ namespace Unbrickable.Controllers
             }
         }
 
+        private bool IsImage(HttpPostedFileBase file)
+        {
+            if (file.ContentType.Contains("image"))
+            {
+                return true;
+            }
+
+            string[] formats = new string[] { ".jpg", ".png", ".gif", ".jpeg" }; // add more if u like...
+
+            // linq from Henrik Stenbæk
+            return formats.Any(item => file.FileName.EndsWith(item, StringComparison.OrdinalIgnoreCase));
+        }
+
+        private void UploadImage(HttpPostedFileBase file, string filename)
+        {
+            if (file != null)
+            {
+                if (IsImage(file))
+                {
+                    CloudStorageAccount csa = CloudStorageAccount.Parse(ConfigurationManager.ConnectionStrings["UnbrickableStorage"].ConnectionString);
+                    CloudBlobClient cbcl = csa.CreateCloudBlobClient();
+                    CloudBlobContainer cbcon = cbcl.GetContainerReference("images");
+                    if (cbcon.CreateIfNotExists())
+                    {
+                        cbcon.SetPermissions(new BlobContainerPermissions { PublicAccess = BlobContainerPublicAccessType.Blob });
+                    }
+                    CloudBlockBlob cbb = cbcon.GetBlockBlobReference(filename);
+                    cbb.UploadFromStream(file.InputStream);
+                }
+            }           
+        }
+
+        private string GetImageURL(string filename)
+        {
+            CloudStorageAccount csa = CloudStorageAccount.Parse(ConfigurationManager.ConnectionStrings["UnbrickableStorage"].ConnectionString);
+            CloudBlobClient cbcl = csa.CreateCloudBlobClient();
+            CloudBlobContainer cbcon = cbcl.GetContainerReference("images");
+            if (cbcon.CreateIfNotExists())
+            {
+                cbcon.SetPermissions(new BlobContainerPermissions { PublicAccess = BlobContainerPublicAccessType.Blob });
+            }
+            CloudBlockBlob cbb = cbcon.GetBlockBlobReference(filename);
+            if (cbb.Exists())
+            {
+                return cbb.Uri.ToString();
+            }
+            else
+            {
+                return "";
+            }
+        }
+
         public ActionResult NewItem()
         {
             if (Session["User"] == null)
@@ -1045,12 +1201,17 @@ namespace Unbrickable.Controllers
             }
             else
             {
+                if (db.Items.Where(x => x.name == nivm.name).Count() > 0)
+                {
+                    this.ModelState.AddModelError("name", "Error: Duplicate Name");
+                }
                 if (ModelState.IsValid) // checks required in model. does server validation
                 {
-                    Item i = new Item();
+                    Item i = new Item();                    
                     i.name = nivm.name;
                     i.description = nivm.description;
                     i.price = nivm.price;
+                    UploadImage(nivm.image, nivm.name + ".png");
                     db.Items.Add(i);
                     db.SaveChanges();
                     return RedirectToAction("Store", "Application");
@@ -1115,7 +1276,7 @@ namespace Unbrickable.Controllers
                     i.name = eivm.name;
                     i.description = eivm.description;
                     i.price = eivm.price;
-                    
+                    UploadImage(eivm.image, eivm.name + ".png");
                     db.SaveChanges();
 
                     return RedirectToAction("Store", "Application");
@@ -1173,6 +1334,7 @@ namespace Unbrickable.Controllers
                         civm.name = i.name;
                         civm.price = i.price;
                         civm.quantity = acivm.quantity;
+                        civm.image = GetImageURL(i.name+ ".png");
                         l_civm.Add(civm);
                         Session["Cart"] = l_civm;
                     }

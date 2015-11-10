@@ -1,28 +1,11 @@
-﻿
-<div class="checkout">
+﻿@model IEnumerable<Unbrickable.ViewModels.CartItemViewModel>
+
+<div class="checkout" id='checkout-screen'>
     <div class="checkout-grid">
-        <div class="checkout-grid__item">
-            <img src='@Url.Content("~/Content/img/brick-icon1.png")' alt="Shirt" />
-            <h4>T-Shirt</h4><span class="price">$19.90</span>
-            <h4>Quantity</h4><input class='text-area full-entries checkout-quantity' type='text' name='quan' value='Quantity'>
-            <button class="checkout-grid__item-remove"><i class="icon fa fa-close"></i></button>
-        </div>
-        <div class="checkout-grid__item">
-            <img src='@Url.Content("~/Content/img/brick-icon1.png")' alt="Shirt" />
-            <h4>T-Shirt</h4><span class="price">$19.90</span>
-            <h4>Quantity</h4><input class='text-area full-entries checkout-quantity' type='text' name='quan' value='Quantity'>
-            <button class="checkout-grid__item-remove"><i class="icon fa fa-close"></i></button>
-        </div>
-        <div class="checkout-grid__item">
-            <img src='@Url.Content("~/Content/img/brick-icon1.png")' alt="Shirt" />
-            <h4>T-Shirt</h4><span class="price">$19.90</span>
-            <h4>Quantity</h4><input class='text-area full-entries checkout-quantity' type='text' name='quan' value='Quantity'>
-            <button class="checkout-grid__item-remove"><i class="icon fa fa-close"></i></button>
-        </div>
         <div class="checkout-grid__item sizing-thingy" id="checkout-grid__item--summary">
             <button class="checkout__close checkout__cancel"><i class="icon fa fa-close"></i></button>
-            <div class="checkout__total">$219.30</div>
-            <button class="checkout__option checkout__option--loud">Buy</button>
+            <div class="checkout__total">@String.Format("${0}", Math.Round(Model.Sum(e => e.price * e.quantity),2))</div>
+            <button class="checkout__option checkout__option--loud" onclick="$('#checkout_form').submit();">Buy</button>
             <button class="checkout__option checkout__option--silent checkout__cancel">or continue shopping <i class="fa fa-angle-right"></i></button>
             <a class="checkout__button" href="#">
                 <!-- Fallback location -->
@@ -32,44 +15,28 @@
                     </svg>
                 </span>
                 <div id='cart-count'>
-                    <label>1</label>
+                    <label>@Model.Count()</label>
                 </div>
             </a>
         </div>
-        <div class="checkout-grid__item">
-            <img src='@Url.Content("~/Content/img/brick-icon1.png")' alt="Shirt" />
-            <h4>T-Shirt</h4><span class="price">$19.90</span>
-            <h4>Quantity</h4><input class='text-area full-entries checkout-quantity' type='text' name='quan' value='Quantity'>
-            <button class="checkout-grid__item-remove"><i class="icon fa fa-close"></i></button>
-        </div>
-        <div class="checkout-grid__item">
-            <img src='@Url.Content("~/Content/img/brick-icon1.png")' alt="Shirt" />
-            <h4>T-Shirt</h4><span class="price">$19.90</span>
-            <h4>Quantity</h4><input class='text-area full-entries checkout-quantity' type='text' name='quan' value='Quantity'>
-            <button class="checkout-grid__item-remove"><i class="icon fa fa-close"></i></button>
-        </div>
-        <div class="checkout-grid__item">
-            <img src='@Url.Content("~/Content/img/brick-icon1.png")' alt="Shirt" />
-            <h4>T-Shirt</h4><span class="price">$19.90</span>
-            <h4>Quantity</h4><input class='text-area full-entries checkout-quantity' type='text' name='quan' value='Quantity'>
-            <button class="checkout-grid__item-remove"><i class="icon fa fa-close"></i></button>
-        </div>
-        <div class="checkout-grid__item">
-            <img src='@Url.Content("~/Content/img/brick-icon1.png")' alt="Shirt" />
-            <h4>T-Shirt</h4><span class="price">$19.90</span>
-            <h4>Quantity</h4><input class='text-area full-entries checkout-quantity' type='text' name='quan' value='Quantity'>
-            <button class="checkout-grid__item-remove"><i class="icon fa fa-close"></i></button>
-        </div>
-
+        @foreach (Unbrickable.ViewModels.CartItemViewModel civm in Model)
+        {
+           @Html.Partial("CartItem", civm)
+        }        
+        @using (Html.BeginForm("PaymentWithPaypal", "Paypal", null, FormMethod.Get, new { @id = "checkout_form", @enctype = "multipart/form-data" }))
+        {
+        }
     </div>
 </div><!-- /checkout -->
-<script>
+
+<script>   
     (function () {
         [].slice.call(document.querySelectorAll('.checkout')).forEach(function (el) {
             var openCtrl = el.querySelector('.checkout__button'),
                 closeCtrls = el.querySelectorAll('.checkout__cancel');
             specialBox = document.getElementById('checkout-grid__item--summary');
             cartCount = document.getElementById('cart-count');
+            screen = $(window).height() - 40;
 
             openCtrl.addEventListener('click', function (ev) {
                 ev.preventDefault();
@@ -77,6 +44,7 @@
                 classie.remove(specialBox, 'sizing-thingy')
                 classie.add(specialBox, 'color-thingy')
                 classie.add(cartCount, 'invisible')
+                $('#checkout-screen').css('height', screen);
             });
 
             [].slice.call(closeCtrls).forEach(function (ctrl) {
@@ -85,6 +53,7 @@
                     classie.remove(specialBox, 'color-thingy')
                     classie.add(specialBox, 'sizing-thingy')
                     classie.remove(cartCount, 'invisible')
+                    $('#checkout-screen').css('height', '120px');
                 });
             });
         });

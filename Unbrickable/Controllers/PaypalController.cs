@@ -125,7 +125,7 @@ namespace Unbrickable.Controllers
 
                         var createdPayment = this.CreatePayment(apiContext, baseURI + "guid=" + guid, cancelURI + "guid=" + guid, t);
                         t.paypal_transaction_id = createdPayment.id;
-
+                        t.date_of_transaction = DateTime.Now;
                         db.Transactions.Add(t);
 
                         db.SaveChanges();
@@ -177,11 +177,11 @@ namespace Unbrickable.Controllers
                                 t.transaction_status_id = 2;
                                 Session["Cart"] = new List<CartItemViewModel>();
                                 db.SaveChanges();
-                                return RedirectToAction("Index", "Paypal");
+                                return RedirectToAction("Store", "Application");
                             }
                             else
                             {
-                                return RedirectToAction("Index", "Paypal");
+                                return RedirectToAction("Store", "Application");
                             }
                         }
                     }
@@ -218,7 +218,7 @@ namespace Unbrickable.Controllers
                 t.transaction_status_id = 3;
                 Session["Cart"] = new List<CartItemViewModel>();
                 db.SaveChanges();
-                return RedirectToAction("Index", "Paypal");
+                return RedirectToAction("Store", "Application");
             }
         }
 

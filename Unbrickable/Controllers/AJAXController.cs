@@ -192,59 +192,50 @@ namespace Unbrickable.Controllers
                 }
             }
         }
-        
-        [HttpPost]
-        public ActionResult AddItemToCart(int? id, int? qty)
+
+        private int GetIndexOfItem(List<CartItemViewModel> l_civm, int id)
         {
-            if(id == null || qty == null || Session["User"] == null)
+            for (int i = 0; i < l_civm.Count; i++)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (l_civm[i].id == id)
+                {
+                    return i;
+                }
             }
-            Item i = db.Items.Find(id);
-            if (i == null)
-            {
-                return HttpNotFound();
-            }
-            else
-            {
-                CartItemViewModel civm = new CartItemViewModel();
-
-                civm.id = i.id;
-                civm.name = i.name;
-                civm.price = i.price;
-                civm.quantity = (int)qty;
-
-                List<CartItemViewModel> l_civm = (List<CartItemViewModel>)Session["Cart"];
-
-                l_civm.Add(civm);
-
-                Session["Cart"] = l_civm;
-
-                return new HttpStatusCodeResult(HttpStatusCode.OK);
-            }
+            return -1;
         }
 
         [HttpPost]
-        public ActionResult EditItemQuantityInCart(int? index, int? qty)
+        public ActionResult EditItemQuantityInCart(int? id, int? qty)
         {
             List<CartItemViewModel> l_civm = (List<CartItemViewModel>)Session["Cart"];
             
-            if (index == null || index < 0 || index >= l_civm.Count || qty == null || Session["User"] == null)
+            if (l_civm == null)
+            {
+                l_civm = new List<CartItemViewModel>();
+            }
+
+            if (id == null || qty == null || Session["User"] == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            
-            int indx = (int)index;
-            int qnty = (int)qty;
-            
+
+            int index = GetIndexOfItem(l_civm, (int)id);
+
+            if(index < 0 || index >= l_civm.Count)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            int qnty = (int)qty;            
             
             if(qnty == 0)
             {
-                l_civm.RemoveAt(indx);
+                l_civm.RemoveAt(index);
             }
             else
             {
-                l_civm[indx].quantity = qnty;
+                l_civm[index].quantity = qnty;
             }
 
             Session["Cart"] = l_civm;
