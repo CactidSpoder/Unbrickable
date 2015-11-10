@@ -1,0 +1,20 @@
+﻿@model Unbrickable.ViewModels.LinkedItemViewModel
+
+<li class='product-thumbs'>
+    @Html.CheckBoxFor(x => x.isChecked, new { @class="detailToggle", Name = "linked_items[" + Model.num + "].isChecked" })    
+    <div class='item-thumb-photo'>
+        @Html.HiddenFor(x => x.id, new { Name = "linked_items[" + Model.num + "].id" })
+        <div class='item-thumb'>
+            @if (Model.image_src == "")
+            {
+                <img src="~/Content/img/brick-icon1.png" alt="@Model.item_name" />
+            }
+            else
+            {
+                <img src="@Model.image_src" alt="@Model.item_name" />
+            }
+        </div>
+        <label>@Model.item_name</label>
+    </div>
+</li>
+

@@ -14,6 +14,8 @@ namespace Unbrickable.ViewModels
         public string name { get; set; }
         public string description { get; set; }
 
+        public string orig_image { get; set; }
+
         public HttpPostedFileBase image { get; set; }
         [Required]
         public decimal price { get; set; }

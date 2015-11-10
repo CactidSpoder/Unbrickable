@@ -71,7 +71,7 @@
     {
         <div class='md-modal md-add-cat md-effect-1 vertical-align' id='modal-2'>
             <div class='md-content md-add-cat-content'>
-                @Html.Partial("NewPost", Unbrickable.Controllers.ApplicationController.GetNewPostViewModel(Session["User"]))
+                @Html.Partial("NewPost", new Unbrickable.Controllers.ApplicationController().GetNewPostViewModel(Session["User"]))
             </div>
         </div>
     }

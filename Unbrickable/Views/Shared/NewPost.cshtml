@@ -3,18 +3,48 @@
 <div class='md-header'>
     <h3 class='element-label'>Add a Message</h3>
 </div>
+@using (Html.BeginForm("Post", "Application", null, FormMethod.Post, new { @id = "Post_form", @enctype = "multipart/form-data" }))
+{
 
-<div class='pane component-container'>
-    <div class='pane add-session-pane'>
-        @using (Html.BeginForm("Post", "Application", null, FormMethod.Post, new { @id = "Post_form", @enctype = "multipart/form-data" }))
-        {
-            @Html.AntiForgeryToken()
-            @Html.HiddenFor(model => model.id)
-            @Html.TextAreaFor(model => model.entry, new { @class = "text-area message-field" })
-        }        
+    @Html.AntiForgeryToken()
+<div class="message-side">
+    <div class='pane component-container'>
+        <div class='pane add-session-pane'>   
+                @Html.HiddenFor(model => model.id)
+                @Html.TextAreaFor(model => model.entry, new { @class = "text-area message-field" })
+        </div>
+    </div>
+    <div class='search-side'>
+        <div class='search-header'>
+            <h2>Link an item</h2>
+        </div>
+        <input class='element-label pane search-area' type='text' name='search' value='Search...'>
+        <button class='search-button'><span class='pane search-span icon-search'></span></button>
+
+        <div id="rg-gallery" class="rg-gallery">
+            <div class="rg-thumbs">
+                <!-- Elastislide Carousel Thumbnail Viewer -->
+                <div class="es-carousel-wrapper">
+                    <div class="es-nav">
+                        <span class="es-nav-prev">Previous</span>
+                        <span class="es-nav-next">Next</span>
+                    </div>
+                    <div class="es-carousel">
+                        <ul>
+                            @foreach (Unbrickable.ViewModels.LinkedItemViewModel livm in Model.linked_items)
+                            {
+                               @Html.Partial("NewLinkedItem", livm)
+                            }                         
+                            
+                        </ul>
+                    </div>
+                </div>
+                <!-- End Elastislide Carousel Thumbnail Viewer -->
+            </div><!-- rg-thumbs -->
+        </div><!-- rg-gallery -->
     </div>
 </div>
-
+}
 <div class='close-trigger-container'>
     <div class='reg-btn modal-btn-set'>
         <ul class='home-nav-controls'>
@@ -33,3 +63,29 @@
     </div>
 
 </div>
+
+<script>
+    $(".product-thumbs").click(function() {
+
+				var checkbox = $(this).find(":checkbox"),   // keep reference of checkbox
+					checked = checkbox.is(":checked");      // check checkbox status
+				/*if (checked) {
+					$(this).css("color", "#FFF");
+					$(this).css("background-color", "#6bccb4");
+				} else {
+					$(this).css("color", "#6bccb4");
+					$(this).css("background-color", "#FFF");
+				}*/
+
+				// change checkbox statr
+				checkbox.prop("checked", !checked);
+
+			});
+
+			// bind click event  to checkbox
+			// to trigger the click to li
+
+			$('.item :checkbox').click(function() {
+			  $(this).parent('li').click();
+			});
+</script>

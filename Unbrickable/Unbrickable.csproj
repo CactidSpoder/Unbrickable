@@ -266,7 +266,7 @@
     <Compile Include="ViewModels\CartItemViewModel.cs" />
     <Compile Include="ViewModels\ChangePasswordViewModel.cs" />
     <Compile Include="ViewModels\ItemViewModel.cs" />
-    <Compile Include="ViewModels\TestViewModel.cs" />
+    <Compile Include="ViewModels\LinkedItemViewModel.cs" />
     <Compile Include="ViewModels\TransactionDetailViewModel.cs" />
     <Compile Include="ViewModels\TransactionItemDetailViewModel.cs" />
     <Compile Include="ViewModels\TransactionStatusViewModel.cs" />
@@ -402,6 +402,7 @@
     <Content Include="Views\Shared\Cart.cshtml" />
     <Content Include="Views\Shared\TransactionDetails.cshtml" />
     <Content Include="Views\Shared\CartItem.cshtml" />
+    <Content Include="Views\Shared\NewLinkedItem.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

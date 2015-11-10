@@ -1,0 +1,51 @@
+/* Elastislide Style */
+.es-carousel-wrapper{
+	background: #fffed8;
+	padding:10px 27px;
+	-moz-border-radius: 10px;
+	/* -webkit-border-radius: 10px; */
+	/* border-radius: 10px; */
+	px;*/
+	position:relative;
+	-moz-box-shadow:0px 1px 3px rgba(0, 0, 0, 0.9);
+	/* -webkit-box-shadow:0px 1px 3px rgba(0, 0, 0, 0.9); */
+	/* box-shadow:0px 1px 3px rgba(0, 0, 0, 0.9); */
+	position:relative;
+	margin-bottom:20px;
+}
+.es-carousel{
+	overflow:hidden;
+	background: #fffed8;
+}
+.es-carousel ul{
+	display:none;
+}
+.es-carousel ul li{
+	height:100%;
+	float:left;
+	display:block;
+}
+
+.es-nav span{
+	position:absolute;
+	top:50%;
+	left:8px;
+	background: rgba(0, 0, 0, 0) url(../img/directional.png) no-repeat top left;
+	background-size: contain;
+	width: 15px;
+	height: 40px;
+	margin-top:-13px;
+	text-indent:-9000px;
+	cursor:pointer;
+	opacity:0.8;
+}
+.es-nav span.es-nav-next{
+	right:8px;
+	left:auto;
+	background: rgba(0, 0, 0, 0) url(../img/pointing6.png) no-repeat top left;
+	background-position:top right;
+	background-size: contain;
+}
+.es-nav span:hover{
+	opacity:1.0;
+}

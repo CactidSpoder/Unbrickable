@@ -9,5 +9,6 @@ namespace Unbrickable.ViewModels
     {
         public int id { get; set; }
         public string entry { get; set; }
+        public IEnumerable<LinkedItemViewModel> linked_items { get; set; }
     }
 }

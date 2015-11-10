@@ -7,9 +7,10 @@
 @using (Html.BeginForm("NewItem", "Application", null, FormMethod.Post, new { @id = "new_item_form", @enctype = "multipart/form-data" }))
 {
         <div class='profile-photo-side'>
-            <div class='profile-photo item-photo'>
+            <div class='item-photo' style="border: 3px solid rgb(95, 99, 98); opacity: 1; background-color: rgb(255, 255, 255);">
+                <img src="~/Content/img/brick-icon1.png" alt="Item" />
                 <label class="cabinet">
-                    @Html.TextBoxFor(model => model.image, new { @class = "fileBtn", @type = "file"  })
+                    @Html.TextBoxFor(model => model.image, new { @class = "fileBtn", @type = "file" })
                 </label>
             </div>
         </div>

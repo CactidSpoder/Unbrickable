@@ -105,12 +105,14 @@
 	overflow-x: hidden;
 	height: 33.5em;
 	z-index: 2002;
-	background-color: rgba(255, 254, 216, 0.5);
+	background-color: rgba(255,254,216,0.90);
 }
 
 .checkout-grid__item {
-	width: 23.3%;
-	margin: 10px;
+	width: 23.6%;
+	margin-top: 10px;
+	margin-left: 5px;
+	margin-right: 10px;
 	height: 14em;
 	color: #fff;
 	position: relative;
