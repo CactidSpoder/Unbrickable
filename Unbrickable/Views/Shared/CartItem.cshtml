@@ -3,11 +3,11 @@
 <div class="checkout-grid__item">
     @if (Model.image == "")
     {
-        <img src="~/Content/img/brick-icon1.png" alt="Shirt" />
+        <img src="~/Content/img/brick-icon1.png" alt="@Model.name" />
     }
     else
     {
-        <img src="@Model.image" alt="Shirt" />
+        <img src="@Model.image" alt="@Model.name" />
     }
 
     <h4>@Model.name</h4><span class="price">@String.Format("${0}", Math.Round(Model.price, 2))</span>

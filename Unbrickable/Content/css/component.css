@@ -668,7 +668,7 @@ h3.cbp-vm-title {}
 .cbp-vm-view-list li {
 	padding: 20px 30px;
 	white-space: nowrap;
-	border: 3px solid #575757;
+	/* border: 3px solid #575757; */
 	background-color: #FFF;
 	margin: 20px 20px;
 }

@@ -16,6 +16,7 @@ namespace Unbrickable.ViewModels
         public string name { get; set; }
         public string joined_date_text { get; set; }
         public string date_edited_text { get; set; }
+        public List<LinkedItemViewModel> linked_items { get; set; }
 
     }
 }

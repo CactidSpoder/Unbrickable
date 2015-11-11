@@ -582,6 +582,15 @@ namespace Unbrickable.Controllers
             bpvm.joined_date_text = "Member since " + p.Account.birthdate.ToString("MMMM d, yyyy");
             bpvm.username = p.Account.username;
             bpvm.name = p.Account.first_name + " " + p.Account.last_name;
+            List<LinkedItemViewModel> l_livm = new List<LinkedItemViewModel>();
+            foreach(LinkedItem li in p.LinkedItems.ToList())
+            {
+                LinkedItemViewModel livm = new LinkedItemViewModel();
+                livm.id = li.item_id;
+                livm.item_name = li.Item.name;
+                l_livm.Add(livm);
+            }
+            bpvm.linked_items = l_livm;
             return bpvm;
         }
 
@@ -609,10 +618,29 @@ namespace Unbrickable.Controllers
             }
         }
 
-        public static NewPostViewModel GetNewPostViewModel(object id)
+        private List<LinkedItemViewModel> GetAllItemsAsLinkedItems()
+        {
+            List<LinkedItemViewModel> l_livm = new List<LinkedItemViewModel>();
+            int ix = 0;
+            foreach(Item i in db.Items.ToList())
+            {
+                LinkedItemViewModel livm = new LinkedItemViewModel();
+                livm.num = ix;
+                livm.id = i.id;
+                livm.image_src = GetImageURL(i.name + ".png");
+                livm.isChecked = false;
+                livm.item_name = i.name;
+                l_livm.Add(livm);
+                ix++;
+            }
+            return l_livm;
+        }
+
+        public NewPostViewModel GetNewPostViewModel(object id)
         {
             NewPostViewModel npvm = new NewPostViewModel();
             npvm.id = Convert.ToInt32(id);
+            npvm.linked_items = GetAllItemsAsLinkedItems();
             return npvm;
         }
 
@@ -648,6 +676,13 @@ namespace Unbrickable.Controllers
                     string sanitized = sanitizer.Sanitize(npvm.entry);
                     p.entry = HttpUtility.HtmlEncode(sanitized);
                     p.date_posted = DateTime.Now;
+                    foreach(LinkedItemViewModel livm in npvm.linked_items.Where(x => x.isChecked == true).ToList())
+                    {
+                        LinkedItem li = new LinkedItem();
+                        li.item_id = livm.id;
+                        li.post_id = p.id;
+                        db.LinkedItems.Add(li);
+                    }
                     db.Posts.Add(p);
                     db.SaveChanges();
                     return RedirectToAction("Boards", "Application");
@@ -1074,6 +1109,7 @@ namespace Unbrickable.Controllers
             eivm.name = i.name;
             eivm.price = i.price;            
             eivm.description = i.description;
+            eivm.orig_image = GetImageURL(eivm.name + ".png");
             return eivm;
         }
 
