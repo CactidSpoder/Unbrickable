@@ -2193,3 +2193,52 @@ div input:checked + li .icon-add-filter:before {
     overflow: scroll;
     max-height: 400px
 }
+
+.add-transaction-btn {
+	font-family: 'stroke7pixeden';
+	position: fixed;
+	float: right;
+	bottom: 50px;
+	right: 50px;
+	border-radius: 50%;
+	width: 50px;
+	height: 50px;
+	z-index: 40;
+	background-color: #6bccb4;
+	box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+.add-transaction-btn:before {
+	content: '\e618';
+	font-weight: 100;
+	font-size: 3em;
+	position: relative;
+	top: 7px;
+	left: 10px;
+	width: 30px;
+	text-align: center;
+	height: 30px;
+	color: #FFF;
+}
+
+.add-transaction-btn:hover {
+	background-color: #57B9A1;
+}
+
+.t-search-container{
+    font-size: 18px;
+	height: 40px;
+	width: 515px;
+	position: relative;
+	top: 5px;
+    margin: auto;
+    font-weight: bold;
+}
+
+.t-search-container input {
+    width:140px
+}
+
+.add-border{
+    padding: 10px;
+}

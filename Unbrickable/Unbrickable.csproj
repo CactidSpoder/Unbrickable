@@ -402,6 +402,7 @@
     <Content Include="Views\Shared\Cart.cshtml" />
     <Content Include="Views\Shared\TransactionDetails.cshtml" />
     <Content Include="Views\Shared\CartItem.cshtml" />
+    <Content Include="Views\Shared\TransactionContents.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

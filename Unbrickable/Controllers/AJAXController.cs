@@ -1,6 +1,7 @@
 ﻿using Ganss.XSS;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -283,6 +284,47 @@ namespace Unbrickable.Controllers
             tdvm.username = t.Account.username;
             tdvm.transaction_items = l_tidvm;
             return PartialView("TransactionDetails", tdvm);
+        }
+
+        public ActionResult GetFilteredTransactions(string datebefore, string dateafter)
+        {
+            if (datebefore == null || dateafter == null || datebefore.Contains("undefined") || dateafter.Contains("undefined"))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            else
+            {
+                DateTime d_b = Convert.ToDateTime(datebefore);
+                DateTime d_a = Convert.ToDateTime(dateafter);
+
+
+                if (d_b > d_a)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                else
+                {
+                    List<TransactionViewModel> l_tvm = new List<TransactionViewModel>();
+                    foreach (Transaction t in db.Transactions.Where(x => DbFunctions.TruncateTime(x.date_of_transaction) <= d_a && d_b <= DbFunctions.TruncateTime(x.date_of_transaction)).OrderBy(x => x.date_of_transaction).ToList())
+                    {
+                        TransactionViewModel tvm = new TransactionViewModel();
+                        tvm.username = t.Account.username;
+                        tvm.name = t.Account.first_name + " " + t.Account.last_name;
+                        decimal total = 0;
+                        foreach (TransactionItem ti in t.TransactionItems.ToList())
+                        {
+                            total += (ti.item_price * ti.quantity);
+                        }
+                        tvm.total = total;
+                        tvm.date = t.date_of_transaction;
+                        tvm.id = t.id;
+                        tvm.transaction_status = t.TransactionStatus.value;
+                        l_tvm.Add(tvm);
+                    }
+
+                    return PartialView("TransactionContents", l_tvm);
+                }
+            }
         }
 
     }

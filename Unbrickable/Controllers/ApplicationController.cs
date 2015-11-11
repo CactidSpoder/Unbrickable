@@ -816,6 +816,7 @@ namespace Unbrickable.Controllers
                     total += (ti.item_price * ti.quantity);
                 }
                 tvm.total = total;
+                tvm.date = t.date_of_transaction;
                 tvm.id = t.id;
                 tvm.transaction_status = t.TransactionStatus.value;
                 l_tvm.Add(tvm);

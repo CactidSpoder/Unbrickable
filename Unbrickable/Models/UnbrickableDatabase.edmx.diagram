@@ -16,7 +16,7 @@
         <AssociationConnector Association="UnbrickableModel.FK__Posts__account_i__382F5661" ManuallyRouted="false" />
         <AssociationConnector Association="UnbrickableModel.FK__Posts__editor_id__39237A9A" ManuallyRouted="false" />
         <AssociationConnector Association="UnbrickableModel.FK__Salutatio__gende__2AD55B43" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="UnbrickableModel.BackUp" Width="1.5" PointX="0.875" PointY="0.75" />
+        <EntityTypeShape EntityType="UnbrickableModel.BackUp" Width="1.5" PointX="1" PointY="0.75" />
         <EntityTypeShape EntityType="UnbrickableModel.TransactionItem" Width="1.5" PointX="9.75" PointY="9.125" />
         <EntityTypeShape EntityType="UnbrickableModel.TransactionStatus" Width="1.5" PointX="5.125" PointY="10.625" />
         <EntityTypeShape EntityType="UnbrickableModel.Transaction" Width="1.5" PointX="7.5" PointY="9.375" />

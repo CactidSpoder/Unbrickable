@@ -1,0 +1,27 @@
+﻿@model IEnumerable<Unbrickable.ViewModels.TransactionViewModel>
+
+@foreach (Unbrickable.ViewModels.TransactionViewModel tvm in Model)
+{
+    <tr>
+        <th>@tvm.date</th>
+        <th class='mid'>@tvm.username</th>
+        <th class='mid'>@tvm.name</th>
+        <th class='mid'>@String.Format("${0}", Math.Round(tvm.total, 2))</th>
+        <th class='mid'><a href="#detailsModal" class="transaction_modal" data-value="@tvm.id">Details...</a></th>
+        <th>@tvm.transaction_status</th>
+    </tr>
+}
+<script>
+    $('.transaction_modal').click(function () {
+        var tr_id = $(this).data("value");
+        $.ajax({
+            url: '@Url.Action("GetTransactionDetails", "AJAX")',
+            data: { "id": tr_id },
+            type: "GET",
+            cache: false,
+            success: function (html) {
+                $('#detail_loc').html(html);
+            }
+        });
+    });
+</script>

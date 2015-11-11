@@ -8,6 +8,7 @@ namespace Unbrickable.ViewModels
     public class TransactionViewModel
     {
         public int id { get; set; }
+        public DateTime date { get; set; }
         public string username { get; set; }
         public string name { get; set; }
         public string transaction_status { get; set; }
